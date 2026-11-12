@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChunkScout — Minecraft Seed Map & Toolbox</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e1311;--panel:#151c19;--panel2:#1c2521;--line:#2a3631;--text:#e6efe9;--muted:#8fa39a;--accent:#7bdc6a;--accent2:#3fae5a;--warn:#f2c14e;--pin:#ff6b6b;--slime:#5fd35a}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:'Space Grotesk',system-ui,sans-serif}
+body{display:flex;flex-direction:column}
+header{display:flex;align-items:center;gap:14px;padding:10px 18px;background:var(--panel);border-bottom:1px solid var(--line);flex:0 0 auto}
+.logo{width:30px;height:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.logo i{background:var(--line);border-radius:2px}.logo i.on{background:var(--accent)}
+header h1{font-size:18px;margin:0;letter-spacing:-.3px}
+nav{display:flex;gap:6px;margin-left:auto}
+nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:14px;padding:7px 14px;border-radius:7px;border:1px solid transparent}
+nav a.on{color:var(--accent);border-color:var(--accent2);background:var(--panel2)}
+.view{display:none;flex:1;min-height:0}.view.on{display:grid}
+#v-map{grid-template-columns:350px 1fr}
+aside{background:var(--panel);overflow-y:auto;flex:1;min-width:0;scrollbar-width:none;-ms-overflow-style:none}
+aside::-webkit-scrollbar{display:none;width:0;height:0}
+.side{position:relative;display:flex;min-height:0;border-right:1px solid var(--line)}
+.more{position:absolute;left:0;right:0;bottom:0;height:64px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;border:0;border-radius:0;
+  background:linear-gradient(to bottom,rgba(21,28,25,0),rgba(21,28,25,.92) 70%);cursor:pointer;transition:opacity .25s}
+.more:hover{border:0}.more svg{width:26px;height:26px;stroke:#9aa39e;opacity:.55;animation:bob 1.8s ease-in-out infinite}
+.more.gone{opacity:0;pointer-events:none}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+@media (prefers-reduced-motion:reduce){.more svg{animation:none}}
+section{padding:14px 18px;border-bottom:1px solid var(--line)}
+h2{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin:0 0 10px;font-weight:600}
+label{display:block;font-size:12px;color:var(--muted);margin:8px 0 4px}
+input,select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);padding:8px 10px;border-radius:7px;font:13px 'JetBrains Mono',monospace;outline:none}
+textarea{resize:vertical;min-height:70px}
+input:focus,select:focus,textarea:focus{border-color:var(--accent2)}
+input[type=checkbox]{width:auto}input[type=color]{padding:2px;height:36px}
+.row{display:flex;gap:8px}.row>*{flex:1;min-width:0}
+button{background:var(--panel2);color:var(--text);border:1px solid var(--line);padding:8px 12px;border-radius:7px;font:600 13px 'Space Grotesk',sans-serif;cursor:pointer}
+button:hover{border-color:var(--accent2)}
+button.danger{color:#ff8f8f;border-color:#5a2b2b}button.danger:hover{border-color:var(--pin);background:#2a1616}button.danger.arm{background:var(--pin);border-color:var(--pin);color:#1a0808}
+button.primary{background:var(--accent2);border-color:var(--accent2);color:#06120a}button.primary:hover{background:var(--accent)}
+.seg{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:3px}
+.seg button{flex:1;border:0;background:transparent;color:var(--muted);padding:7px}.seg button.on{background:var(--panel2);color:var(--text)}
+.note{font-size:12px;color:var(--muted);line-height:1.45;margin:8px 0 0}
+.tabs{display:flex;gap:4px;margin-bottom:12px}.tabs button{flex:1;padding:7px 2px;font-size:12px}.tabs button.on{border-color:var(--accent);color:var(--accent)}
+.pane{display:none}.pane.on{display:block}
+.results{list-style:none;padding:0;margin:10px 0 0;max-height:240px;overflow:auto}
+.results li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--line);border-radius:7px;margin-bottom:6px;cursor:pointer;font:12.5px 'JetBrains Mono',monospace}
+.results li:hover{border-color:var(--accent2)}
+.badge{background:var(--accent2);color:#06120a;border-radius:20px;padding:2px 8px;font-weight:700;font-size:11.5px;white-space:nowrap}
+.out{font:13px 'JetBrains Mono',monospace;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:10px;margin-top:10px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.check{display:flex;align-items:center;gap:8px;font-size:13px;margin:5px 0;color:var(--text);cursor:pointer}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px;margin-top:6px}
+.ico{width:20px;height:20px;image-rendering:pixelated;flex:0 0 20px;background:#0c100e;border-radius:4px;border:1px solid var(--line)}
+.chip{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;font:700 10px 'Space Grotesk';color:#0b0f0d;flex:0 0 17px}
+main{position:relative;overflow:hidden;min-height:0}
+canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}canvas.drag{cursor:grabbing}
+.hud{position:absolute;left:14px;bottom:14px;background:rgba(14,19,17,.9);border:1px solid var(--line);border-radius:9px;padding:10px 12px;font:12px 'JetBrains Mono',monospace;line-height:1.6;pointer-events:none;min-width:230px}
+.hud b{color:var(--accent)}
+.sel{position:absolute;left:14px;top:14px;background:rgba(14,19,17,.94);border:1px solid var(--accent2);border-radius:9px;padding:10px 12px;font:12.5px 'JetBrains Mono',monospace;line-height:1.6;display:none;max-width:300px}
+.sel button{margin-top:6px;padding:5px 10px;font-size:12px}
+.zoom{position:absolute;right:14px;top:14px;display:flex;flex-direction:column;gap:6px}.zoom button{width:38px;height:38px;padding:0;font-size:18px}
+.stat{position:absolute;right:14px;bottom:14px;background:rgba(14,19,17,.9);border:1px solid var(--line);border-radius:9px;padding:8px 12px;font:12px 'JetBrains Mono',monospace;color:var(--muted);max-width:55%}
+.progress{height:4px;background:var(--line);border-radius:4px;margin-top:10px;overflow:hidden;display:none}.progress div{height:100%;width:0;background:var(--accent)}
+/* toolbox */
+#v-tools{overflow-y:auto;display:none}#v-tools.on{display:block}
+.twrap{max-width:1180px;margin:0 auto;padding:26px 20px 60px}
+.twrap>p{color:var(--muted);margin:4px 0 0}
+.cat{font-size:12px;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent);margin:30px 0 12px;font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h3{margin:0;font-size:16px}.card>p{margin:3px 0 8px;color:var(--muted);font-size:13px}
+.mcprev{background:#1b1b1b;border:1px solid var(--line);border-radius:7px;padding:12px;margin-top:10px;font:16px 'JetBrains Mono',monospace;min-height:44px;word-break:break-word;text-shadow:2px 2px 0 rgba(0,0,0,.6)}
+.codes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.codes button{padding:6px 2px;font:600 12px 'JetBrains Mono',monospace}
+.cgrid{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:18px;align-items:start}
+.cgwrap{min-width:0}.cgwrap canvas{width:100%;max-width:560px;aspect-ratio:1;margin:0 auto;background:#0c100e;border:1px solid var(--line);border-radius:8px;cursor:crosshair;touch-action:auto}
+@media (max-width:760px){.cgrid{grid-template-columns:1fr}}
+.legend2{display:flex;gap:18px;justify-content:center;margin-top:8px;font-size:12px;color:var(--muted)}.legend2 span{display:flex;align-items:center;gap:6px}.legend2 i{width:14px;height:4px;border-radius:2px;display:inline-block}
+.rose{position:absolute;right:14px;top:150px;width:132px;height:132px;border-radius:9px;background:rgba(14,19,17,.9);border:1px solid var(--line);pointer-events:none;cursor:default}
+@media (max-width:820px){.rose{width:104px;height:104px;top:auto;bottom:14px}}
+.copyrow{display:flex;justify-content:flex-end;margin-top:8px;gap:8px;align-items:center}.copyrow span{font-size:12px;color:var(--accent)}
+@media (max-width:820px){#v-map.on{grid-template-columns:1fr;grid-template-rows:46% 54%}.side{border-right:0;border-bottom:1px solid var(--line)}main{height:auto}.stat{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></div>
+  <h1>ChunkScout</h1>
+  <nav><a href="#map" data-v="map">Seed Map</a><a href="#toolbox" data-v="tools">Toolbox</a></nav>
+</header>
+
+<div class="view" id="v-map">
+<div class="side">
+<aside id="side">
+  <section>
+    <h2>World</h2>
+    <div class="seg" id="edition"><button data-e="java" class="on">Java</button><button data-e="bedrock">Bedrock</button></div>
+    <label>Dimension</label>
+    <div class="seg" id="dimSeg"><button data-d="overworld" class="on">Overworld</button><button data-d="nether">Nether</button><button data-d="end">The End</button></div>
+    <div id="seedWrap">
+      <label for="seed">Seed (number or text)</label>
+      <div class="row"><input id="seed" placeholder="e.g. 8675309 or Glacier" autocomplete="off"><button id="rand" title="Random seed" style="flex:0 0 44px">🎲</button></div>
+    </div>
+    <div id="verWrap"><label for="ver">Game version</label>
+      <select id="ver"></select></div>
+    <p class="note" id="edNote"></p>
+  </section>
+
+  <section>
+    <h2>Layers</h2>
+    <label class="check"><input type="checkbox" id="lyBiome" checked> Biomes</label>
+    <label class="check"><input type="checkbox" id="lySlime" checked> <span class="chip" style="background:var(--slime);border-radius:3px"></span> Slime chunks</label>
+    <label class="check"><input type="checkbox" id="lyStruct" checked> Structures</label>
+    <div class="sgrid" id="structList"></div>
+    <div class="row" style="margin-top:8px"><button id="stAll">All</button><button id="stNone">None</button></div>
+  </section>
+
+  <section>
+    <h2>Go to</h2>
+    <div class="row">
+      <div><label for="gx">X</label><input id="gx" value="0" inputmode="numeric"></div>
+      <div><label for="gz">Z</label><input id="gz" value="0" inputmode="numeric"></div>
+    </div>
+    <div class="row" style="margin-top:10px"><button class="primary" id="go">Jump</button><button id="pinHere">📍 Pin center</button></div>
+  </section>
+
+  <section>
+    <div class="tabs">
+      <button data-t="locate" class="on">Locate</button>
+      <button data-t="farm">Slime farm</button>
+      <button data-t="convert">Convert</button>
+      <button data-t="pins">Pins</button>
+    </div>
+
+    <div class="pane on" id="t-locate">
+      <p class="note" style="margin-top:0">Like <code>/locate</code>, without cheats: finds the nearest biome or structure to the map center.</p>
+      <label for="locWhat">Find nearest</label>
+      <select id="locWhat"></select>
+      <button class="primary" id="locGo" style="width:100%;margin-top:10px">Search from center</button>
+      <div class="progress" id="locProg"><div></div></div>
+      <ul class="results" id="locRes"></ul>
+    </div>
+
+    <div class="pane" id="t-farm">
+      <p class="note" style="margin-top:0">Ranks AFK spots by how many slime chunks fall inside the 128-block spawn range.</p>
+      <div class="row">
+        <div><label for="frad">Search radius (chunks)</label><select id="frad"><option>32</option><option selected>64</option><option>128</option><option>200</option></select></div>
+        <div><label for="fmin">Show top</label><select id="fmin"><option>5</option><option selected>10</option><option>20</option></select></div>
+      </div>
+      <button class="primary" id="findFarm" style="width:100%;margin-top:10px">Find best AFK spots</button>
+      <div class="progress" id="prog"><div></div></div>
+      <ul class="results" id="farmRes"></ul>
+    </div>
+
+    <div class="pane" id="t-convert">
+      <label>Overworld ↔ Nether</label>
+      <div class="row"><input id="cx" placeholder="X" inputmode="numeric"><input id="cz" placeholder="Z" inputmode="numeric"></div>
+      <div class="seg" id="cdir" style="margin-top:8px"><button data-d="o2n" class="on">Overworld → Nether</button><button data-d="n2o">Nether → Overworld</button></div>
+      <div class="out" id="cout">Enter coordinates above.</div>
+      <label style="margin-top:14px">Block → chunk / region</label>
+      <div class="out" id="bout">Hover the map or enter coords above.</div>
+    </div>
+
+    <div class="pane" id="t-pins">
+      <p class="note" style="margin-top:0">Click any empty chunk on the map to pin it. Each dimension keeps its own pins, saved in this browser.</p>
+      <ul class="results" id="pinList"></ul>
+      <div class="row" style="margin-top:6px"><button id="clearPins">Clear this dimension</button><button id="delPins" class="danger">Delete all pins</button></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Display</h2>
+    <label class="check"><input type="checkbox" id="optGrid" checked> Chunk grid</label>
+    <label class="check"><input type="checkbox" id="optRegion"> Region borders (.mca files)</label>
+    <label class="check"><input type="checkbox" id="optRange"> 128-block spawn range at center</label>
+    <p class="note">Drag to pan · scroll or pinch to zoom · arrow keys move · click a marker for its coordinates.</p>
+    <p class="note" id="covNote"></p>
+    <p class="note"><b>Accuracy.</b> Positions are checked against Chunkbase on two seeds. A marker with a dashed yellow border and “?” means the game may not generate it there; this now only applies to a few Bedrock structures.</p>
+  </section>
+</aside>
+<button class="more" id="more" aria-label="Scroll down for more options" title="More below"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l7 7 7-7"/></svg></button>
+</div>
+
+<main>
+  <canvas id="map"></canvas>
+  <div class="sel" id="sel"></div>
+  <div class="zoom"><button id="zin">+</button><button id="zout">−</button><button id="zhome" title="Back to 0,0">⌂</button></div>
+  <canvas class="rose" id="rose" aria-label="Shows which X and Z quarter the mouse is in and which way it is moving"></canvas>
+  <div class="hud" id="hud">Move over the map</div>
+  <div class="stat" id="stat"></div>
+</main>
+</div>
+
+<div class="view" id="v-tools">
+<div class="twrap">
+  <h1 style="margin:0;font-size:26px">Toolbox</h1>
+  <p>Handy utilities for servers and builds. Everything runs in your browser.</p>
+
+  <div class="cat">Server</div>
+  <div class="cards">
+    <div class="card"><h3>Start file generator</h3><p>Builds a start script with tuned JVM flags.</p>
+      <div class="row"><div><label>RAM (GB)</label><input id="sfRam" type="number" min="1" max="64" value="6"></div><div><label>Jar file</label><input id="sfJar" value="server.jar"></div></div>
+      <div class="row"><div><label>System</label><select id="sfOs"><option value="sh">Linux / macOS (.sh)</option><option value="bat">Windows (.bat)</option></select></div><div><label>Flags</label><select id="sfFlags"><option value="aikar">Aikar's flags (Paper)</option><option value="basic">Basic</option></select></div></div>
+      <label class="check" style="margin-top:8px"><input type="checkbox" id="sfLoop"> Auto-restart when the server stops</label>
+      <textarea id="sfOut" readonly rows="7" style="margin-top:8px"></textarea>
+      <div class="copyrow"><span></span><button data-copy="sfOut">Copy</button></div></div>
+
+    <div class="card"><h3>RAM calculator</h3><p>A rough starting point; watch real usage and adjust.</p>
+      <div class="row"><div><label>Players online</label><input id="rmP" type="number" min="1" value="10"></div><div><label>Plugins / mods</label><input id="rmM" type="number" min="0" value="15"></div></div>
+      <div class="row"><div><label>Server type</label><select id="rmT"><option value="paper">Paper / Spigot / Vanilla</option><option value="mod">Modded (Fabric / Forge)</option><option value="pack">Large modpack</option></select></div><div><label>View distance</label><input id="rmV" type="number" min="2" max="32" value="10"></div></div>
+      <div class="out" id="rmOut"></div></div>
+  </div>
+
+  <div class="cat">Text &amp; formatting</div>
+  <div class="cards">
+    <div class="card"><h3>Color text generator</h3><p>Type with <code>&amp;</code> codes, or make a gradient.</p>
+      <textarea id="ctIn" rows="2">&amp;aWelcome to &amp;lChunkScout&amp;r&amp;e!</textarea>
+      <div class="codes" id="ctCodes"></div>
+      <div class="mcprev" id="ctPrev"></div>
+      <label style="margin-top:12px">Gradient</label>
+      <div class="row"><input id="grTxt" value="Gradient text"><input type="color" id="grA" value="#7bdc6a" style="flex:0 0 46px"><input type="color" id="grB" value="#3fb6c9" style="flex:0 0 46px"></div>
+      <select id="grFmt" style="margin-top:8px"><option value="amp">&amp;#RRGGBB per letter (most plugins)</option><option value="mm">MiniMessage &lt;gradient&gt;</option><option value="bukkit">&amp;x&amp;R&amp;R&amp;G&amp;G&amp;B&amp;B (legacy hex)</option></select>
+      <div class="mcprev" id="grPrev"></div>
+      <textarea id="grOut" readonly rows="3" style="margin-top:8px"></textarea>
+      <div class="copyrow"><span></span><button data-copy="grOut">Copy</button></div></div>
+
+    <div class="card"><h3>Small text converter</h3><p>Turns text into sᴍᴀʟʟ ᴄᴀᴘs for tab lists and scoreboards.</p>
+      <textarea id="smIn" rows="3">Small text looks neat</textarea>
+      <textarea id="smOut" readonly rows="3" style="margin-top:8px"></textarea>
+      <div class="copyrow"><span></span><button data-copy="smOut">Copy</button></div></div>
+  </div>
+
+  <div class="cat">Building</div>
+  <div class="cards">
+    <div class="card" style="grid-column:1/-1"><h3>Circle generator</h3><p>Block-by-block template for circles and ovals: towers, domes, arenas, ponds.</p>
+      <div class="cgrid">
+        <div>
+          <div class="row"><div><label>Width (blocks)</label><input id="cgW" type="number" min="1" max="256" value="21"></div><div><label>Height (blocks)</label><input id="cgH" type="number" min="1" max="256" value="21"></div></div>
+          <label class="check" style="margin-top:8px"><input type="checkbox" id="cgLock" checked> Keep it a perfect circle</label>
+          <label>Style</label>
+          <div class="seg" id="cgStyle"><button data-s="thin" class="on">Thin outline</button><button data-s="thick">Thick outline</button><button data-s="fill">Filled</button></div>
+          <div class="out" id="cgOut"></div>
+          <label style="margin-top:12px">Row guide (blocks per row, top to bottom)</label>
+          <textarea id="cgRows" readonly rows="4"></textarea>
+          <div class="copyrow"><span></span><button data-copy="cgRows">Copy row guide</button></div>
+        </div>
+        <div class="cgwrap"><canvas id="cgCv"></canvas><div class="note" id="cgHover" style="text-align:center;margin-top:6px">Hover a block to see its position</div></div>
+      </div></div>
+  </div>
+
+  <div class="cat">Navigation</div>
+  <div class="cards">
+    <div class="card" style="grid-column:1/-1"><h3>Direction finder</h3><p>Shows which way you are travelling on the X and Z axes, and which way your destination is.</p>
+      <div class="cgrid">
+        <div>
+          <label>Where you were (X, Z)</label>
+          <div class="row"><input id="dfX0" type="number" value="0" aria-label="Previous X"><input id="dfZ0" type="number" value="0" aria-label="Previous Z"></div>
+          <label>Where you are now (X, Z)</label>
+          <div class="row"><input id="dfX1" type="number" value="120" aria-label="Current X"><input id="dfZ1" type="number" value="-80" aria-label="Current Z"></div>
+          <label>Destination (optional X, Z)</label>
+          <div class="row"><input id="dfX2" type="number" placeholder="X" aria-label="Destination X"><input id="dfZ2" type="number" placeholder="Z" aria-label="Destination Z"></div>
+          <div class="out" id="dfOut"></div>
+          <p class="note">Press F3 (Java) or turn on “Show Coordinates” (Bedrock), walk a little, and type both readings. North is up, the same as the seed map.</p>
+        </div>
+        <div class="cgwrap"><canvas id="dfCv" style="cursor:default"></canvas>
+          <div class="legend2"><span><i style="background:#7bdc6a"></i>Your heading</span><span><i style="background:#f2c14e"></i>Destination</span></div></div>
+      </div></div>
+  </div>
+
+  <div class="cat">Utilities</div>
+  <div class="cards">
+    <div class="card"><h3>Daylight cycle</h3><p>Convert between game ticks, the in-game clock and real time.</p>
+      <div class="row"><div><label>Game ticks (0–23999)</label><input id="dyT" type="number" min="0" max="23999" value="6000"></div><div><label>In-game clock</label><input id="dyC" type="time" value="12:00"></div></div>
+      <div class="out" id="dyOut"></div>
+      <label style="margin-top:12px">Real minutes → game time</label>
+      <input id="dyR" type="number" min="0" value="20">
+      <div class="out" id="dyOut2"></div></div>
+
+    <div class="card"><h3>Nether portal calculator</h3><p>Where to build the matching portal in the other dimension.</p>
+      <div class="seg" id="npDir"><button data-d="o2n" class="on">Overworld → Nether</button><button data-d="n2o">Nether → Overworld</button></div>
+      <div class="row"><div><label>X</label><input id="npX" type="number" value="800"></div><div><label>Y</label><input id="npY" type="number" value="64"></div><div><label>Z</label><input id="npZ" type="number" value="-1200"></div></div>
+      <div class="out" id="npOut"></div>
+      <textarea id="npCmd" readonly rows="1" style="margin-top:8px;min-height:0"></textarea>
+      <div class="copyrow"><span></span><button data-copy="npCmd">Copy command</button><button id="npShow">Show on map</button></div></div>
+
+    <div class="card"><h3>Chunk &amp; region lookup</h3><p>Which chunk and region file a block is in, and whether it is a slime chunk.</p>
+      <div class="row"><div><label>Block X</label><input id="ckX" type="number" value="0"></div><div><label>Block Z</label><input id="ckZ" type="number" value="0"></div></div>
+      <div class="out" id="ckOut"></div></div>
+  </div>
+</div>
+</div>
+
+<script>
+// ===== Minecraft Java 1.18+ overworld climate / biome / structure maths =====
+const WG=(()=>{
+const U64=(1n<<64n)-1n;
+const rotl=(x,k)=>((x<<BigInt(k))|(x>>BigInt(64-k)))&U64;
+class Xoro{
+  constructor(lo,hi){this.lo=lo&U64;this.hi=hi&U64;if((this.lo|this.hi)===0n){this.lo=0x9E3779B97F4A7C15n;this.hi=0x6A09E667F3BCC909n;}}
+  nextLong(){const s0=this.lo;let s1=this.hi;const r=(rotl((s0+s1)&U64,17)+s0)&U64;s1^=s0;this.lo=rotl(s0,49)^s1^((s1<<21n)&U64);this.hi=rotl(s1,28);return r;}
+  nextInt(b){const B=BigInt(b);let m=(this.nextLong()&0xFFFFFFFFn)*B,low=m&0xFFFFFFFFn;
+    if(low<B){const t=(0x100000000n-B)%B;while(low<t){m=(this.nextLong()&0xFFFFFFFFn)*B;low=m&0xFFFFFFFFn;}}
+    return Number(m>>32n);}
+  nextDouble(){return Number(this.nextLong()>>11n)*1.1102230246251565e-16;}
+  fork(){return {lo:this.nextLong(),hi:this.nextLong()};}
+}
+function md5(str){
+  const S=[7,12,17,22,7,12,17,22,7,12,17,22,7,12,17,22,5,9,14,20,5,9,14,20,5,9,14,20,5,9,14,20,4,11,16,23,4,11,16,23,4,11,16,23,4,11,16,23,6,10,15,21,6,10,15,21,6,10,15,21,6,10,15,21];
+  const b=[];for(let i=0;i<str.length;i++)b.push(str.charCodeAt(i)&255);
+  const n=b.length;b.push(128);while(b.length%64!==56)b.push(0);
+  let bits=n*8;for(let i=0;i<8;i++){b.push(bits&255);bits=Math.floor(bits/256);}
+  let a0=0x67452301,b0=0xefcdab89,c0=0x98badcfe,d0=0x10325476;
+  for(let o=0;o<b.length;o+=64){
+    const M=[];for(let j=0;j<16;j++)M[j]=(b[o+j*4]|(b[o+j*4+1]<<8)|(b[o+j*4+2]<<16)|(b[o+j*4+3]<<24))>>>0;
+    let A=a0,B=b0,C=c0,D=d0;
+    for(let i=0;i<64;i++){let F,g;
+      if(i<16){F=(B&C)|(~B&D);g=i;}else if(i<32){F=(D&B)|(~D&C);g=(5*i+1)%16;}else if(i<48){F=B^C^D;g=(3*i+5)%16;}else{F=C^(B|~D);g=(7*i)%16;}
+      const K=Math.floor(Math.abs(Math.sin(i+1))*4294967296)>>>0;
+      F=(F+A+K+M[g])>>>0;A=D;D=C;C=B;B=(B+((F<<S[i])|(F>>>(32-S[i]))))>>>0;}
+    a0=(a0+A)>>>0;b0=(b0+B)>>>0;c0=(c0+C)>>>0;d0=(d0+D)>>>0;}
+  const out=[];for(const w of [a0,b0,c0,d0])for(let i=0;i<4;i++)out.push((w>>>(8*i))&255);
+  return out;
+}
+function fromHash(pos,name){const h=md5(name);let lo=0n,hi=0n;for(let i=0;i<8;i++){lo=(lo<<8n)|BigInt(h[i]);hi=(hi<<8n)|BigInt(h[8+i]);}
+  return new Xoro(lo^pos.lo,hi^pos.hi);}
+const staff=z=>{z=((z^(z>>30n))*0xBF58476D1CE4E5B9n)&U64;z=((z^(z>>27n))*0x94D049BB133111EBn)&U64;return z^(z>>31n);};
+
+const GX=[1,-1,1,-1,1,-1,1,-1,0,0,0,0,1,0,-1,0],GY=[1,1,-1,-1,0,0,0,0,1,-1,1,-1,1,-1,1,-1],GZ=[0,0,0,0,1,1,-1,-1,1,1,-1,-1,0,1,0,-1];
+class Improved{
+  constructor(r){this.xo=r.nextDouble()*256;this.yo=r.nextDouble()*256;this.zo=r.nextDouble()*256;
+    const p=this.p=new Uint8Array(512);for(let i=0;i<256;i++)p[i]=i;
+    for(let i=0;i<256;i++){const j=r.nextInt(256-i),t=p[i];p[i]=p[i+j];p[i+j]=t;}
+    for(let i=0;i<256;i++)p[256+i]=p[i];}
+  noise(x,y,z){
+    x+=this.xo;y+=this.yo;z+=this.zo;
+    const fi=Math.floor(x),fj=Math.floor(y),fk=Math.floor(z);x-=fi;y-=fj;z-=fk;
+    const i=fi&255,j=fj&255,k=fk&255,p=this.p;
+    const i0=p[i],i1=p[i+1],j0=p[i0+j],j1=p[i0+j+1],k0=p[i1+j],k1=p[i1+j+1];
+    let h;
+    h=p[j0+k]&15;const d0=GX[h]*x+GY[h]*y+GZ[h]*z;
+    h=p[k0+k]&15;const d1=GX[h]*(x-1)+GY[h]*y+GZ[h]*z;
+    h=p[j1+k]&15;const d2=GX[h]*x+GY[h]*(y-1)+GZ[h]*z;
+    h=p[k1+k]&15;const d3=GX[h]*(x-1)+GY[h]*(y-1)+GZ[h]*z;
+    h=p[j0+k+1]&15;const d4=GX[h]*x+GY[h]*y+GZ[h]*(z-1);
+    h=p[k0+k+1]&15;const d5=GX[h]*(x-1)+GY[h]*y+GZ[h]*(z-1);
+    h=p[j1+k+1]&15;const d6=GX[h]*x+GY[h]*(y-1)+GZ[h]*(z-1);
+    h=p[k1+k+1]&15;const d7=GX[h]*(x-1)+GY[h]*(y-1)+GZ[h]*(z-1);
+    const sx=x*x*x*(x*(x*6-15)+10),sy=y*y*y*(y*(y*6-15)+10),sz=z*z*z*(z*(z*6-15)+10);
+    const a=d0+sx*(d1-d0),b=d2+sx*(d3-d2),c=d4+sx*(d5-d4),d=d6+sx*(d7-d6);
+    const e=a+sy*(b-a),f=c+sy*(d-c);return e+sz*(f-e);}
+}
+Improved.prototype.noiseY=function(x,y,z,ys,ym){
+  x+=this.xo;y+=this.yo;z+=this.zo;const fi=Math.floor(x),fj=Math.floor(y),fk=Math.floor(z);x-=fi;const fy=y-fj;z-=fk;
+  let d9=0;if(ys!==0){const d=(ym>=0&&ym<fy)?ym:fy;d9=Math.floor(d/ys+1e-7)*ys;}y=fy-d9;
+  const i=fi&255,j=fj&255,k=fk&255,p=this.p,i0=p[i],i1=p[i+1],j0=p[i0+j],j1=p[i0+j+1],k0=p[i1+j],k1=p[i1+j+1];let h;
+  h=p[j0+k]&15;const d0=GX[h]*x+GY[h]*y+GZ[h]*z;h=p[k0+k]&15;const d1=GX[h]*(x-1)+GY[h]*y+GZ[h]*z;
+  h=p[j1+k]&15;const d2=GX[h]*x+GY[h]*(y-1)+GZ[h]*z;h=p[k1+k]&15;const d3=GX[h]*(x-1)+GY[h]*(y-1)+GZ[h]*z;
+  h=p[j0+k+1]&15;const d4=GX[h]*x+GY[h]*y+GZ[h]*(z-1);h=p[k0+k+1]&15;const d5=GX[h]*(x-1)+GY[h]*y+GZ[h]*(z-1);
+  h=p[j1+k+1]&15;const d6=GX[h]*x+GY[h]*(y-1)+GZ[h]*(z-1);h=p[k1+k+1]&15;const d7=GX[h]*(x-1)+GY[h]*(y-1)+GZ[h]*(z-1);
+  const sx=x*x*x*(x*(x*6-15)+10),sy=fy*fy*fy*(fy*(fy*6-15)+10),sz=z*z*z*(z*(z*6-15)+10);
+  const a=d0+sx*(d1-d0),b=d2+sx*(d3-d2),c=d4+sx*(d5-d4),d=d6+sx*(d7-d6),e=a+sy*(b-a),f=c+sy*(d-c);return e+sz*(f-e);};
+function Blended(r,xzS,yS,xzF,yF,smear){
+  const mk=n=>{const a=[];for(let i=0;i<n;i++)a.push(new Improved(r));return a;},mn=mk(16),mx=mk(16),main=mk(8),xzM=684.412*xzS,yM=684.412*yS;
+  return (x,y,z)=>{const d0=x*xzM,d1=y*yM,d2=z*xzM,d3=d0/xzF,d4=d1/yF,d5=d2/xzF,d6=yM*smear,d7=d6/yF;let d10=0,d11=1;
+    for(let i=0;i<8;i++){d10+=main[i].noiseY(wrap(d3*d11),wrap(d4*d11),wrap(d5*d11),d7*d11,d4*d11)/d11;d11/=2;}
+    const d16=(d10/10+1)/2;let d8=0,d9=0,d12=1;
+    for(let j=0;j<16;j++){const X=wrap(d0*d12),Y=wrap(d1*d12),Z=wrap(d2*d12),s=d6*d12;
+      if(d16<1)d8+=mn[j].noiseY(X,Y,Z,s,d1*d12)/d12;if(d16>0)d9+=mx[j].noiseY(X,Y,Z,s,d1*d12)/d12;d12/=2;}
+    return (d16<0?d8/512:d16>1?d9/512:d8/512+d16*(d9/512-d8/512))/128;};
+}
+const WR=33554432,wrap=v=>v-Math.floor(v/WR+0.5)*WR;
+class Perlin{
+  constructor(r,first,amps){const pos=r.fork();this.oct=[];const n=amps.length;
+    let inF=Math.pow(2,first),vF=Math.pow(2,n-1)/(Math.pow(2,n)-1);
+    for(let i=0;i<n;i++){if(amps[i]!==0)this.oct.push({n:new Improved(fromHash(pos,'octave_'+(first+i))),f:inF,a:amps[i]*vF});inF*=2;vF/=2;}}
+  get(x,y,z){let s=0;for(const o of this.oct)s+=o.a*o.n.noise(wrap(x*o.f),wrap(y*o.f),wrap(z*o.f));return s;}
+}
+const IF=1.0181268882175227;
+class Normal{
+  constructor(r,first,amps){this.a=new Perlin(r,first,amps);this.b=new Perlin(r,first,amps);
+    let mn=1e9,mx=-1e9;amps.forEach((v,i)=>{if(v!==0){mn=Math.min(mn,i);mx=Math.max(mx,i);}});
+    this.vf=0.16666666666666666/(0.1*(1+1/(mx-mn+1)));}
+  get(x,y,z){return (this.a.get(x,y,z)+this.b.get(x*IF,y*IF,z*IF))*this.vf;}
+}
+
+// ---------- biome table (OverworldBiomeBuilder) ----------
+const TT=[[-1,-.45],[-.45,-.15],[-.15,.2],[.2,.55],[.55,1]],HH=[[-1,-.35],[-.35,-.1],[-.1,.1],[.1,.3],[.3,1]],
+ EE=[[-1,-.78],[-.78,-.375],[-.375,-.2225],[-.2225,.05],[.05,.45],[.45,.55],[.55,1]],
+ FULL=[-1,1],MUSH=[-1.2,-1.05],DEEP=[-1.05,-.455],OCN=[-.455,-.19],COAST=[-.19,-.11],NEAR=[-.11,.03],MID=[.03,.3],FAR=[.3,1],
+ sp=(a,b)=>[a[0],b[1]];
+const OCEANS=[['deep_frozen_ocean','deep_cold_ocean','deep_ocean','deep_lukewarm_ocean','warm_ocean'],['frozen_ocean','cold_ocean','ocean','lukewarm_ocean','warm_ocean']];
+const MIDB=[['snowy_plains','snowy_plains','snowy_plains','snowy_taiga','taiga'],['plains','plains','forest','taiga','old_growth_spruce_taiga'],['flower_forest','plains','forest','birch_forest','dark_forest'],['savanna','savanna','forest','jungle','jungle'],['desert','desert','desert','desert','desert']];
+const MIDV=[['ice_spikes',0,'snowy_taiga',0,0],[0,0,0,0,'old_growth_pine_taiga'],['sunflower_plains',0,0,'old_growth_birch_forest',0],[0,0,'plains','sparse_jungle','bamboo_jungle'],[0,0,0,0,0]];
+const PLAT=[['snowy_plains','snowy_plains','snowy_plains','snowy_taiga','snowy_taiga'],['meadow','meadow','forest','taiga','old_growth_spruce_taiga'],['meadow','meadow','meadow','meadow','dark_forest'],['savanna_plateau','savanna_plateau','forest','forest','jungle'],['badlands','badlands','badlands','wooded_badlands','wooded_badlands']];
+const PLATV=[['ice_spikes',0,0,0,0],['cherry_grove',0,'meadow','meadow','old_growth_pine_taiga'],['cherry_grove','cherry_grove','forest','birch_forest','pale_garden'],[0,0,0,0,0],['eroded_badlands','eroded_badlands',0,0,0]];
+const SHAT=[['windswept_gravelly_hills','windswept_gravelly_hills','windswept_hills','windswept_forest','windswept_forest'],['windswept_gravelly_hills','windswept_gravelly_hills','windswept_hills','windswept_forest','windswept_forest'],['windswept_hills','windswept_hills','windswept_hills','windswept_forest','windswept_forest'],[0,0,0,0,0],[0,0,0,0,0]];
+const NAMES=[];const bid=n=>{let i=NAMES.indexOf(n);if(i<0){i=NAMES.length;NAMES.push(n);}return i;};
+const q=v=>Math.trunc(Math.fround(Math.fround(v)*10000));
+const ENT=[];
+function add(t,h,c,e,w,b){ENT.push([q(t[0]),q(t[1]),q(h[0]),q(h[1]),q(c[0]),q(c[1]),q(e[0]),q(e[1]),q(w[0]),q(w[1]),bid(b)]);}
+const neg=w=>w[1]<0;
+const pMid=(i,j,w)=>neg(w)?MIDB[i][j]:(MIDV[i][j]||MIDB[i][j]);
+const pBad=(j,w)=>j<2?(neg(w)?'badlands':'eroded_badlands'):j<3?'badlands':'wooded_badlands';
+const pMidBad=(i,j,w)=>i===4?pBad(j,w):pMid(i,j,w);
+const pPlat=(i,j,w)=>(!neg(w)&&PLATV[i][j])||PLAT[i][j];
+const pSlope=(i,j,w)=>i>=3?pPlat(i,j,w):j<=1?'snowy_slopes':'grove';
+const pMidBadSlope=(i,j,w)=>i===0?pSlope(i,j,w):pMidBad(i,j,w);
+const pWS=(i,j,w,f)=>(i>1&&j<4&&!neg(w))?'windswept_savanna':f;
+const pBeach=i=>i===0?'snowy_beach':i===4?'desert':'beach';
+const pShCoast=(i,j,w)=>pWS(i,j,w,!neg(w)?pMid(i,j,w):pBeach(i));
+const pPeak=(i,j,w)=>i<=2?(neg(w)?'jagged_peaks':'frozen_peaks'):i===3?'stony_peaks':pBad(j,w);
+const pShat=(i,j,w)=>SHAT[i][j]||pMid(i,j,w);
+const E=EE;
+function each(f){for(let i=0;i<5;i++)for(let j=0;j<5;j++)f(i,j,TT[i],HH[j]);}
+function peaks(w){each((i,j,t,h)=>{const m=pMid(i,j,w),mb=pMidBad(i,j,w),mbs=pMidBadSlope(i,j,w),pl=pPlat(i,j,w),sh=pShat(i,j,w),ws=pWS(i,j,w,sh),pk=pPeak(i,j,w);
+  add(t,h,sp(COAST,FAR),E[0],w,pk);add(t,h,sp(COAST,NEAR),E[1],w,mbs);add(t,h,sp(MID,FAR),E[1],w,pk);add(t,h,sp(COAST,NEAR),sp(E[2],E[3]),w,m);
+  add(t,h,sp(MID,FAR),E[2],w,pl);add(t,h,MID,E[3],w,mb);add(t,h,FAR,E[3],w,pl);add(t,h,sp(COAST,FAR),E[4],w,m);
+  add(t,h,sp(COAST,NEAR),E[5],w,ws);add(t,h,sp(MID,FAR),E[5],w,sh);add(t,h,sp(COAST,FAR),E[6],w,m);});}
+function high(w){each((i,j,t,h)=>{const m=pMid(i,j,w),mb=pMidBad(i,j,w),mbs=pMidBadSlope(i,j,w),pl=pPlat(i,j,w),sh=pShat(i,j,w),ws=pWS(i,j,w,sh),sl=pSlope(i,j,w),pk=pPeak(i,j,w);
+  add(t,h,COAST,sp(E[0],E[1]),w,m);add(t,h,NEAR,E[0],w,sl);add(t,h,sp(MID,FAR),E[0],w,pk);add(t,h,NEAR,E[1],w,mbs);add(t,h,sp(MID,FAR),E[1],w,sl);
+  add(t,h,sp(COAST,NEAR),sp(E[2],E[3]),w,m);add(t,h,sp(MID,FAR),E[2],w,pl);add(t,h,MID,E[3],w,mb);add(t,h,FAR,E[3],w,pl);add(t,h,sp(COAST,FAR),E[4],w,m);
+  add(t,h,sp(COAST,NEAR),E[5],w,ws);add(t,h,sp(MID,FAR),E[5],w,sh);add(t,h,sp(COAST,FAR),E[6],w,m);});}
+function mid(w){add(FULL,FULL,COAST,sp(E[0],E[2]),w,'stony_shore');add(sp(TT[1],TT[2]),FULL,sp(NEAR,FAR),E[6],w,'swamp');add(sp(TT[3],TT[4]),FULL,sp(NEAR,FAR),E[6],w,'mangrove_swamp');
+ each((i,j,t,h)=>{const m=pMid(i,j,w),mb=pMidBad(i,j,w),mbs=pMidBadSlope(i,j,w),sh=pShat(i,j,w),pl=pPlat(i,j,w),be=pBeach(i),ws=pWS(i,j,w,sh),sc=pShCoast(i,j,w),sl=pSlope(i,j,w);
+  add(t,h,sp(NEAR,FAR),E[0],w,sl);add(t,h,sp(NEAR,MID),E[1],w,mbs);add(t,h,FAR,E[1],w,i===0?sl:pl);add(t,h,NEAR,E[2],w,m);add(t,h,MID,E[2],w,mb);add(t,h,FAR,E[2],w,pl);
+  add(t,h,sp(COAST,NEAR),E[3],w,m);add(t,h,sp(MID,FAR),E[3],w,mb);
+  if(neg(w)){add(t,h,COAST,E[4],w,be);add(t,h,sp(NEAR,FAR),E[4],w,m);}else add(t,h,sp(COAST,FAR),E[4],w,m);
+  add(t,h,COAST,E[5],w,sc);add(t,h,NEAR,E[5],w,ws);add(t,h,sp(MID,FAR),E[5],w,sh);
+  add(t,h,COAST,E[6],w,neg(w)?be:m);if(i===0)add(t,h,sp(NEAR,FAR),E[6],w,m);});}
+function low(w){add(FULL,FULL,COAST,sp(E[0],E[2]),w,'stony_shore');add(sp(TT[1],TT[2]),FULL,sp(NEAR,FAR),E[6],w,'swamp');add(sp(TT[3],TT[4]),FULL,sp(NEAR,FAR),E[6],w,'mangrove_swamp');
+ each((i,j,t,h)=>{const m=pMid(i,j,w),mb=pMidBad(i,j,w),mbs=pMidBadSlope(i,j,w),be=pBeach(i),ws=pWS(i,j,w,m),sc=pShCoast(i,j,w);
+  add(t,h,NEAR,sp(E[0],E[1]),w,mb);add(t,h,sp(MID,FAR),sp(E[0],E[1]),w,mbs);add(t,h,NEAR,sp(E[2],E[3]),w,m);add(t,h,sp(MID,FAR),sp(E[2],E[3]),w,mb);
+  add(t,h,COAST,sp(E[3],E[4]),w,be);add(t,h,sp(NEAR,FAR),E[4],w,m);add(t,h,COAST,E[5],w,sc);add(t,h,NEAR,E[5],w,ws);add(t,h,sp(MID,FAR),E[5],w,m);
+  add(t,h,COAST,E[6],w,be);if(i===0)add(t,h,sp(NEAR,FAR),E[6],w,m);});}
+function valleys(w){const FR=TT[0],UF=sp(TT[1],TT[4]);
+  add(FR,FULL,COAST,sp(E[0],E[1]),w,neg(w)?'stony_shore':'frozen_river');add(UF,FULL,COAST,sp(E[0],E[1]),w,neg(w)?'stony_shore':'river');
+  add(FR,FULL,NEAR,sp(E[0],E[1]),w,'frozen_river');add(UF,FULL,NEAR,sp(E[0],E[1]),w,'river');
+  add(FR,FULL,sp(COAST,FAR),sp(E[2],E[5]),w,'frozen_river');add(UF,FULL,sp(COAST,FAR),sp(E[2],E[5]),w,'river');
+  add(FR,FULL,COAST,E[6],w,'frozen_river');add(UF,FULL,COAST,E[6],w,'river');
+  add(sp(TT[1],TT[2]),FULL,sp(NEAR,FAR),E[6],w,'swamp');add(sp(TT[3],TT[4]),FULL,sp(NEAR,FAR),E[6],w,'mangrove_swamp');add(FR,FULL,sp(NEAR,FAR),E[6],w,'frozen_river');
+  each((i,j,t,h)=>add(t,h,sp(MID,FAR),sp(E[0],E[1]),w,pMidBad(i,j,w)));}
+add(FULL,FULL,MUSH,FULL,FULL,'mushroom_fields');
+for(let i=0;i<5;i++){add(TT[i],FULL,DEEP,FULL,FULL,OCEANS[0][i]);add(TT[i],FULL,OCN,FULL,FULL,OCEANS[1][i]);}
+const SL=[[-1,-.93333334,mid],[-.93333334,-.7666667,high],[-.7666667,-.56666666,peaks],[-.56666666,-.4,high],[-.4,-.26666668,mid],[-.26666668,-.05,low],[-.05,.05,valleys],[.05,.26666668,low],[.26666668,.4,mid],[.4,.56666666,high],[.56666666,.7666667,peaks],[.7666667,.93333334,high],[.93333334,1,mid]];
+for(const s of SL)s[2]([s[0],s[1]]);
+const SLQ=SL.map(s=>[q(s[0]),q(s[1])]);
+const GROUPS=SLQ.map(s=>{const g=ENT.filter(e=>e[8]<=s[0]&&e[9]>=s[1]);const a=new Int32Array(g.length*9);g.forEach((e,i)=>{for(let k=0;k<8;k++)a[i*9+k]=e[k];a[i*9+8]=e[10];});return a;});
+const CAVE=[bid('dripstone_caves'),bid('lush_caves'),bid('deep_dark')];
+function lookup(t,h,c,e,w,d,noDD){
+  let s=0;while(s<12&&w>SLQ[s][1])s++;
+  const g=GROUPS[s];let best=Infinity,bb=0;
+  for(let i=0;i<g.length;i+=9){let d=0,v;
+    v=t<g[i]?g[i]-t:t>g[i+1]?t-g[i+1]:0;d+=v*v;
+    v=h<g[i+2]?g[i+2]-h:h>g[i+3]?h-g[i+3]:0;d+=v*v;
+    v=c<g[i+4]?g[i+4]-c:c>g[i+5]?c-g[i+5]:0;d+=v*v;
+    v=e<g[i+6]?g[i+6]-e:e>g[i+7]?e-g[i+7]:0;d+=v*v;
+    if(d<best){best=d;bb=g[i+8];if(d===0)break;}}
+  if(d===undefined)return bb;
+  const ds=Math.min(Math.abs(d),Math.abs(d-10000));best+=ds*ds;
+  const dc=d<2000?2000-d:d>9000?d-9000:0;let v,x;
+  v=c<8000?8000-c:c>10000?c-10000:0;x=v*v+dc*dc;if(x<best){best=x;bb=CAVE[0];}
+  v=h<7000?7000-h:h>10000?h-10000:0;x=v*v+dc*dc;if(x<best){best=x;bb=CAVE[1];}
+  if(!noDD){v=e>-3750?e+3750:e<-10000?-10000-e:0;x=v*v+(d-11000)*(d-11000);if(x<best){best=x;bb=CAVE[2];}}
+  return bb;
+}
+
+
+// ---------- terrain offset spline (TerrainProvider.overworldOffset) ----------
+const fr=Math.fround,lerp=(t,a,b)=>a+t*(b-a);
+function Spline(coord,pts){ // pts: [loc,val(number|Spline),deriv]
+  const L=pts.map(p=>fr(p[0])),V=pts.map(p=>typeof p[1]==='number'?fr(p[1]):p[1]),D=pts.map(p=>fr(p[2]||0)),n=L.length;
+  const val=(i,c)=>typeof V[i]==='number'?V[i]:V[i](c);
+  return c=>{const x=c[coord];let i=-1;while(i+1<n&&L[i+1]<=x)i++;
+    if(i<0){const v=val(0,c);return D[0]===0?v:v+D[0]*(x-L[0]);}
+    if(i===n-1){const v=val(i,c);return D[i]===0?v:v+D[i]*(x-L[i]);}
+    const f=L[i],g=L[i+1],t=(x-f)/(g-f),a=val(i,c),b=val(i+1,c),r=D[i]*(g-f)-(b-a),s=-D[i+1]*(g-f)+(b-a);
+    return lerp(t,a,b)+t*(1-t)*lerp(t,r,s);};
+}
+const mCont=(f,g,h)=>{const k=1-(1-g)*.5,l=.5*(1-g),n=(f+1.17)*0.46082947*k-l;return f<h?Math.max(n,-0.2222):Math.max(n,0);};
+const slope=(a,b,x0,x1)=>(b-a)/(x1-x0);
+function mRidge(f,bl){const i=mCont(-1,f,-.7),k=mCont(1,f,-.7),l=.5*(1-f)/(0.46082947*(1-(1-f)*.5))-1.17;
+  if(-0.65<l&&l<1){const n=mCont(-.65,f,-.7),p=mCont(-.75,f,-.7),q=slope(i,p,-1,-.75),r=mCont(l,f,-.7),s=slope(r,k,l,1);
+    return Spline(2,[[-1,i,q],[-.75,p],[-.65,n],[l-.01,r],[l,r,s],[1,k,s]]);}
+  const n=slope(i,k,-1,1);return Spline(2,bl?[[-1,Math.max(.2,i)],[0,lerp(.5,i,k),n],[1,k,n]]:[[-1,i,n],[1,k,n]]);}
+function rSpl(f,g,h,i,j,k){const l=Math.max(.5*(g-f),k),m=5*(h-g);return Spline(2,[[-1,f,l],[-.4,g,Math.min(l,m)],[0,h,m],[.4,i,2*(i-h)],[1,j,.7*(j-i)]]);}
+function eroOff(f,g,h,i,j,k,bl,bl2){
+  const s=mRidge(lerp(i,.6,1.5),bl2),s2=mRidge(lerp(i,.6,1),bl2),s3=mRidge(i,bl2),s4=rSpl(f-.15,.5*i,.5*i,.5*i,.6*i,.5),s5=rSpl(f,j*i,g*i,.5*i,.6*i,.5),s6=rSpl(f,j,j,g,h,.5),
+   s8=Spline(2,[[-1,f],[-.4,s6],[0,h+.07]]),s9=rSpl(-.02,k,k,g,h,0);
+  const p=[[-.85,s],[-.7,s2],[-.4,s3],[-.35,s4],[-.1,s5],[.2,s6]];if(bl)p.push([.4,s6],[.45,s8],[.55,s8],[.58,s6]);p.push([.7,s9]);return Spline(1,p);}
+const OFFSET=(()=>{const s1=eroOff(-.15,0,0,.1,0,-.03,false,false),s2=eroOff(-.1,.03,.1,.1,.01,-.03,false,false),s3=eroOff(-.1,.03,.1,.7,.01,-.03,true,true),s4=eroOff(-.05,.03,.1,1,.01,.01,true,true);
+  return Spline(0,[[-1.1,.044],[-1.02,-.2222],[-.51,-.2222],[-.44,-.12],[-.18,-.12],[-.16,s1],[-.15,s1],[-.1,s2],[.25,s3],[1,s4]]);})();
+
+function eroFac(f,bl){const s=Spline(3,[[-.2,6.3],[.2,f]]),p=[[-.6,s],[-.5,Spline(3,[[-.05,6.3],[.05,2.67]])],[-.35,s],[-.25,s],[-.1,Spline(3,[[-.05,2.67],[.05,6.3]])],[.03,s]];
+  if(bl){const s2=Spline(3,[[0,f],[.1,.625]]),s3=Spline(2,[[-.9,f],[-.69,s2]]);p.push([.35,f],[.45,s3],[.55,s3],[.62,f]);}
+  else{const s2=Spline(2,[[-.7,s],[-.15,1.37]]),s3=Spline(2,[[.45,s],[.7,1.56]]);p.push([.05,s3],[.4,s3],[.45,s2],[.55,s2],[.58,f]);}
+  return Spline(1,p);}
+const FACTOR=Spline(0,[[-.19,3.95],[-.15,eroFac(6.25,true)],[-.1,eroFac(5.47,true)],[.03,eroFac(5.08,true)],[.06,eroFac(4.69,false)]]);
+const sc4=[0,0,0,0];
+function factorAt(c,e,w){sc4[0]=fr(c);sc4[1]=fr(e);sc4[2]=fr(-(Math.abs(Math.abs(w)-0.6666667)-0.33333334)*3);sc4[3]=fr(w);return FACTOR(sc4);}
+const sc=[0,0,0];
+function offsetAt(c,e,w){sc[0]=fr(c);sc[1]=fr(e);sc[2]=fr(-(Math.abs(Math.abs(w)-0.6666667)-0.33333334)*3);return OFFSET(sc)-0.50375;}
+const NETH=[[bid('nether_wastes'),0,0,0],[bid('soul_sand_valley'),0,-5000,0],[bid('crimson_forest'),4000,0,0],[bid('warped_forest'),0,5000,3750],[bid('basalt_deltas'),-5000,0,1750]];
+const ENDB=['the_end','end_highlands','end_midlands','small_end_islands','end_barrens'].map(bid);
+// ---------- world ----------
+function World(seed,VR){VR=VR||{};
+  const PG=NAMES.indexOf('pale_garden'),DF=NAMES.indexOf('dark_forest'),CG=NAMES.indexOf('cherry_grove'),ME=NAMES.indexOf('meadow'),MS=NAMES.indexOf('mangrove_swamp'),SW=NAMES.indexOf('swamp'),
+    fix=b=>VR.noPale&&b===PG?DF:VR.noCherry&&b===CG?ME:VR.noMangrove&&b===MS?SW:b;
+  seed=BigInt.asUintN(64,seed);
+  const lo=seed^0x6A09E667F3BCC909n,hi=(lo+0x9E3779B97F4A7C15n)&U64;
+  const pos=new Xoro(staff(lo),staff(hi)).fork();
+  const mk=(n,f,a)=>new Normal(fromHash(pos,'minecraft:'+n),f,a);
+  const off=mk('offset',-3,[1,1,1,0]),T=mk('temperature',-10,[1.5,0,1,0,0,0]),V=mk('vegetation',-8,[1,1,0,0,0,0]),
+    C=mk('continentalness',-9,[1,1,2,2,2,1,1,1,1]),Er=mk('erosion',-9,[1,1,0,1,1]),R=mk('ridge',-7,[1,2,1,0,0,0]);
+  const out=new Float64Array(5);
+  function climate(bx,bz){const x=bx*.25,z=bz*.25,X=x+off.get(x,0,z)*4,Z=z+off.get(z,x,0)*4;
+    out[0]=T.get(X,0,Z);out[1]=V.get(X,0,Z);out[2]=C.get(X,0,Z);out[3]=Er.get(X,0,Z);out[4]=R.get(X,0,Z);return out;}
+  const qf=v=>Math.trunc(Math.fround(Math.fround(v)*10000));
+  function biome(bx,bz){const c=climate(bx,bz);return fix(lookup(qf(c[0]),qf(c[1]),qf(c[2]),qf(c[3]),qf(c[4])));}
+  // biome at block height y (uses terrain depth, includes cave biomes)
+  function biomeY(bx,y,bz){const c=climate(bx,bz),d=1.5-(Math.min(320,Math.max(-64,y))+64)/384*3+offsetAt(c[2],c[3],c[4]);
+    return fix(lookup(qf(c[0]),qf(c[1]),qf(c[2]),qf(c[3]),qf(c[4]),qf(d),VR.noDD));}
+  // real terrain: top solid block (no caves), cells 4x8x4
+  let B3=null;const col=new Map(),cor=new Map();
+  function colAt(X,Z){const k=X*67108864+Z;let v=col.get(k);if(!v){const c=climate(X,Z);v=[offsetAt(c[2],c[3],c[4]),factorAt(c[2],c[3],c[4])];if(col.size>100000)col.clear();col.set(k,v);}return v;}
+  function dens(X,Y,Z){const k=(X*67108864+Z)*64+(Y+64)/8;let v=cor.get(k);if(v===undefined){if(!B3)B3=Blended(fromHash(pos,'minecraft:terrain'),0.25,0.125,80,160,8);
+      const cf=colAt(X,Z),d=(1.5-(Y+64)/384*3+cf[0])*cf[1];v=4*(d>0?d:d*.25)+B3(X,Y,Z);if(cor.size>300000)cor.clear();cor.set(k,v);}return v;}
+  function terrainTop(x,z){const X=Math.floor(x/4)*4,Z=Math.floor(z/4)*4,fx=(x-X)/4,fz=(z-Z)/4;
+    const at=Y=>{const a=dens(X,Y,Z),b=dens(X+4,Y,Z),c=dens(X,Y,Z+4),d=dens(X+4,Y,Z+4),e=a+fx*(b-a),f=c+fx*(d-c);return e+fz*(f-e);};
+    for(let Y=248;Y>=-64;Y-=8){const lo=at(Y),hi=at(Y+8);if(lo<=0&&hi<=0)continue;for(let i=7;i>=0;i--){if(lo+(i/8)*(hi-lo)>0)return Y+i;}}
+    return -64;}
+  const surfY=(bx,bz)=>{const c=climate(bx,bz);return -64+(1.5+offsetAt(c[2],c[3],c[4]))*128;};
+  let NT=null,NV=null;
+  const legacy=sd=>{const r=JRand(sd),mk=()=>{new Improved(r);for(let k=0;k<5;k++)r.skip(262);const hi=new Improved(r),lo=new Improved(r);
+      return (x,z)=>lo.noise(wrap(x/128),0,wrap(z/128))*(2/3)+hi.noise(wrap(x/64),0,wrap(z/64))*(1/3);};
+    const a=mk(),b=mk();return (x,z)=>(a(x,z)+b(x*IF,z*IF))*(0.16666666666666666/0.15);};
+  function nether(bx,bz){if(!NT){const s64=BigInt.asIntN(64,seed);NT=legacy(s64);NV=legacy(s64+1n);}
+    const x=bx*.25,z=bz*.25,t=qf(NT(x,z)),h=qf(NV(x,z));
+    let best=Infinity,bb=0;for(const n of NETH){const d=(t-n[1])*(t-n[1])+(h-n[2])*(h-n[2])+n[3]*n[3];if(d<best){best=d;bb=n[0];}}return bb;}
+  return {climate,biome,biomeY,surfY,nether,terrainTop};
+}
+
+// ---------- structures (Java region placement) ----------
+const M48=(1n<<48n)-1n,MU=0x5DEECE66Dn;
+function JRand(seed){let s=(seed^MU)&M48;
+  const next=b=>{s=(s*MU+0xBn)&M48;return Number(BigInt.asIntN(32,s>>BigInt(48-b)));};
+  return {skip(n){for(let i=0;i<n;i++)s=(s*MU+0xBn)&M48;},nextInt(n){if(n===undefined)return next(32);if((n&-n)===n)return Number((BigInt(n)*BigInt(next(31)))>>31n);let b,v;do{b=next(31);v=b%n;}while(b-v+(n-1)>2147483647);return v;},
+    nextDouble(){return (next(26)*134217728+next(27))*1.1102230246251565e-16;}};
+}
+const ST={
+ village:{n:'Village',jig:4,sp:34,se:8,salt:10387312,col:'#f2c14e',ch:'V',bio:['plains','meadow','desert','savanna','snowy_plains','taiga']},
+ outpost:{n:'Pillager Outpost',jig:7,sp:32,se:8,salt:165745296,col:'#c2c2c2',ch:'P',bio:['desert','plains','savanna','snowy_plains','taiga','meadow','frozen_peaks','jagged_peaks','stony_peaks','snowy_slopes','grove','cherry_grove']},
+ pyramid:{n:'Desert Pyramid',sp:32,se:8,salt:14357617,col:'#e8d38a',ch:'D',size:[21,21],bio:['desert']},
+ jungle:{n:'Jungle Temple',sp:32,se:8,salt:14357619,col:'#3fa34d',ch:'J',size:[12,15],bio:['jungle','bamboo_jungle']},
+ hut:{n:'Witch Hut',sp:32,se:8,salt:14357620,col:'#9b6bd6',ch:'W',bio:['swamp']},
+ igloo:{n:'Igloo',sp:32,se:8,salt:14357618,col:'#cfe8ff',ch:'I',bio:['snowy_taiga','snowy_plains','snowy_slopes']},
+ monument:{n:'Ocean Monument',sp:32,se:5,salt:10387313,tri:1,col:'#3fb6c9',ch:'M',bio:['deep_frozen_ocean','deep_cold_ocean','deep_ocean','deep_lukewarm_ocean']},
+ mansion:{n:'Woodland Mansion',sp:80,se:20,salt:10387319,tri:1,col:'#a0522d',ch:'H',bio:['dark_forest','pale_garden']},
+ city:{n:'Ancient City',sp:24,se:8,salt:20083232,col:'#1fb8a6',ch:'A',ero:1},
+ trial:{n:'Trial Chambers',sp:34,se:12,salt:94251327,col:'#e07b39',ch:'T'},
+ trail:{n:'Trail Ruins',jig:2,sp:34,se:8,salt:83469867,col:'#b98d6b',ch:'R',bio:['taiga','snowy_taiga','old_growth_pine_taiga','old_growth_spruce_taiga','old_growth_birch_forest','jungle']},
+ ship:{n:'Shipwreck',sp:24,se:4,salt:165745295,col:'#8d6e4b',ch:'S',pre:/ocean|beach/},
+ portal:{n:'Ruined Portal',sp:40,se:15,salt:34222645,col:'#b04fd6',ch:'O'},
+};
+for(const k in ST)if(ST[k].bio)ST[k].set=new Set(ST[k].bio);
+function regionChunk(seed,st,rx,rz){
+  const r=JRand(BigInt.asIntN(64,BigInt(rx)*341873128712n+BigInt(rz)*132897987541n+seed+BigInt(st.salt)));const n=st.sp-st.se;
+  let ox,oz;if(st.tri){ox=(r.nextInt(n)+r.nextInt(n))>>1;oz=(r.nextInt(n)+r.nextInt(n))>>1;}else{ox=r.nextInt(n);oz=r.nextInt(n);}
+  return [rx*st.sp+ox,rz*st.sp+oz];
+}
+function outpostOk(seed,cx,cz){
+  const r=JRand(BigInt(((cx>>4)^((cz>>4)<<4))|0)^seed);r.nextInt();if(r.nextInt(5)!==0)return false;
+  const v=ST.village,r0x=Math.floor((cx-10)/v.sp),r1x=Math.floor((cx+10)/v.sp),r0z=Math.floor((cz-10)/v.sp),r1z=Math.floor((cz+10)/v.sp);
+  for(let a=r0x;a<=r1x;a++)for(let b=r0z;b<=r1z;b++){const [vx,vz]=regionChunk(seed,v,a,b);if(Math.abs(vx-cx)<=10&&Math.abs(vz-cz)<=10)return false;}
+  return true;
+}
+// world: WG.World or null. returns block coords or null if filtered out
+function structureAt(seed,world,key,rx,rz){
+  const st=ST[key],[cx,cz]=regionChunk(seed,st,rx,rz);
+  if(key==='outpost'&&!outpostOk(seed,cx,cz))return null;
+  const bx=cx*16+8,bz=cz*16+8;let maybe=0;
+  if(world){
+    const rot=(st.jig||st.ero||key==='mansion')?largeSeed(seed,cx,cz).nextInt(4):0,sx=rot===1||rot===2?-1:1,sz=rot===2||rot===3?-1:1;
+    if(st.set||st.pre){const m=st.jig||0,px=m?cx*16+sx*m:bx,pz=m?cz*16+sz*m:bz,b=NAMES[world.biome(px&~3,pz&~3)];if(st.set?!st.set.has(b):!st.pre.test(b))return null;}
+    if(st.ero){ // ancient city: Deep Dark at the centre of the city's start piece (offset fitted against Chunkbase)
+      const vx=-6,vz=4,o=rot===0?[vx,vz]:rot===1?[-vz,vx]:rot===2?[-vx,-vz]:[vz,-vx];
+      if(NAMES[world.biomeY((cx*16+o[0])&~3,-28,(cz*16+o[1])&~3)]!=='deep_dark')return null;}
+    if(st.size){ // temples: all four corners must stand on land at or above sea level
+      for(const dx of [0,st.size[0]])for(const dz of [0,st.size[1]])if(world.terrainTop(cx*16+dx,cz*16+dz)<63)return null;}
+    if(key==='mansion'){const k=cx*16+7,n=cz*16+7,i=sx*5,j=sz*5;
+      if(Math.min(world.terrainTop(k,n),world.terrainTop(k,n+j),world.terrainTop(k+i,n),world.terrainTop(k+i,n+j))<60)return null;}
+    if(key==='monument'){const x0=(cx*16+9-29)>>2,x1=(cx*16+9+29)>>2,z0=(cz*16+9-29)>>2,z1=(cz*16+9+29)>>2;
+      for(let x=x0;x<=x1;x++)for(let z=z0;z<=z1;z++)if(!/ocean|river/.test(NAMES[world.biome(x*4,z*4)]))return null;}
+  }
+  return [bx,bz,maybe];
+}
+const SHB=new Set('plains sunflower_plains snowy_plains ice_spikes desert forest flower_forest birch_forest dark_forest old_growth_birch_forest old_growth_pine_taiga old_growth_spruce_taiga taiga snowy_taiga savanna savanna_plateau windswept_hills windswept_gravelly_hills windswept_forest windswept_savanna jungle sparse_jungle bamboo_jungle badlands eroded_badlands wooded_badlands meadow grove snowy_slopes frozen_peaks jagged_peaks stony_peaks mushroom_fields dripstone_caves lush_caves'.split(' '));
+function strongholds(seed){ // ring positions before biome snapping
+  const r=JRand(seed);let ang=r.nextDouble()*Math.PI*2,ring=0,inRing=0,spread=3;const out=[];
+  for(let i=0;i<128;i++){
+    const d=4*32+32*ring*6+(r.nextDouble()-.5)*80;
+    const hi=BigInt(r.nextInt()),lo=BigInt(r.nextInt());
+    out.push({cx:Math.round(Math.cos(ang)*d),cz:Math.round(Math.sin(ang)*d),fork:BigInt.asIntN(64,(hi<<32n)+lo),ring});
+    ang+=Math.PI*2/spread;inRing++;
+    if(inRing===spread){ring++;inRing=0;spread+=Math.floor(2*spread/(ring+1));spread=Math.min(spread,128-i);ang+=r.nextDouble()*Math.PI*2;}
+  }
+  return out;
+}
+function snapStronghold(world,s){ // findBiomeHorizontal(radius 112) then chunk centre
+  const r=JRand(s.fork),qx=(s.cx*16+8)>>2,qz=(s.cz*16+8)>>2;let found=0,px=null,pz=null;
+  const ok=NAMES.map(n=>SHB.has(n));
+  for(let dz=-28;dz<=28;dz++)for(let dx=-28;dx<=28;dx++){
+    if(ok[world.biomeY((qx+dx)*4,0,(qz+dz)*4)]){if(px===null||r.nextInt(found+1)===0){px=(qx+dx)*4;pz=(qz+dz)*4;}found++;}}
+  const cx=px===null?s.cx:px>>4,cz=px===null?s.cz:pz>>4;
+  return {x:cx*16+8,z:cz*16+8,ring:s.ring};
+}
+
+// ---------- The End (Java) ----------
+function EndWorld(seed,rng,noTerrain){
+  const r=rng||JRand(seed);if(!rng)r.skip(17292);
+  const xo=r.nextDouble()*256,yo=r.nextDouble()*256;r.nextDouble();
+  const p=new Uint8Array(256);for(let i=0;i<256;i++)p[i]=i;for(let i=0;i<256;i++){const j=r.nextInt(256-i),t=p[i];p[i]=p[i+j];p[i+j]=t;}
+  const F2=0.5*(Math.sqrt(3)-1),G2=(3-Math.sqrt(3))/6;
+  const cor=(g,x,y)=>{let d=0.5-x*x-y*y;if(d<0)return 0;d*=d;return d*d*(GX[g]*x+GY[g]*y);};
+  function simplex(x,y){const s=(x+y)*F2,i=Math.floor(x+s),j=Math.floor(y+s),t=(i+j)*G2,x0=x-(i-t),y0=y-(j-t),i1=x0>y0?1:0,j1=1-i1,
+    x1=x0-i1+G2,y1=y0-j1+G2,x2=x0-1+2*G2,y2=y0-1+2*G2,ii=i&255,jj=j&255;
+    return 70*(cor(p[(ii+p[jj])&255]%12,x0,y0)+cor(p[(ii+i1+p[(jj+j1)&255])&255]%12,x1,y1)+cor(p[(ii+1+p[(jj+1)&255])&255]%12,x2,y2));}
+  const isl=new Map();
+  const island=(q,r)=>{if(q*q+r*r<=4096)return false;const k=q*4194304+r;let v=isl.get(k);if(v===undefined){v=simplex(q,r)<-0.9;if(isl.size>400000)isl.clear();isl.set(k,v);}return v;};
+  const cl=v=>v<-100?-100:v>80?80:v;
+  function height(x,z){const k=Math.trunc(x/2),l=Math.trunc(z/2),m=x%2,n=z%2;let f=cl(100-Math.fround(Math.sqrt(x*x+z*z))*8);
+    for(let o=-12;o<=12;o++)for(let pp=-12;pp<=12;pp++){const q=k+o,rr=l+pp;if(island(q,rr)){const g=(Math.abs(q)*3439+Math.abs(rr)*147)%13+9,h=m-o*2,s=n-pp*2,t=cl(100-Math.sqrt(h*h+s*s)*g);if(t>f)f=t;}}
+    return f;}
+  const hc=new Map();
+  function chunkH(cx,cz){const k=cx*4194304+cz;let v=hc.get(k);if(v===undefined){v=height(cx*2+1,cz*2+1);if(hc.size>300000)hc.clear();hc.set(k,v);}return v;}
+  function biome(bx,bz){const cx=bx>>4,cz=bz>>4;if(cx*cx+cz*cz<=4096)return ENDB[0];const h=chunkH(cx,cz);return h>40?ENDB[1]:h>=0?ENDB[2]:h<-20?ENDB[3]:ENDB[4];}
+  // terrain height (for End City placement)
+  const bl=noTerrain?null:Blended(JRand(seed),0.25,0.25,80,160,4),cc=new Map();
+  function corner(X,Y,Z){const k=(X+30000000)*1024*65536+(Z/8+4000000)*64+Y/4;let v=cc.get(k);if(v===undefined){
+      let f=(height(Math.trunc(X/8),Math.trunc(Z/8))-8)/128+bl(X,Y,Z);
+      const g=Y<=56?1:1-(Y-56)/256;f=-23.4375+g*(f+23.4375);const h=Y<=4?0:Y>=32?1:(Y-4)/28;v=-0.234375+h*(f+0.234375);
+      if(cc.size>200000)cc.clear();cc.set(k,v);}return v;}
+  function surface(x,z){const X=Math.floor(x/8)*8,Z=Math.floor(z/8)*8,fx=(x-X)/8,fz=(z-Z)/8;
+    for(let y=127;y>=0;y--){const Y=Math.floor(y/4)*4,fy=(y-Y)/4;
+      const c=(yy)=>{const a=corner(X,yy,Z),b=corner(X+8,yy,Z),c2=corner(X,yy,Z+8),d=corner(X+8,yy,Z+8),e=a+fx*(b-a),f=c2+fx*(d-c2);return e+fz*(f-e);};
+      const lo=c(Y),hi=c(Y+4);if(lo+fy*(hi-lo)>0)return y+1;}
+    return 0;}
+  function cityOk(wseed,cx,cz){const r=JRand(wseed),L=()=>{const hi=BigInt(r.nextInt()),lo=BigInt(r.nextInt());return BigInt.asIntN(64,(hi<<32n)+lo);},l=L(),m=L();
+    const rot=JRand(BigInt.asIntN(64,BigInt(cx)*l)^BigInt.asIntN(64,BigInt(cz)*m)^wseed).nextInt(4);
+    const i=rot===1||rot===2?-5:5,j=rot===2||rot===3?-5:5,k=cx*16+7,n=cz*16+7;
+    return Math.min(surface(k,n),surface(k,n+j),surface(k+i,n),surface(k+i,n+j))-1;}
+  return {biome,height,chunkH,surface,cityOk};
+}
+
+// ---------- Java Nether / End structures ----------
+function largeSeed(seed,cx,cz){const r=JRand(seed),L=()=>{const hi=BigInt(r.nextInt()),lo=BigInt(r.nextInt());return BigInt.asIntN(64,(hi<<32n)+lo);},l=L(),m=L();
+  return JRand(BigInt.asIntN(64,BigInt(cx)*l)^BigInt.asIntN(64,BigInt(cz)*m)^seed);}
+const JN={fortress:{n:'Nether Fortress',sp:27,se:4,salt:30084232},bastion:{n:'Bastion Remnant',sp:27,se:4,salt:30084232},portal:{n:'Ruined Portal',sp:40,se:15,salt:34222645}};
+const JE={endcity:{n:'End City',sp:20,se:11,salt:10387313,tri:1}};
+function javaNether(c,key,rx,rz){const st=JN[key],[cx,cz]=regionChunk(c.seed,st,rx,rz),bx=cx*16+8,bz=cz*16+8;
+  if(key==='portal')return [bx,bz,0];
+  const fort=largeSeed(c.seed,cx,cz).nextInt(5)<2||NAMES[c.world.nether((bx-8)&~3,(bz-8)&~3)]==='basalt_deltas';
+  return (key==='fortress')===fort?[bx,bz,0]:null;}
+function javaEnd(c,key,rx,rz){const [cx,cz]=regionChunk(c.seed,JE.endcity,rx,rz),b=NAMES[c.end.biome(cx*16+8,cz*16+8)];
+  if(b!=='end_highlands'&&b!=='end_midlands')return null;return c.end.cityOk(c.seed,cx,cz)>=60?[cx*16+8,cz*16+8,0]:null;}
+// ---------- Bedrock structures (MT19937 region placement) ----------
+function MT(seed){const mt=new Uint32Array(624);mt[0]=seed>>>0;for(let i=1;i<624;i++){const p=mt[i-1]^(mt[i-1]>>>30);mt[i]=(Math.imul(1812433253,p)+i)>>>0;}let idx=624;
+  return ()=>{if(idx>=624){for(let k=0;k<624;k++){const y=(mt[k]&0x80000000)|(mt[(k+1)%624]&0x7fffffff);mt[k]=(mt[(k+397)%624]^(y>>>1)^((y&1)?0x9908b0df:0))>>>0;}idx=0;}
+    let y=mt[idx++];y^=y>>>11;y^=(y<<7)&0x9d2c5680;y^=(y<<15)&0xefc60000;y^=y>>>18;return y>>>0;};}
+const BV=new Set(['plains','sunflower_plains','meadow','desert','savanna','taiga','snowy_plains','snowy_taiga']);
+const TEMPLE={sp:32,n:24,salt:14357617};
+const BO={village:{n:'Village',sp:34,n2:26,salt:10387312,tri:1},outpost:{n:'Pillager Outpost',sp:80,n2:56,salt:165745296,tri:1},
+ pyramid:{n:'Desert Pyramid',sp:32,n2:24,salt:14357617},jungle:{n:'Jungle Temple',sp:32,n2:24,salt:14357617},hut:{n:'Witch Hut',sp:32,n2:24,salt:14357617},igloo:{n:'Igloo',sp:32,n2:24,salt:14357617},
+ monument:{n:'Ocean Monument',sp:32,n2:27,salt:10387313,tri:1},mansion:{n:'Woodland Mansion',sp:80,n2:60,salt:10387319,tri:1},city:{n:'Ancient City',sp:24,n2:16,salt:20083232,tri:1},trial:{n:'Trial Chambers',sp:34},trail:{n:'Trail Ruins',sp:34},portal:{n:'Ruined Portal',sp:40,n2:25,salt:40552231}};
+const BN={fortress:{n:'Nether Fortress',sp:30,n2:26,salt:30084232},bastion:{n:'Bastion Remnant',sp:30,n2:26,salt:30084232}};
+function bedrockAt(c,key,rx,rz){
+  if(key==='trial'){const [cx,cz]=regionChunk(c.seed,ST.trial,rx,rz);return [cx*16+8,cz*16+8,0];}
+  if(key==='trail')return structureAt(c.seed,c.world,'trail',rx,rz);
+  const st=(c.dim==='nether'?BN:BO)[key],s32=Number(BigInt.asUintN(32,c.seed)),r=MT((st.salt+s32+Math.imul(-245998635,rz)+Math.imul(-1724254968,rx))>>>0),n=st.n2;
+  let ox,oz;if(st.tri){ox=(r()%n+r()%n)>>1;oz=(r()%n+r()%n)>>1;}else{ox=r()%n;oz=r()%n;}
+  const bx=(rx*st.sp+ox)*16+8,bz=(rz*st.sp+oz)*16+8;
+  if(c.dim==='nether'){const fort=r()%6<2;return key==='fortress'?(fort?[bx,bz,0]:null):(fort?null:[bx,bz,1]);}
+  const w=c.world,b=NAMES[w.biome(bx&~3,bz&~3)];
+  switch(key){
+    case 'village':{if(!BV.has(b))return null;const top=w.terrainTop(bx,bz); // rule fitted against Chunkbase
+      if(!BV.has(NAMES[w.biomeY((bx-4)&~3,top-32,bz&~3)]))return null;return [bx,bz,top<=63?1:0];}
+    case 'portal':return [bx,bz,0];
+    case 'mansion':{for(let dx=-32;dx<=32;dx+=4)for(let dz=-32;dz<=32;dz+=4)if(NAMES[w.biome((bx+dx)&~3,(bz+dz)&~3)]!=='dark_forest')return null;return [bx,bz,0];}
+    case 'outpost':return ST.outpost.set.has(b)?[bx,bz,0]:null;
+    case 'pyramid':return b==='desert'?[bx,bz,0]:null;
+    case 'hut':return b==='swamp'?[bx,bz,0]:null;
+    case 'igloo':return b==='snowy_plains'||b==='snowy_taiga'?[bx,bz,0]:null;
+    case 'jungle':return b==='jungle'?[bx,bz,1]:null;
+    case 'monument':{if(!ST.monument.set.has(b))return null;for(let dx=-16;dx<=16;dx+=4)for(let dz=-16;dz<=16;dz+=4)if(!ST.monument.set.has(NAMES[w.biome((bx+1+dx)&~3,(bz+1+dz)&~3)]))return null;const x0=(bx-28)>>2,x1=(bx+30)>>2,z0=(bz-28)>>2,z1=(bz+30)>>2;
+      for(let x=x0;x<=x1;x++)for(let z=z0;z<=z1;z++)if(!/ocean|river/.test(NAMES[w.biome(x*4,z*4)]))return null;return [bx,bz,0];}
+    case 'city':{const dd=(x,z)=>NAMES[w.biomeY(x&~3,-28,z&~3)]==='deep_dark';return dd(bx,bz)||dd(bx-8,bz-8)?[bx,bz,0]:null;}
+  }
+  return null;
+}
+function tableFor(ed,dim){return ed==='java'?(dim==='nether'?JN:dim==='end'?JE:ST):(dim==='nether'?BN:dim==='end'?{}:BO);}
+function structAt(c,key,rx,rz){
+  if(c.ed==='java')return c.dim==='nether'?javaNether(c,key,rx,rz):c.dim==='end'?javaEnd(c,key,rx,rz):structureAt(c.seed,c.world,key,rx,rz);
+  return bedrockAt(c,key,rx,rz);}
+return {World,EndWorld,NAMES,ST,tableFor,structAt,structureAt,strongholds,snapStronghold,md5,JRand};
+})();
+
+
+</script>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+// ---------- Slime chunk algorithms ----------
+const MASK48=(1n<<48n)-1n, MULT=0x5DEECE66Dn;
+function javaSlime(seed,x,z){
+  const a=BigInt(Math.imul(Math.imul(x,x),0x4c1906)),b=BigInt(Math.imul(x,0x5ac0db)),c=BigInt(Math.imul(z,z))*0x4307a7n,d=BigInt(Math.imul(z,0x5f24f));
+  const s=BigInt.asIntN(64,seed+a+b+c+d)^0x3ad8025fn;let st=(s^MULT)&MASK48;
+  for(;;){st=(st*MULT+0xBn)&MASK48;const bits=Number(st>>17n),val=bits%10;if(bits-val+9<2147483648)return val===0;}
+}
+const mt=new Uint32Array(398);
+function bedrockSlime(x,z){
+  let s=(Math.imul(x,0x1f1f1f1f)^z)>>>0;mt[0]=s;
+  for(let i=1;i<398;i++){const p=mt[i-1];mt[i]=(Math.imul(1812433253,(p^(p>>>30)))+i)>>>0;}
+  let y=(mt[0]&0x80000000)|(mt[1]&0x7fffffff);y=(mt[397]^(y>>>1)^((y&1)?0x9908b0df:0))>>>0;
+  y^=y>>>11;y^=(y<<7)&0x9d2c5680;y^=(y<<15)&0xefc60000;y^=y>>>18;return ((y>>>0)%10)===0;
+}
+function parseSeed(str){str=str.trim();
+  if(/^-?\d+$/.test(str)){try{const v=BigInt(str);if(v>=-(1n<<63n)&&v<(1n<<63n))return v;}catch(e){}}
+  let h=0;for(let i=0;i<str.length;i++)h=(Math.imul(31,h)+str.charCodeAt(i))|0;return BigInt(h);}
+
+// ---------- Biome colours ----------
+const BC={ocean:'#1c3f9e',deep_ocean:'#122a6e',cold_ocean:'#2d5aa8',deep_cold_ocean:'#1e3f7c',frozen_ocean:'#8fa8d9',deep_frozen_ocean:'#6f86bd',lukewarm_ocean:'#1f6fb5',deep_lukewarm_ocean:'#164f86',warm_ocean:'#1fa3c4',
+river:'#3a6fe0',frozen_river:'#a9bdf0',beach:'#f1e08a',snowy_beach:'#f4eed4',stony_shore:'#8b8f8a',mushroom_fields:'#c45fd0',
+plains:'#8fb85a',sunflower_plains:'#b8cf4d',meadow:'#7fc98a',forest:'#2f7d32',flower_forest:'#5aa06a',birch_forest:'#5f9a54',old_growth_birch_forest:'#78ad63',dark_forest:'#2b4a1c',pale_garden:'#b9bdb4',cherry_grove:'#f5a6c8',
+taiga:'#2c6b5a',snowy_taiga:'#5d8f84',old_growth_pine_taiga:'#5a6b3a',old_growth_spruce_taiga:'#47603f',snowy_plains:'#eef3f5',ice_spikes:'#b9e2f5',
+jungle:'#4f9a12',sparse_jungle:'#79b02e',bamboo_jungle:'#6cc03a',swamp:'#4b6b52',mangrove_swamp:'#5f8f5a',
+savanna:'#bdb25f',savanna_plateau:'#a79d64',windswept_savanna:'#d9c98a',desert:'#f2b84b',badlands:'#d1622b',wooded_badlands:'#b0703a',eroded_badlands:'#ef7b3a',
+nether_wastes:'#a8403c',soul_sand_valley:'#5a4034',crimson_forest:'#dd1f1f',warped_forest:'#2fa58f',basalt_deltas:'#4a4a55',
+the_end:'#8b86e0',end_highlands:'#e6e08a',end_midlands:'#bdb86a',small_end_islands:'#17142e',end_barrens:'#7d7a4a',dripstone_caves:'#866043',lush_caves:'#7ba331',deep_dark:'#0f252f',
+windswept_hills:'#7a8a7a',windswept_gravelly_hills:'#93989a',windswept_forest:'#4f7a58',grove:'#a8c7b8',snowy_slopes:'#d5e2e6',frozen_peaks:'#bfd4ec',jagged_peaks:'#dfe5ee',stony_peaks:'#a9a39a'};
+const BRGB=WG.NAMES.map(n=>{const h=BC[n]||'#ff00ff';return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];});
+const nice=n=>n.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+
+// ---------- Pixel icons (original drawings) ----------
+const PAL={r:'#8b4a2b',w:'#d9c08a',d:'#24170f',b:'#7fc8f0',k:'#6b4a2a',g:'#a8adb3',s:'#e8d38a',o:'#d9822b',c:'#8a8f8a',m:'#5d8a4a',p:'#7d4bb8',W:'#f4f8fb',i:'#a9d8f5',t:'#3fa39a',q:'#a5ebe0',K:'#3a2a20',y:'#ffd866',D:'#31454d',C:'#35e0d0',x:'#5fb8a0',T:'#b5653a',O:'#3b2460',P:'#c45fe8',e:'#2f9a4a',l:'#b8f5a0',N:'#6b262c',B:'#39323f',u:'#a779c9'};
+const SPR={
+village:'....rr.......rrrr.....rrrrrr...rrrrrrrr.rrrrrrrrrr.wwwwwwww..wbbwwddw..wbbwwddw..wwwwwddw..wwwwwddw.',
+outpost:'.kkkkkkkk..k.k..k.k..kkkkkkkk...kggggk....kg..gk....kggggk.....kkkk......k..k.....kk..kk...kkk..kkk.',
+pyramid:'....ss........ss.......ssss......soos.....ssssss....ssooss...ssssssss..sssddsss.ssssddssssssssddssss',
+jungle:'..cccccc....cmccmc...cccccccc..cmccccmc..cccccccc.cccmccmcccccccddcccccmccddccmcccccddcccccccccccccc',
+hut:'....pp.......pppp.....pppppp...pppppppp...kkkkkk....kbbkdk....kbbkdk....kkkkkk....k....k....k....k..',
+igloo:'.............WWWW.....WWiWWW...WWWWWiWW..WiWWWWWW.WWWWWWWiWWWWWddWWWWWWiWddWWWWWWWWddWWiWW..........',
+monument:'....tt.......tqqt.....tttttt....t.tt.t...tttttttt..tqttttqt.tttttttttttt.tddt.tttt.tddt.tttttttttttt',
+mansion:'..KKKKKK...KKKKKKKK.KKKKKKKKKK.kkkkkkkk..kykkkkyk..kykkkkyk..kkkkkkkk..ckkddkkc..cykddkyc..cccddccc.',
+city:'DDDDDDDDDDDCCCCCCCCDDC......CDDC......CDDC......CDDC......CDDC......CDDCCCCCCCCDDDDDDDDDDD.DD....DD.',
+trial:'ooooooooooxoooooooxooooddddooooodxxxxdoooodxddxdoooodxddxdoooodxxxxdoooooddddoooxoooooooxooooooooooo'.replace(/^x/,'o'),
+trail:'.............TTTT......T..T.....TTTTTT...TTdTTdTT..TTTTTTTT..TdTTTTdT..TTTddTTT...TTTTTT.....TTTT...',
+ship:'....c.........cWW.......cWWW......cWWWW.....c.........c.....kkkkkkkkkk.kkkkkkkk...kkkkkk.....kkkk...',
+portal:'..OOOOOO....OPPPPO....OPPPP.....OPPPPO....OPPPPO....OPPPPO....OPPPPO.....PPPPO....OOOOOO............',
+fortress:'N.N.NN.N.NNNNNNNNNNN.NNNNNNNN..NyNNNNyN..NNNNNNNN..NNNddNNN.NNNNddNNNNNyNNddNNyNNNNNddNNNNNNNNNNNNN',
+bastion:'BBBBBBBBBBByBBBBBByBBBBBBBBBBBBBByyyyBBBBBByddyBBBBBByddyBBBBBByyyyBBBBBBBBBBBBBByBBBBBByBBBBBBBBBBB',
+endcity:'...uuuu......uWWu......uuuu.......uu......uuuuuu....uWuuWu....uuuuuu......uu.......uuuu.....uuuuuu..',
+stronghold:'.............eeee.....elllle...ellddlle.ellddddlleellddddlle.ellddlle...elllle.....eeee.............'};
+const ICON={};
+for(const k in SPR){const c=document.createElement('canvas');c.width=c.height=20;const g=c.getContext('2d'),t=SPR[k];
+  for(let i=0;i<100;i++){const ch=t[i];if(ch&&ch!=='.'){g.fillStyle=PAL[ch];g.fillRect((i%10)*2,Math.floor(i/10)*2,2,2);}}ICON[k]=c;}
+
+// ---------- State ----------
+const S={edition:'java',dim:'overworld',seed:0n,cx:8,cz:8,scale:1,pins:[],farms:[],hover:null,found:null,selS:null};
+let world=null,endw=null,ctxS=null,cache=new Map(),tiles=new Map(),scache=new Map(),sh=[],shDone=[],vis=[],need=[];
+const TB=()=>WG.tableFor(S.edition,S.dim);
+const hasSH=()=>S.edition==='java'&&S.dim==='overworld';
+const VERS={java:[[5,'Java 1.21.4 – 26.x (latest)'],[4,'Java 1.21 – 1.21.3'],[3,'Java 1.20'],[2,'Java 1.19'],[1,'Java 1.18']],
+  bedrock:[[5,'Bedrock 1.21.50 – 26.x (latest)'],[4,'Bedrock 1.21 – 1.21.4x'],[3,'Bedrock 1.20'],[2,'Bedrock 1.19'],[1,'Bedrock 1.18']]};
+const verN=()=>+$('ver').value||5,VMIN={city:2,trail:3,trial:4};
+const verFlags=()=>{const n=verN();return {noPale:n<5,noCherry:n<3,noMangrove:n<2,noDD:n<2};};
+function buildVer(){const keep=verN();$('ver').innerHTML=VERS[S.edition].map(v=>`<option value="${v[0]}">${v[1]}</option>`).join('');$('ver').value=keep;}
+const stKeys=()=>[...Object.keys(TB()).filter(k=>verN()>=(VMIN[k]||0)),...(hasSH()?['stronghold']:[])];
+const STON={village:1,outpost:1,pyramid:1,jungle:1,hut:1,monument:1,mansion:1,city:1,trial:1,stronghold:1,fortress:1,bastion:1,endcity:1,igloo:0,portal:0,ship:0,trail:0};
+const stInfo=k=>k==='stronghold'?{n:'Stronghold',col:'#9fe07a'}:{n:(TB()[k]||WG.ST[k]||{n:k}).n,col:(WG.ST[k]||{}).col||'#e6efe9'};
+const hasBiomes=()=>S.edition==='java'||S.dim==='overworld';
+const biomeAt=(x,z)=>S.dim==='nether'?world.nether(x&~3,z&~3):S.dim==='end'?endw.biome(x,z):world.biome(x&~3,z&~3);
+const key=(x,z)=>(x+2000000)*4000001+(z+2000000);
+function isSlime(x,z){const k=key(x,z);let v=cache.get(k);
+  if(v===undefined){v=S.edition==='java'?javaSlime(S.seed,x,z):bedrockSlime(x,z);if(cache.size>600000)cache.clear();cache.set(k,v);}return v;}
+const java=()=>S.edition==='java';const ow=()=>S.dim==='overworld';
+function resetWorld(){cache=new Map();tiles=new Map();scache=new Map();S.farms=[];S.found=null;S.selS=null;$('sel').style.display='none';
+  world=WG.World(S.seed,verFlags());endw=java()&&S.dim==='end'?WG.EndWorld(S.seed):null;
+  ctxS={ed:S.edition,dim:S.dim,seed:S.seed,world,end:endw};sh=hasSH()?WG.strongholds(S.seed):[];shDone=[];renderFarms();$('locRes').innerHTML='';draw();shJob();}
+// strongholds: snap each ring position to the game's chosen biome spot, a few at a time
+function shJob(){const w=world;if(!w||!sh.length)return;const step=()=>{if(world!==w||shDone.length>=sh.length)return;
+  shDone.push(WG.snapStronghold(w,sh[shDone.length]));if(shDone.length<=12||shDone.length%8===0)draw();setTimeout(step,shDone.length<12?0:30);};setTimeout(step,50);}
+async function shAll(bar){const w=world;while(world===w&&shDone.length<sh.length){await new Promise(r=>setTimeout(r,40));if(bar)bar.style.width=(shDone.length/sh.length*100)+'%';}}
+const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+try{const p=JSON.parse(ls.get('cs_pins')||'[]');if(Array.isArray(p))S.pins=p;}catch(e){}
+
+// ---------- Canvas ----------
+const cv=$('map'),ctx=cv.getContext('2d');let W=0,H=0,DPR=1;
+function resize(){const r=cv.getBoundingClientRect();if(!r.width)return;DPR=window.devicePixelRatio||1;W=r.width;H=r.height;cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);draw();}
+const toScreen=(bx,bz)=>[(bx-S.cx)*S.scale+W/2,(bz-S.cz)*S.scale+H/2];
+const toBlock=(sx,sy)=>[(sx-W/2)/S.scale+S.cx,(sy-H/2)/S.scale+S.cz];
+const on=id=>$(id).checked;
+let raf=0;function draw(){if(!raf)raf=requestAnimationFrame(()=>{raf=0;render();});}
+
+// biome tiles
+const TS=32;
+function tileStep(){let st=4;while(st*S.scale<2.5)st*=2;return st;}
+function makeTile(st,tx,tz){const c=document.createElement('canvas');c.width=c.height=TS;const g=c.getContext('2d'),im=g.createImageData(TS,TS),d=im.data;
+  const bx0=tx*TS*st,bz0=tz*TS*st;let o=0;
+  for(let j=0;j<TS;j++)for(let i=0;i<TS;i++){const rgb=BRGB[biomeAt(bx0+i*st,bz0+j*st)];d[o++]=rgb[0];d[o++]=rgb[1];d[o++]=rgb[2];d[o++]=255;}
+  g.putImageData(im,0,0);return c;}
+let pumping=false;
+function pump(){if(pumping)return;pumping=true;setTimeout(()=>{pumping=false;if(!world)return;const t=performance.now();let n=0;
+  while(need.length&&performance.now()-t<14){const [st,tx,tz,k]=need.shift();if(!tiles.has(k)){if(tiles.size>900)tiles.clear();tiles.set(k,makeTile(st,tx,tz));n++;}}
+  if(n)draw();},0);}
+
+function structsInView(b0x,b0z,b1x,b1z){const out=[];if(!on('lyStruct'))return out;const T=TB();
+  const c0x=Math.floor(b0x/16),c0z=Math.floor(b0z/16),c1x=Math.floor(b1x/16),c1z=Math.floor(b1z/16);let skipped=false;
+  for(const k of stKeys()){if(!STON[k]||!T[k])continue;const st=T[k];
+    const r0x=Math.floor(c0x/st.sp),r1x=Math.floor(c1x/st.sp),r0z=Math.floor(c0z/st.sp),r1z=Math.floor(c1z/st.sp);
+    if((r1x-r0x+1)*(r1z-r0z+1)>2500){skipped=true;continue;}
+    for(let a=r0x;a<=r1x;a++)for(let b=r0z;b<=r1z;b++){const p=getStruct(k,a,b);if(p)out.push({k,x:p[0],z:p[1],est:p[2]});}}
+  if(STON.stronghold)shDone.forEach(s=>out.push({k:'stronghold',x:s.x,z:s.z}));
+  out.skipped=skipped;return out;}
+function getStruct(k,a,b){const id=k+':'+a+':'+b;let p=scache.get(id);if(p===undefined){p=WG.structAt(ctxS,k,a,b);if(scache.size>200000)scache.clear();scache.set(id,p);}return p;}
+
+function render(){
+  if(!W)return;
+  ctx.fillStyle='#121a16';ctx.fillRect(0,0,W,H);
+  const cp=16*S.scale;
+  const [b0x,b0z]=toBlock(0,0),[b1x,b1z]=toBlock(W,H);
+  const c0x=Math.floor(b0x/16),c0z=Math.floor(b0z/16),c1x=Math.floor(b1x/16),c1z=Math.floor(b1z/16);
+  const biomes=hasBiomes()&&on('lyBiome')&&world;let pending=0;
+  if(biomes){
+    const st=tileStep(),tb=TS*st,px=tb*S.scale;need=[];ctx.imageSmoothingEnabled=false;
+    for(let tx=Math.floor(b0x/tb);tx<=Math.floor(b1x/tb);tx++)for(let tz=Math.floor(b0z/tb);tz<=Math.floor(b1z/tb);tz++){
+      const k=st+':'+tx+':'+tz,t=tiles.get(k),[sx,sy]=toScreen(tx*tb,tz*tb);
+      if(t)ctx.drawImage(t,Math.floor(sx),Math.floor(sy),Math.ceil(px)+1,Math.ceil(px)+1);
+      else{need.push([st,tx,tz,k,(sx+px/2-W/2)**2+(sy+px/2-H/2)**2]);}}
+    need.sort((a,b)=>a[4]-b[4]);pending=need.length;if(pending)pump();
+  }else if(cp>=4){ctx.fillStyle='#16201b';
+    for(let x=c0x;x<=c1x;x++)for(let z=c0z;z<=c1z;z++)if(((x+z)&1)===0){const [sx,sy]=toScreen(x*16,z*16);ctx.fillRect(sx,sy,cp,cp);}}
+  // slime
+  let count=0,total=0;const slimeOk=ow()&&on('lySlime')&&cp>=3;
+  if(slimeOk){const pad=cp>6?1:0;
+    for(let x=c0x;x<=c1x;x++)for(let z=c0z;z<=c1z;z++){total++;if(isSlime(x,z)){count++;const [sx,sy]=toScreen(x*16,z*16);
+      if(biomes){ctx.fillStyle='rgba(110,255,90,.5)';ctx.fillRect(sx+pad,sy+pad,cp-pad*2,cp-pad*2);if(cp>8){ctx.strokeStyle='rgba(10,40,10,.9)';ctx.lineWidth=1.5;ctx.strokeRect(sx+1.5,sy+1.5,cp-3,cp-3);}}
+      else{ctx.fillStyle='#5fd35a';ctx.fillRect(sx+pad,sy+pad,cp-pad*2,cp-pad*2);}}}}
+  if(on('optGrid')&&cp>=7){ctx.strokeStyle=biomes?'rgba(0,0,0,.22)':'rgba(255,255,255,.06)';ctx.lineWidth=1;ctx.beginPath();
+    for(let x=c0x;x<=c1x+1;x++){const sx=Math.round(toScreen(x*16,0)[0])+.5;ctx.moveTo(sx,0);ctx.lineTo(sx,H);}
+    for(let z=c0z;z<=c1z+1;z++){const sy=Math.round(toScreen(0,z*16)[1])+.5;ctx.moveTo(0,sy);ctx.lineTo(W,sy);}ctx.stroke();}
+  if(on('optRegion')&&S.scale*512>20){ctx.strokeStyle='rgba(242,193,78,.6)';ctx.lineWidth=1.5;ctx.setLineDash([6,5]);ctx.beginPath();
+    for(let r=Math.floor(b0x/512);r<=Math.ceil(b1x/512);r++){const sx=toScreen(r*512,0)[0];ctx.moveTo(sx,0);ctx.lineTo(sx,H);}
+    for(let r=Math.floor(b0z/512);r<=Math.ceil(b1z/512);r++){const sy=toScreen(0,r*512)[1];ctx.moveTo(0,sy);ctx.lineTo(W,sy);}ctx.stroke();ctx.setLineDash([]);}
+  ctx.strokeStyle=biomes?'rgba(255,255,255,.55)':'rgba(123,220,106,.55)';ctx.lineWidth=1.5;ctx.beginPath();
+  const [ox,oz]=toScreen(0,0);ctx.moveTo(ox,0);ctx.lineTo(ox,H);ctx.moveTo(0,oz);ctx.lineTo(W,oz);ctx.stroke();
+  S.farms.forEach((f,i)=>{const [sx,sy]=toScreen(f.x*16+8,f.z*16+8);
+    ctx.strokeStyle='#f2c14e';ctx.lineWidth=2;ctx.beginPath();ctx.arc(sx,sy,128*S.scale,0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle='#f2c14e';ctx.beginPath();ctx.arc(sx,sy,Math.max(7,Math.min(12,cp/3)),0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#06120a';ctx.font='700 11px Space Grotesk';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(i+1,sx,sy);});
+  if(on('optRange')){ctx.strokeStyle='rgba(255,255,255,.7)';ctx.setLineDash([4,4]);ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(W/2,H/2,128*S.scale,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);}
+  // structures
+  const sl=structsInView(b0x,b0z,b1x,b1z);vis=[];
+  ctx.font='700 11px Space Grotesk';ctx.textAlign='center';ctx.textBaseline='middle';
+  for(const s of sl){const [sx,sy]=toScreen(s.x,s.z);if(sx<-12||sy<-12||sx>W+12||sy>H+12)continue;const inf=stInfo(s.k);
+    const x=Math.round(sx)-12,y=Math.round(sy)-12;ctx.fillStyle='rgba(10,14,12,.88)';ctx.beginPath();ctx.roundRect(x,y,24,24,5);ctx.fill();
+    ctx.lineWidth=1.5;ctx.strokeStyle=s.est?'#f2c14e':'rgba(255,255,255,.85)';if(s.est)ctx.setLineDash([3,2]);ctx.stroke();ctx.setLineDash([]);
+    ctx.imageSmoothingEnabled=false;ctx.drawImage(ICON[s.k],x+2,y+2);
+    if(s.est){ctx.fillStyle='#f2c14e';ctx.beginPath();ctx.arc(x+22,y+2,6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#0b0f0d';ctx.fillText('?',x+22,y+2.5);}
+    vis.push({sx,sy,s});}
+  if(S.found){const [sx,sy]=toScreen(S.found.x,S.found.z);ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(sx,sy,15,0,Math.PI*2);ctx.stroke();ctx.strokeStyle='#ff4d6d';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(sx,sy,15,0,Math.PI*2);ctx.stroke();}
+  ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(W/2-8,H/2);ctx.lineTo(W/2+8,H/2);ctx.moveTo(W/2,H/2-8);ctx.lineTo(W/2,H/2+8);ctx.stroke();
+  if(S.hover&&cp>=5){const [sx,sy]=toScreen(S.hover.x*16,S.hover.z*16);ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.strokeRect(sx+1,sy+1,cp-2,cp-2);}
+  S.pins.forEach(p=>{if((p.d||'overworld')!==S.dim)return;const [sx,sy]=toScreen(p.x*16+8,p.z*16+8);if(sx<-20||sy<-20||sx>W+20||sy>H+20)return;
+    ctx.fillStyle='#ff6b6b';ctx.strokeStyle='#300';ctx.lineWidth=1;ctx.beginPath();ctx.arc(sx,sy-10,6,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(sx-5,sy-7);ctx.lineTo(sx+5,sy-7);ctx.lineTo(sx,sy);ctx.fill();});
+  const parts=[];
+  if(slimeOk)parts.push(`${count} slime chunks in view`);else if(ow()&&on('lySlime'))parts.push('zoom in for slime chunks');
+  if(sl.skipped)parts.push('zoom in for all structures');else if(on('lyStruct'))parts.push(`${vis.length} structures`);
+  if(pending)parts.push('drawing biomes…');
+  parts.push(S.scale>=1?S.scale.toFixed(1)+' px/block':(1/S.scale).toFixed(1)+' blocks/px');
+  $('stat').textContent=parts.join(' · ');
+}
+
+// ---------- HUD ----------
+function chunkInfo(bx,bz){const x=Math.floor(bx),z=Math.floor(bz),cx=Math.floor(x/16),cz=Math.floor(z/16);return {x,z,cx,cz,rx:Math.floor(cx/32),rz:Math.floor(cz/32)};}
+const hud=$('hud');
+function nearStruct(px,py){let best=null,bd=200;for(const v of vis){const d=(v.sx-px)**2+(v.sy-py)**2;if(d<bd){bd=d;best=v.s;}}return best;}
+function updHud(i,px,py){const sl=ow()&&isSlime(i.cx,i.cz);let h=`Block <b>${i.x}, ${i.z}</b><br>Chunk <b>${i.cx}, ${i.cz}</b> ${sl?'<b style="color:var(--slime)">● SLIME</b>':''}`;
+  if(world&&hasBiomes())h+=`<br>Biome <b>${nice(WG.NAMES[biomeAt(i.x,i.z)])}</b>`;
+  const ns=px!==undefined&&nearStruct(px,py);if(ns)h+=`<br><b style="color:${stInfo(ns.k).col}">${stInfo(ns.k).n}${ns.est?' (possible)':''}</b> at ${ns.x}, ${ns.z}`;
+  if(px!==undefined)h+=`<br>Mouse is in <b>${sgn(i.x)}X ${sgn(i.z)}Z</b> · moving toward <b style="color:#f2c14e">${moveTxt()}</b>`;
+  h+=`<br>Region r.${i.rx}.${i.rz}.mca`+(ow()?` · Nether ${Math.floor(i.x/8)}, ${Math.floor(i.z/8)}`:S.dim==='nether'?` · Overworld ${i.x*8}, ${i.z*8}`:'');hud.innerHTML=h;
+  $('bout').textContent=`Chunk ${i.cx}, ${i.cz}\nInside chunk: ${((i.x%16)+16)%16}, ${((i.z%16)+16)%16}\nRegion file r.${i.rx}.${i.rz}.mca\nSlime chunk: ${sl?'yes':'no'}`;}
+function selectStruct(s){S.selS=s;const el=$('sel'),inf=stInfo(s.k),cmd=ow()?`/tp @s ${s.x} ~ ${s.z}`:`/execute in minecraft:the_${S.dim} run tp @s ${s.x} ~ ${s.z}`;
+  el.innerHTML=`<b style="color:${inf.col}">${inf.n}</b>${s.est?' — possible: it is at the very edge of the terrain it needs, so check in-game':''}<br>X ${s.x} · Z ${s.z}<br>${ow()?`Nether ${Math.floor(s.x/8)}, ${Math.floor(s.z/8)}`:S.dim==='nether'?`Overworld ${s.x*8}, ${s.z*8}`:'The End'}<br><code>${cmd}</code><br><button id="selCopy">Copy /tp</button> <button id="selClose">Close</button>`;
+  el.style.display='block';$('selCopy').onclick=e=>copyText(cmd,e.target);$('selClose').onclick=()=>{el.style.display='none';};}
+function copyText(t,btn){const ok=()=>{const o=btn.textContent;btn.textContent='Copied ✓';setTimeout(()=>btn.textContent=o,1200);};
+  try{navigator.clipboard.writeText(t).then(ok,()=>{btn.textContent='Select & copy manually';});}catch(e){btn.textContent='Select & copy manually';}}
+
+// ---------- Mouse direction box ----------
+const roseCv=$('rose'),rg=roseCv.getContext('2d');let mvx=0,mvz=0,lastB=null,curB=null;
+const sgn=v=>v>=0?'+':'−';
+function drawRose(){const r=roseCv.getBoundingClientRect();if(!r.width)return;const k=window.devicePixelRatio||1;roseCv.width=roseCv.height=r.width*k;rg.setTransform(k,0,0,k,0,0);
+  const S=r.width,c=S/2,p=13,R=c-p;rg.clearRect(0,0,S,S);
+  const cq=curB?(curB[0]>=0?(curB[1]<0?0:1):(curB[1]<0?3:2)):-1,mag=Math.hypot(mvx,mvz),mq=mag>0.5?(mvx>=0?(mvz<0?0:1):(mvz<0?3:2)):-1;
+  [[c,p,'+X −Z'],[c,c,'+X +Z'],[p,c,'−X +Z'],[p,p,'−X −Z']].forEach((q,i)=>{rg.fillStyle=i===cq?'rgba(123,220,106,.28)':'#141b18';rg.fillRect(q[0],q[1],R,R);
+    if(i===mq){rg.strokeStyle='#f2c14e';rg.lineWidth=1.5;rg.strokeRect(q[0]+1.5,q[1]+1.5,R-3,R-3);}
+    rg.fillStyle=i===cq?'#9df08c':i===mq?'#f2c14e':'#8fa39a';rg.font=`600 ${S>120?10:8.5}px JetBrains Mono, monospace`;rg.textAlign='center';rg.textBaseline='middle';
+    rg.fillText(q[2],q[0]+R/2,q[1]+R/2+(i===1||i===2?R*.22:-R*.22));});
+  rg.strokeStyle='#3a4a43';rg.lineWidth=1;rg.beginPath();rg.moveTo(c,p);rg.lineTo(c,S-p);rg.moveTo(p,c);rg.lineTo(S-p,c);rg.stroke();
+  rg.fillStyle='#8fa39a';rg.font='600 9px Space Grotesk, sans-serif';rg.fillText('N',c,6.5);rg.fillText('S',c,S-6);rg.fillText('W',6.5,c);rg.fillText('E',S-6.5,c);
+  if(mq>=0){const ux=mvx/mag,uz=mvz/mag,L=R*.62,ex=c+ux*L,ey=c+uz*L,a=Math.atan2(uz,ux);rg.strokeStyle=rg.fillStyle='#f2c14e';rg.lineWidth=3;rg.lineCap='round';
+    rg.beginPath();rg.moveTo(c,c);rg.lineTo(ex,ey);rg.stroke();rg.beginPath();rg.moveTo(ex+Math.cos(a)*7,ey+Math.sin(a)*7);rg.lineTo(ex+Math.cos(a+2.5)*7,ey+Math.sin(a+2.5)*7);rg.lineTo(ex+Math.cos(a-2.5)*7,ey+Math.sin(a-2.5)*7);rg.closePath();rg.fill();}
+  rg.fillStyle='#e6efe9';rg.beginPath();rg.arc(c,c,2.5,0,Math.PI*2);rg.fill();}
+function trackMouse(bx,bz){if(lastB){const dx=(bx-lastB[0])*S.scale,dz=(bz-lastB[1])*S.scale;mvx=mvx*0.75+dx;mvz=mvz*0.75+dz;}lastB=[bx,bz];curB=[bx,bz];drawRose();}
+const moveTxt=()=>Math.hypot(mvx,mvz)>0.5?`${sgn(mvx)}X ${sgn(mvz)}Z`:'—';
+// ---------- Interaction ----------
+let pointers=new Map(),dragStart=null,moved=false,pinchD=0;
+cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.offsetX,y:e.offsetY});dragStart={x:e.offsetX,y:e.offsetY,cx:S.cx,cz:S.cz};moved=false;cv.classList.add('drag');
+  if(pointers.size===2){const [a,b]=[...pointers.values()];pinchD=Math.hypot(a.x-b.x,a.y-b.y);}});
+cv.addEventListener('pointermove',e=>{
+  const [bx,bz]=toBlock(e.offsetX,e.offsetY),inf=chunkInfo(bx,bz);if(!pointers.size)trackMouse(bx,bz);else{lastB=null;curB=[bx,bz];drawRose();}
+  if(!S.hover||S.hover.x!==inf.cx||S.hover.z!==inf.cz){S.hover={x:inf.cx,z:inf.cz};draw();}
+  updHud(inf,e.offsetX,e.offsetY);
+  if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.offsetX,y:e.offsetY});
+  if(pointers.size===2){const [a,b]=[...pointers.values()],d=Math.hypot(a.x-b.x,a.y-b.y);if(pinchD)zoomAt((a.x+b.x)/2,(a.y+b.y)/2,d/pinchD);pinchD=d;moved=true;return;}
+  const dx=e.offsetX-dragStart.x,dy=e.offsetY-dragStart.y;if(Math.abs(dx)+Math.abs(dy)>4)moved=true;
+  if(moved){S.cx=dragStart.cx-dx/S.scale;S.cz=dragStart.cz-dy/S.scale;draw();}});
+function endPtr(e){
+  if(pointers.size===1&&!moved&&e.type==='pointerup'){const ns=nearStruct(e.offsetX,e.offsetY);
+    if(ns)selectStruct(ns);else{const [bx,bz]=toBlock(e.offsetX,e.offsetY),i=chunkInfo(bx,bz);togglePin(i.cx,i.cz);}}
+  pointers.delete(e.pointerId);if(pointers.size<2)pinchD=0;
+  if(pointers.size===1){const p=[...pointers.values()][0];dragStart={x:p.x,y:p.y,cx:S.cx,cz:S.cz};}
+  if(!pointers.size)cv.classList.remove('drag');}
+cv.addEventListener('pointerup',endPtr);cv.addEventListener('pointercancel',endPtr);
+cv.addEventListener('pointerleave',()=>{S.hover=null;lastB=null;curB=null;mvx=mvz=0;drawRose();draw();});
+function zoomAt(sx,sy,f){const [bx,bz]=toBlock(sx,sy);S.scale=Math.min(24,Math.max(0.03,S.scale*f));S.cx=bx-(sx-W/2)/S.scale;S.cz=bz-(sy-H/2)/S.scale;draw();}
+cv.addEventListener('wheel',e=>{e.preventDefault();zoomAt(e.offsetX,e.offsetY,Math.exp(-e.deltaY*0.0015));},{passive:false});
+$('zin').onclick=()=>zoomAt(W/2,H/2,1.5);$('zout').onclick=()=>zoomAt(W/2,H/2,1/1.5);$('zhome').onclick=()=>{S.cx=8;S.cz=8;draw();};
+window.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||!$('v-map').classList.contains('on'))return;const st=120/S.scale;
+  if(e.key==='ArrowLeft')S.cx-=st;else if(e.key==='ArrowRight')S.cx+=st;else if(e.key==='ArrowUp')S.cz-=st;else if(e.key==='ArrowDown')S.cz+=st;
+  else if(e.key==='+'||e.key==='=')return zoomAt(W/2,H/2,1.3);else if(e.key==='-')return zoomAt(W/2,H/2,1/1.3);else return;e.preventDefault();draw();});
+function jump(x,z,minScale){S.cx=x;S.cz=z;if(minScale&&S.scale<minScale)S.scale=minScale;draw();}
+$('go').onclick=()=>jump((parseInt(gx.value)||0)+.5,(parseInt(gz.value)||0)+.5);
+[gx,gz].forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter')$('go').click();}));
+
+// ---------- Seed / edition ----------
+const seedEl=$('seed');
+function applySeed(){S.seed=parseSeed(seedEl.value||'0');ls.set('cs_seed',seedEl.value);resetWorld();}
+let stm;seedEl.addEventListener('input',()=>{clearTimeout(stm);stm=setTimeout(applySeed,300);});
+$('rand').onclick=()=>{const a=new Uint32Array(2);crypto.getRandomValues(a);seedEl.value=BigInt.asIntN(64,(BigInt(a[0])<<32n)|BigInt(a[1])).toString();applySeed();};
+function setEdition(e){S.edition=e;ls.set('cs_ed',e);
+  document.querySelectorAll('#edition button').forEach(b=>b.classList.toggle('on',b.dataset.e===e));
+  $('edNote').innerHTML=e==='java'?'Type <code>/seed</code> in-game to get your seed.':'Your seed is shown in the world settings. Slime chunks are the same in every Bedrock world.';
+  buildVer();refreshMode();}
+function setDim(d){S.dim=d;document.querySelectorAll('#dimSeg button').forEach(b=>b.classList.toggle('on',b.dataset.d===d));S.cx=8;S.cz=8;refreshMode();}
+function refreshMode(){
+  const j=java(),d=S.dim;$('lyBiome').disabled=!hasBiomes();$('lySlime').disabled=!ow();
+  $('covNote').innerHTML='<b>Showing:</b> '+(j?(d==='overworld'?'biomes, slime chunks and all structures. Temples and mansions are only shown where the terrain lets them generate.':d==='nether'?'Nether biomes, fortresses, bastions and ruined portals. Coordinates are Nether coordinates.':'End biomes and End Cities (only the ones the terrain lets generate).')
+    :(d==='overworld'?'biomes, slime chunks and structures. Strongholds and shipwrecks are left out on Bedrock because they could not be matched to Chunkbase. A “?” marks villages on very low ground and jungle temples, which need an in-game check.':d==='nether'?'fortresses and bastions. Bedrock Nether biomes are not available, so every bastion is marked “?”: about a quarter fall in basalt deltas and do not generate.':'nothing yet. Bedrock generates the End differently from Java and it could not be reproduced reliably.'))
+    +(verN()<5?' Structures that did not exist yet in the chosen version are hidden.':'')+' Versions before 1.18 used a different world generator and are not supported.';
+  if(S.scale<0.03)S.scale=0.03;buildStructUI();buildLocate();renderPins();resetWorld();}
+document.querySelectorAll('#dimSeg button').forEach(b=>b.onclick=()=>setDim(b.dataset.d));
+document.querySelectorAll('#edition button').forEach(b=>b.onclick=()=>setEdition(b.dataset.e));
+buildVer();$('ver').value=+ls.get('cs_vern')||5;$('ver').onchange=()=>{ls.set('cs_vern',$('ver').value);refreshMode();};
+
+// ---------- Layers ----------
+const slEl=$('structList');
+function buildStructUI(){slEl.innerHTML='';stKeys().forEach(k=>{const inf=stInfo(k),l=document.createElement('label');l.className='check';
+  l.innerHTML=`<input type="checkbox" ${STON[k]?'checked':''}><img class="ico" src="${ICON[k].toDataURL()}" alt="">${inf.n}`;
+  l.firstChild.onchange=e=>{STON[k]=e.target.checked?1:0;draw();};slEl.appendChild(l);});}
+function setAllSt(v){stKeys().forEach(k=>STON[k]=v);slEl.querySelectorAll('input').forEach(i=>i.checked=!!v);draw();}
+$('stAll').onclick=()=>setAllSt(1);$('stNone').onclick=()=>setAllSt(0);
+['lyBiome','lySlime','lyStruct','optGrid','optRegion','optRange'].forEach(id=>$(id).onchange=draw);
+
+// ---------- Locate ----------
+const lw=$('locWhat');
+function buildLocate(){let h='<optgroup label="Structures">';stKeys().forEach(k=>h+=`<option value="s:${k}">${stInfo(k).n}</option>`);h+='</optgroup>';
+  if(hasBiomes()){const re=S.dim==='nether'?/nether_wastes|soul_sand|crimson|warped|basalt/:S.dim==='end'?/^end_|small_end|the_end/:null;
+    const names=WG.NAMES.filter(n=>re?re.test(n):!/nether_wastes|soul_sand|crimson|warped|basalt|^end_|small_end|the_end|caves|deep_dark/.test(n)).sort();
+    h+='<optgroup label="Biomes">';names.forEach(n=>h+=`<option value="b:${n}">${nice(n)}</option>`);h+='</optgroup>';}
+  lw.innerHTML=h;}
+const tick=()=>new Promise(r=>setTimeout(r));
+$('locGo').onclick=async()=>{const ul=$('locRes'),pb=$('locProg'),bar=pb.firstElementChild;
+  if(!world||!lw.value){ul.innerHTML='<li style="cursor:default;color:var(--muted)">Nothing to search in this mode</li>';return;}
+  const [type,name]=lw.value.split(':'),ox=Math.floor(S.cx),oz=Math.floor(S.cz);let res=[];pb.style.display='block';bar.style.width='0';
+  const myWorld=world;
+  if(type==='s'){
+    if(name==='stronghold'){await shAll(bar);if(world!==myWorld)return;res=shDone.map(s=>({x:s.x,z:s.z,k:name}));}
+    else{const st=TB()[name],rx=Math.floor(ox/16/st.sp),rz=Math.floor(oz/16/st.sp),MAXR=60;
+      for(let r=0;r<=MAXR;r++){for(let a=-r;a<=r;a++)for(let b=-r;b<=r;b++){if(Math.max(Math.abs(a),Math.abs(b))!==r)continue;const p=getStruct(name,rx+a,rz+b);if(p)res.push({x:p[0],z:p[1],est:p[2],k:name});}
+        if(r%3===0){bar.style.width=(r/MAXR*100)+'%';await tick();if(world!==myWorld)return;}
+        if(res.length>=5&&r>=2){const far=(r-1)*st.sp*16;if(res.filter(q=>Math.hypot(q.x-ox,q.z-oz)<=far).length>=5)break;}}}
+  }else{const id=WG.NAMES.indexOf(name),STEP=32,MAXR=400;
+    for(let r=0;r<=MAXR&&res.length<5;r++){
+      for(let a=-r;a<=r;a++){const edge=Math.abs(a)===r;for(let b=-r;b<=r;b+=(edge?1:2*r||1)){const x=(ox&~3)+a*STEP,z=(oz&~3)+b*STEP;
+        if(biomeAt(x,z)===id&&res.every(q=>Math.hypot(q.x-x,q.z-z)>300))res.push({x,z});}}
+      if(r%8===0){bar.style.width=(r/MAXR*100)+'%';await tick();if(world!==myWorld)return;}}
+  }
+  res.forEach(q=>q.d=Math.round(Math.hypot(q.x-ox,q.z-oz)));res.sort((a,b)=>a.d-b.d);res=res.slice(0,5);
+  pb.style.display='none';ul.innerHTML='';
+  if(!res.length){ul.innerHTML=`<li style="cursor:default;color:var(--muted)">None within ${type==='s'?'range':'12,800 blocks'}</li>`;return;}
+  res.forEach(q=>{const li=document.createElement('li');li.innerHTML=`<span>${q.x}, ${q.z}${q.est?' (possible)':''}</span><span class="badge">${q.d.toLocaleString()} blocks</span>`;
+    li.onclick=()=>{S.found=q;jump(q.x,q.z,0.5);if(q.k)selectStruct(q);};ul.appendChild(li);});
+  S.found=res[0];draw();
+};
+
+// ---------- Farm finder ----------
+const prog=$('prog'),progBar=prog.firstElementChild;
+$('findFarm').onclick=async()=>{
+  const R=parseInt(frad.value),top=parseInt(fmin.value),RR=8,ccx=Math.floor(S.cx/16),ccz=Math.floor(S.cz/16),N=2*(R+RR)+1,ox=ccx-R-RR,oz=ccz-R-RR;
+  const grid=new Uint8Array(N*N);prog.style.display='block';
+  for(let i=0;i<N;i++){for(let j=0;j<N;j++)grid[i*N+j]=isSlime(ox+i,oz+j)?1:0;if(i%8===0){progBar.style.width=(i/N*80)+'%';await tick();}}
+  const offs=[];for(let dx=-RR;dx<=RR;dx++)for(let dz=-RR;dz<=RR;dz++)if(dx*dx+dz*dz<=RR*RR)offs.push(dx*N+dz);
+  const best=[];for(let i=RR;i<N-RR;i++)for(let j=RR;j<N-RR;j++){const b=i*N+j;let c=0;for(const o of offs)c+=grid[b+o];best.push([c,ox+i,oz+j]);}
+  best.sort((a,b)=>b[0]-a[0]);const picked=[];
+  for(const [c,x,z] of best){if(picked.every(p=>(p.x-x)**2+(p.z-z)**2>=64)){picked.push({c,x,z});if(picked.length>=top)break;}}
+  progBar.style.width='100%';setTimeout(()=>prog.style.display='none',300);S.farms=picked;renderFarms();draw();};
+function renderFarms(){const ul=$('farmRes');ul.innerHTML='';
+  S.farms.forEach((f,i)=>{const li=document.createElement('li');li.innerHTML=`<span>#${i+1} &nbsp;${f.x*16+8}, ${f.z*16+8}</span><span class="badge">${f.c} chunks</span>`;
+    li.title=`AFK at block ${f.x*16+8}, ${f.z*16+8}. Covers ${f.c} slime chunks (average is about 20).`;li.onclick=()=>jump(f.x*16+8,f.z*16+8,1);ul.appendChild(li);});}
+
+// ---------- Pins ----------
+function savePins(){ls.set('cs_pins',JSON.stringify(S.pins));renderPins();draw();}
+const pinHere=p=>(p.d||'overworld')===S.dim;
+function togglePin(x,z){const i=S.pins.findIndex(p=>p.x===x&&p.z===z&&pinHere(p));if(i>=0)S.pins.splice(i,1);else S.pins.push({x,z,d:S.dim});savePins();}
+function renderPins(){const ul=$('pinList');ul.innerHTML='';
+  if(!S.pins.some(pinHere)){ul.innerHTML='<li style="cursor:default;color:var(--muted)">No pins in this dimension yet</li>';return;}
+  S.pins.forEach((p,i)=>{if(!pinHere(p))return;const li=document.createElement('li');li.innerHTML=`<span>Chunk ${p.x}, ${p.z} · block ${p.x*16+8}, ${p.z*16+8}</span>`;
+    const x=document.createElement('button');x.textContent='✕';x.style.cssText='padding:2px 8px';x.onclick=e=>{e.stopPropagation();S.pins.splice(i,1);savePins();};
+    li.appendChild(x);li.onclick=()=>jump(p.x*16+8,p.z*16+8,1);ul.appendChild(li);});}
+$('pinHere').onclick=()=>togglePin(Math.floor(S.cx/16),Math.floor(S.cz/16));$('clearPins').onclick=()=>{S.pins=S.pins.filter(p=>!pinHere(p));savePins();};
+{const b=$('delPins');let t=0;const idle=()=>{b.classList.remove('arm');b.textContent='Delete all pins';};
+ b.onclick=()=>{if(!S.pins.length){b.textContent='No pins to delete';clearTimeout(t);t=setTimeout(idle,1500);return;}
+  if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent=`Delete ${S.pins.length}? Click again`;clearTimeout(t);t=setTimeout(idle,4000);return;}
+  clearTimeout(t);S.pins=[];savePins();idle();};}
+
+// ---------- Converter ----------
+let cdir='o2n';
+function conv(){const x=parseFloat(cx.value),z=parseFloat(cz.value),out=$('cout');
+  if(isNaN(x)||isNaN(z)){out.textContent='Enter coordinates above.';return;}
+  const f=cdir==='o2n'?1/8:8,nx=Math.floor(x*f),nz=Math.floor(z*f);
+  out.textContent=`${cdir==='o2n'?'Nether':'Overworld'}: ${nx}, ${nz}\n${cdir==='o2n'?'Build the portal here in the Nether.':'Link lands near here in the Overworld.'}`;
+  updHud(chunkInfo(cdir==='o2n'?x:nx,cdir==='o2n'?z:nz));}
+[cx,cz].forEach(el=>el.addEventListener('input',conv));
+document.querySelectorAll('#cdir button').forEach(b=>b.onclick=()=>{cdir=b.dataset.d;document.querySelectorAll('#cdir button').forEach(x=>x.classList.toggle('on',x===b));conv();});
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==='t-'+b.dataset.t));});
+
+// ---------- Side panel scroll hint ----------
+const sideEl=$('side'),moreEl=$('more');
+function moreUpd(){moreEl.classList.toggle('gone',sideEl.scrollTop+sideEl.clientHeight>=sideEl.scrollHeight-12);}
+sideEl.addEventListener('scroll',moreUpd);window.addEventListener('resize',moreUpd);
+moreEl.onclick=()=>sideEl.scrollBy({top:sideEl.clientHeight*0.7,behavior:'smooth'});
+new MutationObserver(moreUpd).observe(sideEl,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style']});
+// ---------- Views ----------
+function route(){const v=location.hash==='#toolbox'?'tools':'map';
+  document.querySelectorAll('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));
+  document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.dataset.v===v));if(v==='map'){resize();moreUpd();drawRose();}else{if(window.cgPaint)window.cgPaint();if(window.dfPaint)window.dfPaint();}}
+window.addEventListener('hashchange',route);
+
+// ================= TOOLBOX =================
+document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copyText($(b.dataset.copy).value,b));
+// start file
+const AIKAR='-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true';
+function startFile(){const mb=Math.max(1,parseFloat($('sfRam').value)||1)*1024|0,jar=$('sfJar').value.trim()||'server.jar',os=$('sfOs').value,loop=$('sfLoop').checked;
+  const cmd=`java -Xms${mb}M -Xmx${mb}M ${$('sfFlags').value==='aikar'?AIKAR+' ':''}-jar ${jar} --nogui`;
+  $('sfOut').value=os==='sh'?(loop?`#!/bin/bash\nwhile true; do\n  ${cmd}\n  echo "Server stopped. Restarting in 5 seconds (Ctrl+C to cancel)..."\n  sleep 5\ndone\n`:`#!/bin/bash\n${cmd}\n`)
+   :(loop?`@echo off\n:start\n${cmd}\necho Server stopped. Restarting in 5 seconds (Ctrl+C to cancel)...\ntimeout /t 5\ngoto start\n`:`@echo off\n${cmd}\npause\n`);}
+['sfRam','sfJar','sfOs','sfFlags','sfLoop'].forEach(id=>$(id).addEventListener('input',startFile));startFile();
+// RAM
+function ram(){const p=+$('rmP').value||1,m=+$('rmM').value||0,t=$('rmT').value,v=+$('rmV').value||10;
+  let gb=(t==='paper'?1.5:t==='mod'?3:5)+p*(t==='paper'?0.06:0.1)*(v/10)+m*(t==='paper'?0.03:t==='mod'?0.04:0.02);
+  const rec=Math.max(2,Math.ceil(gb));
+  $('rmOut').textContent=`Recommended: about ${rec} GB\nComfortable: ${rec+2} GB if you expect growth\n\nSet -Xms and -Xmx to the same value, and leave 1–2 GB free for the operating system.`;}
+['rmP','rmM','rmT','rmV'].forEach(id=>$(id).addEventListener('input',ram));ram();
+// colours
+const MC={0:'#000000',1:'#0000AA',2:'#00AA00',3:'#00AAAA',4:'#AA0000',5:'#AA00AA',6:'#FFAA00',7:'#AAAAAA',8:'#555555',9:'#5555FF',a:'#55FF55',b:'#55FFFF',c:'#FF5555',d:'#FF55FF',e:'#FFFF55',f:'#FFFFFF'};
+const FM={l:'Bold',o:'Italic',n:'Underline',m:'Strike',r:'Reset'};
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function mcRender(s){let out='',col='#FFFFFF',st={};const open=()=>`<span style="color:${col};${st.l?'font-weight:700;':''}${st.o?'font-style:italic;':''}${st.n||st.m?`text-decoration:${st.n?'underline ':''}${st.m?'line-through':''};`:''}">`;
+  let buf='';const flush=()=>{if(buf){out+=open()+esc(buf)+'</span>';buf='';}};
+  for(let i=0;i<s.length;i++){const c=s[i],n=(s[i+1]||'').toLowerCase();
+    if((c==='&'||c==='§')&&n==='#'&&/^[0-9a-f]{6}$/i.test(s.substr(i+2,6))){flush();col='#'+s.substr(i+2,6);st={};i+=7;}
+    else if((c==='&'||c==='§')&&MC[n]){flush();col=MC[n];st={};i++;}
+    else if((c==='&'||c==='§')&&FM[n]){flush();if(n==='r'){col='#FFFFFF';st={};}else st[n]=1;i++;}
+    else buf+=c;}
+  flush();return out.replace(/\n/g,'<br>');}
+const ctIn=$('ctIn');function ctUpd(){$('ctPrev').innerHTML=mcRender(ctIn.value);}
+{const cc=$('ctCodes');const mk=(code,label,bg,fg)=>{const b=document.createElement('button');b.textContent='&'+code;b.title=label;if(bg){b.style.background=bg;b.style.color=fg;}
+  b.onclick=()=>{const s=ctIn.selectionStart??ctIn.value.length;ctIn.value=ctIn.value.slice(0,s)+'&'+code+ctIn.value.slice(ctIn.selectionEnd??s);ctIn.focus();ctIn.selectionStart=ctIn.selectionEnd=s+2;ctUpd();};cc.appendChild(b);};
+ Object.keys(MC).forEach(k=>mk(k,MC[k],MC[k],parseInt(MC[k].slice(1),16)>0x888888&&k!=='9'&&k!=='5'&&k!=='4'&&k!=='1'?'#000':'#fff'));Object.keys(FM).forEach(k=>mk(k,FM[k]));}
+ctIn.addEventListener('input',ctUpd);ctUpd();
+function grad(){const t=$('grTxt').value,a=$('grA').value,b=$('grB').value,f=$('grFmt').value;
+  const pa=[1,3,5].map(i=>parseInt(a.substr(i,2),16)),pb=[1,3,5].map(i=>parseInt(b.substr(i,2),16)),chars=[...t],n=Math.max(1,chars.length-1);
+  let out='',legacy='';chars.forEach((ch,i)=>{const hex=pa.map((v,k)=>Math.round(v+(pb[k]-v)*i/n).toString(16).padStart(2,'0')).join('');
+    legacy+=ch===' '?' ':'&#'+hex+ch;out+=ch===' '?' ':(f==='bukkit'?'&x'+[...hex].map(h=>'&'+h).join(''):'&#'+hex)+ch;});
+  $('grOut').value=f==='mm'?`<gradient:${a}:${b}>${t}</gradient>`:out;$('grPrev').innerHTML=mcRender(legacy);}
+['grTxt','grA','grB','grFmt'].forEach(id=>$(id).addEventListener('input',grad));grad();
+// small text
+const SM='ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ';
+function small(){$('smOut').value=[...$('smIn').value].map(c=>{const i=c.toLowerCase().charCodeAt(0)-97;return i>=0&&i<26&&/[a-z]/i.test(c)?[...SM][i]:c;}).join('');}
+$('smIn').addEventListener('input',small);small();
+// daylight
+const pad=n=>String(n).padStart(2,'0');
+function dayFromTicks(){let t=((+$('dyT').value||0)%24000+24000)%24000;const mins=Math.floor(((t+6000)%24000)/1000*60);$('dyC').value=pad(Math.floor(mins/60)%24)+':'+pad(mins%60);dayOut(t);}
+function dayFromClock(){const [h,m]=($('dyC').value||'06:00').split(':').map(Number),t=Math.round(((h*60+m)/60*1000-6000+24000)%24000);$('dyT').value=t;dayOut(t);}
+function dayOut(t){const ph=t<1000?'Sunrise':t<6000?'Morning':t<12000?'Afternoon':t<13000?'Sunset':t<18000?'Night (monsters spawn)':t<23000?'Late night (monsters spawn)':'Dawn';
+  $('dyOut').textContent=`${ph}\n/time set ${t}\nBeds usable: ${t>=12542&&t<=23459?'yes':'no (only at night or in thunderstorms)'}\nReal time since sunrise: ${(t/20/60).toFixed(1)} min`;}
+function dayReal(){const r=+$('dyR').value||0,ticks=Math.round(r*60*20);$('dyOut2').textContent=`${ticks.toLocaleString()} ticks\n${(ticks/24000).toFixed(2)} Minecraft days\n(1 full day = 20 real minutes = 24,000 ticks)`;}
+$('dyT').addEventListener('input',dayFromTicks);$('dyC').addEventListener('input',dayFromClock);$('dyR').addEventListener('input',dayReal);dayFromTicks();dayReal();
+
+// circle generator
+{const cv=$('cgCv'),g=cv.getContext('2d');let style='thin',cells=null,W=21,H=21,hov=null;
+ const clampN=v=>Math.max(1,Math.min(256,Math.round(+v||1)));
+ function shape(){W=clampN($('cgW').value);H=clampN($('cgH').value);
+  const inside=(x,y)=>{if(x<0||y<0||x>=W||y>=H)return false;const dx=(x+.5-W/2)/(W/2),dy=(y+.5-H/2)/(H/2);return dx*dx+dy*dy<=1;};
+  const fat=(x,y)=>inside(x,y)&&!(inside(x+1,y)&&inside(x-1,y)&&inside(x,y+1)&&inside(x,y-1));
+  const thin=(x,y)=>{if(!fat(x,y))return false;const ox=x+.5<W/2?-1:1,oy=y+.5<H/2?-1:1;return !(fat(x+ox,y)&&fat(x,y+oy));};
+  const f=style==='fill'?inside:style==='thick'?fat:thin;cells=new Uint8Array(W*H);let n=0;const rows=[];
+  for(let y=0;y<H;y++){let c=0;for(let x=0;x<W;x++)if(f(x,y)){cells[y*W+x]=1;c++;}n+=c;rows.push(c);}
+  const st=Math.floor(n/64),rem=n%64;
+  $('cgOut').textContent=`${W} × ${H} blocks\nBlocks needed: ${n.toLocaleString()}\n= ${st} stack${st===1?'':'s'}${rem?` + ${rem}`:''}${n>1728?`  (${(n/1728).toFixed(1)} shulker boxes)`:''}`;
+  $('cgRows').value=rows.map((c,i)=>`Row ${i+1}: ${c}`).join('\n');paint();}
+ function paint(){const r=cv.getBoundingClientRect();if(!r.width)return;const d=window.devicePixelRatio||1;cv.width=r.width*d;cv.height=r.width*d;g.setTransform(d,0,0,d,0,0);
+  const S=r.width,cs=Math.min((S-16)/W,(S-16)/H),ox=(S-cs*W)/2,oy=(S-cs*H)/2;g.clearRect(0,0,S,S);
+  g.fillStyle='#141b18';g.fillRect(ox,oy,cs*W,cs*H);
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(cells[y*W+x]){g.fillStyle=(x+y)%2?'#6fd060':'#7bdc6a';g.fillRect(ox+x*cs,oy+y*cs,cs,cs);}
+  if(cs>=4){g.lineWidth=1;g.beginPath();g.strokeStyle='rgba(255,255,255,.07)';
+   for(let x=0;x<=W;x++){const px=Math.round(ox+x*cs)+.5;g.moveTo(px,oy);g.lineTo(px,oy+cs*H);}for(let y=0;y<=H;y++){const py=Math.round(oy+y*cs)+.5;g.moveTo(ox,py);g.lineTo(ox+cs*W,py);}g.stroke();}
+  g.strokeStyle='rgba(242,193,78,.55)';g.lineWidth=1;g.setLineDash([4,4]);g.beginPath();g.moveTo(ox+cs*W/2,oy);g.lineTo(ox+cs*W/2,oy+cs*H);g.moveTo(ox,oy+cs*H/2);g.lineTo(ox+cs*W,oy+cs*H/2);g.stroke();g.setLineDash([]);
+  if(hov){g.strokeStyle='#fff';g.lineWidth=2;g.strokeRect(ox+hov[0]*cs+1,oy+hov[1]*cs+1,Math.max(1,cs-2),Math.max(1,cs-2));}
+  cv._geo=[cs,ox,oy];}
+ cv.addEventListener('pointermove',e=>{const [cs,ox,oy]=cv._geo||[1,0,0],x=Math.floor((e.offsetX-ox)/cs),y=Math.floor((e.offsetY-oy)/cs);
+  if(x<0||y<0||x>=W||y>=H){hov=null;$('cgHover').textContent='Hover a block to see its position';}
+  else{hov=[x,y];$('cgHover').textContent=`Column ${x+1}, row ${y+1} · ${cells[y*W+x]?'place a block':'leave empty'} · ${Math.abs(Math.round(x+.5-W/2-.01))} from centre across, ${Math.abs(Math.round(y+.5-H/2-.01))} down`;}paint();});
+ cv.addEventListener('pointerleave',()=>{hov=null;$('cgHover').textContent='Hover a block to see its position';paint();});
+ $('cgW').addEventListener('input',()=>{if($('cgLock').checked)$('cgH').value=$('cgW').value;shape();});
+ $('cgH').addEventListener('input',()=>{if($('cgLock').checked)$('cgW').value=$('cgH').value;shape();});
+ $('cgLock').addEventListener('change',()=>{if($('cgLock').checked){$('cgH').value=$('cgW').value;shape();}});
+ document.querySelectorAll('#cgStyle button').forEach(b=>b.onclick=()=>{style=b.dataset.s;document.querySelectorAll('#cgStyle button').forEach(x=>x.classList.toggle('on',x===b));shape();});
+ window.addEventListener('resize',paint);window.addEventListener('hashchange',()=>setTimeout(paint,0));shape();window.cgPaint=paint;}
+// direction finder
+{const cv=$('dfCv'),g=cv.getContext('2d');const num=id=>{const v=parseFloat($(id).value);return isNaN(v)?null:v;};
+ const sg=v=>v>0?'+':'−',NAMES8=['north','north-east','east','south-east','south','south-west','west','north-west'];
+ const bearing=(dx,dz)=>(Math.atan2(dx,-dz)*180/Math.PI+360)%360,card=b=>NAMES8[Math.round(b/45)%8];
+ const quad=(dx,dz)=>dx&&dz?`${sg(dx)}X ${sg(dz)}Z`:dx?`${sg(dx)}X only`:`${sg(dz)}Z only`;
+ function upd(){const x0=num('dfX0'),z0=num('dfZ0'),x1=num('dfX1'),z1=num('dfZ1'),x2=num('dfX2'),z2=num('dfZ2');let t='',h=null,d=null;
+  if(x0!==null&&z0!==null&&x1!==null&&z1!==null&&(x1!==x0||z1!==z0)){const dx=x1-x0,dz=z1-z0;h=bearing(dx,dz);
+   const yaw=((Math.atan2(-dx,dz)*180/Math.PI+540)%360)-180;
+   t+=`You are heading ${quad(dx,dz)}  (${card(h)})\n`+(dx?`X is going ${dx>0?'up (east)':'down (west)'}`:'X is not changing')+'\n'+(dz?`Z is going ${dz>0?'up (south)':'down (north)'}`:'Z is not changing')+`\nF3 facing: about ${yaw.toFixed(0)}°`;}
+  else t+='Enter two different positions to see your heading.';
+  if(x1!==null&&z1!==null&&x2!==null&&z2!==null){const dx=x2-x1,dz=z2-z1,dist=Math.hypot(dx,dz);
+   if(dist<1)t+='\n\nYou are at the destination.';else{d=bearing(dx,dz);t+=`\n\nDestination is toward ${quad(dx,dz)}  (${card(d)})\n${Math.round(dist).toLocaleString()} blocks away`+(dx?`\nX needs to go ${dx>0?'up':'down'} by ${Math.abs(Math.round(dx)).toLocaleString()}`:'')+(dz?`\nZ needs to go ${dz>0?'up':'down'} by ${Math.abs(Math.round(dz)).toLocaleString()}`:'');
+    if(h!==null){const df=((d-h+540)%360)-180;t+='\n'+(Math.abs(df)<8?'You are on course.':Math.abs(df)>172?'Turn around.':`Turn ${df>0?'right':'left'} about ${Math.abs(df).toFixed(0)}°.`);}}}
+  $('dfOut').textContent=t;paint(h,d);}
+ function paint(h,d){const r=cv.getBoundingClientRect();if(!r.width)return;const k=window.devicePixelRatio||1;cv.width=cv.height=r.width*k;g.setTransform(k,0,0,k,0,0);
+  const S=r.width,c=S/2,R=S/2-34;g.clearRect(0,0,S,S);
+  const qOf=b=>b===null||b%90===0?-1:Math.floor(b/90); // 0 NE,1 SE,2 SW,3 NW
+  const Q=[[c,34,'+X −Z'],[c,c,'+X +Z'],[34,c,'−X +Z'],[34,34,'−X −Z']],hq=qOf(h),dq=qOf(d);
+  Q.forEach((q,i)=>{g.fillStyle=i===hq?'rgba(123,220,106,.2)':i===dq?'rgba(242,193,78,.14)':'#141b18';g.fillRect(q[0],q[1],R,R);
+   g.fillStyle=i===hq?'#7bdc6a':i===dq?'#f2c14e':'#8fa39a';g.font=`${i===hq?700:600} ${Math.max(13,S/26)}px JetBrains Mono, monospace`;g.textAlign='center';g.textBaseline='middle';
+   const tx=q[0]+R/2+(i===0||i===1?R*.18:-R*.18),ty=q[1]+R/2+(i===1||i===2?R*.22:-R*.22);g.fillText(q[2],tx,ty);});
+  g.strokeStyle='#3a4a43';g.lineWidth=1.5;g.strokeRect(34,34,R*2,R*2);g.beginPath();g.moveTo(c,34);g.lineTo(c,S-34);g.moveTo(34,c);g.lineTo(S-34,c);g.stroke();
+  g.fillStyle='#e6efe9';g.font='600 13px Space Grotesk, sans-serif';g.textAlign='center';g.textBaseline='middle';
+  g.fillText('North  −Z',c,17);g.fillText('South  +Z',c,S-17);g.save();g.translate(17,c);g.rotate(-Math.PI/2);g.fillText('West  −X',0,0);g.restore();g.save();g.translate(S-17,c);g.rotate(Math.PI/2);g.fillText('East  +X',0,0);g.restore();
+  const arrow=(b,col,len,w)=>{if(b===null)return;const a=b*Math.PI/180,ex=c+Math.sin(a)*len,ey=c-Math.cos(a)*len;g.strokeStyle=col;g.fillStyle=col;g.lineWidth=w;g.lineCap='round';
+   g.beginPath();g.moveTo(c,c);g.lineTo(ex,ey);g.stroke();g.beginPath();g.moveTo(ex+Math.sin(a)*12,ey-Math.cos(a)*12);g.lineTo(ex+Math.sin(a+2.4)*11,ey-Math.cos(a+2.4)*11);g.lineTo(ex+Math.sin(a-2.4)*11,ey-Math.cos(a-2.4)*11);g.closePath();g.fill();};
+  arrow(d,'#f2c14e',R*.62,3);arrow(h,'#7bdc6a',R*.8,5);g.fillStyle='#e6efe9';g.beginPath();g.arc(c,c,5,0,Math.PI*2);g.fill();}
+ ['dfX0','dfZ0','dfX1','dfZ1','dfX2','dfZ2'].forEach(id=>$(id).addEventListener('input',upd));window.addEventListener('resize',upd);upd();window.dfPaint=upd;}
+// nether portal calculator
+let npDir='o2n';
+function np(){const x=parseFloat($('npX').value),y=parseFloat($('npY').value),z=parseFloat($('npZ').value);
+  if(isNaN(x)||isNaN(z)){$('npOut').textContent='Enter X and Z.';$('npCmd').value='';return;}
+  const o=npDir==='o2n',nx=Math.floor(o?x/8:x*8),nz=Math.floor(o?z/8:z*8),ny=isNaN(y)?64:Math.min(o?122:310,Math.max(o?8:-60,Math.round(y)));
+  const dim=o?'the_nether':'overworld';
+  $('npOut').textContent=`${o?'Nether':'Overworld'} portal:  X ${nx}   Y ${ny}   Z ${nz}\n\n${o?'Divide X and Z by 8 going into the Nether.':'Multiply X and Z by 8 going back to the Overworld.'} Y stays the same${o?' (kept between 8 and 122 so it fits under the Nether roof)':''}.\nBuild the portal at these exact coordinates so the two link to each other.\n${o?`This Nether spot covers Overworld X ${nx*8} to ${nx*8+7}, Z ${nz*8} to ${nz*8+7}.`:`Chunk ${Math.floor(nx/16)}, ${Math.floor(nz/16)} in the Overworld.`}`;
+  $('npCmd').value=`/execute in minecraft:${dim} run tp @s ${nx} ${ny} ${nz}`;}
+document.querySelectorAll('#npDir button').forEach(b=>b.onclick=()=>{npDir=b.dataset.d;document.querySelectorAll('#npDir button').forEach(x=>x.classList.toggle('on',x===b));np();});
+['npX','npY','npZ'].forEach(id=>$(id).addEventListener('input',np));np();
+$('npShow').onclick=()=>{const x=parseFloat($('npX').value)||0,z=parseFloat($('npZ').value)||0,o=npDir==='o2n';S.found={x:o?x:x*8,z:o?z:z*8};location.hash='#map';jump(S.found.x,S.found.z,1);};
+function ck(){const x=Math.floor(parseFloat($('ckX').value)),z=Math.floor(parseFloat($('ckZ').value));if(isNaN(x)||isNaN(z)){$('ckOut').textContent='Enter X and Z.';return;}
+  const i=chunkInfo(x,z);$('ckOut').textContent=`Chunk ${i.cx}, ${i.cz}  (blocks ${i.cx*16}…${i.cx*16+15}, ${i.cz*16}…${i.cz*16+15})\nPosition inside chunk: ${((x%16)+16)%16}, ${((z%16)+16)%16}\nRegion file: r.${i.rx}.${i.rz}.mca\nSlime chunk (${S.edition==='java'?'Java, current seed':'Bedrock'}, Overworld): ${isSlime(i.cx,i.cz)?'yes':'no'}`;}
+['ckX','ckZ'].forEach(id=>$(id).addEventListener('input',ck));
+
+// ---------- Init ----------
+const savedSeed=ls.get('cs_seed'),savedEd=ls.get('cs_ed');
+if(savedSeed!==null)seedEl.value=savedSeed;S.seed=parseSeed(seedEl.value||'0');
+window.addEventListener('resize',resize);window.addEventListener('resize',()=>drawRose());
+route();setEdition(savedEd==='bedrock'?'bedrock':'java');renderPins();resize();ck();
+})();
+</script>
+</body>
+</html>
