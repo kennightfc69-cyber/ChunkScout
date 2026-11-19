@@ -46,7 +46,6 @@
 <div>
 <div class="card"><div class="row" style="align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px"><h2 style="font-size:17px;margin:0;flex:0 0 auto">3D preview</h2>
 <div class="zoomctl" role="group" aria-label="3D view"><button type="button" id="v3dOut" aria-label="Zoom out">−</button><button type="button" id="v3dIn" aria-label="Zoom in">+</button><button type="button" id="v3dReset" style="width:auto;padding:8px 12px">Reset view</button></div></div>
-<div class="row" style="align-items:center;margin-top:8px"><label for="v3dBlock" style="margin:0!important;flex:0 0 auto">Preview block</label><select id="v3dBlock" style="flex:1 1 auto"></select></div>
 <div class="v3wrap"><canvas id="v3d" class="v3d" aria-label="Rotatable 3D preview of the shape. Use the layer blueprints below for exact block positions."></canvas><div class="busy" id="vxBusy" hidden>Generating…</div></div>
 <p class="note" id="v3dNote"></p></div>
 <div class="card" style="margin-top:16px"><h2 style="font-size:17px;margin:0 0 8px">Layer by layer</h2>
@@ -63,8 +62,8 @@
 </div>
 <div class="meta-line"><span>Java &amp; Bedrock · any version</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
 <div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
-<div data-aside-wrap><div>
-<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#build">How to build a sphere in Minecraft</a></li><li><a href="#algo">How the sphere is calculated</a></li><li><a href="#sizes">Block counts for common sizes</a></li><li><a href="#tips">Tips for big spheres</a></li></ol></nav>
+<div class="art-wrap" data-aside-wrap><div class="art-main">
+
 <article class="prose">
 <h2 id="build">How to build a sphere in Minecraft</h2>
 <ol><li>Choose the diameter and whether you want it hollow or solid. Use the 3D preview to check the shape.</li>
@@ -81,7 +80,7 @@
 <h2 id="tips">Tips for big spheres</h2>
 <ul><li>Build the widest layer (the middle) first as a guide ring, then work outward in both directions.</li><li>Scaffolding makes the overhanging lower half much easier to place.</li><li>Glass spheres underwater: build the shell first, then remove the water inside with sponges or sand.</li></ul>
 </article>
-</div><aside><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+</div><aside class="rail"><nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#build">How to build a sphere in Minecraft</a></li><li><a href="#algo">How the sphere is calculated</a></li><li><a href="#sizes">Block counts for common sizes</a></li><li><a href="#tips">Tips for big spheres</a></li></ol></nav><nav class="rail-box" aria-label="More tools"><b>More tools</b><ul><li><a href="/tools/block-gradient-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#gradient"/></svg><span>Block Gradients</span></a></li><li><a href="/tools/map-art-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#mapart"/></svg><span>Map Art</span></a></li><li><a href="/seed-map/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#map"/></svg><span>Seed Map</span></a></li><li><a href="/tools/enchantment-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#book"/></svg><span>Enchantment Order</span></a></li><li><a href="/tools/xp-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#xp"/></svg><span>XP Calculator</span></a></li></ul><a class="more-link" href="/tools/">All tools →</a></nav><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
 <div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
 <section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#shapes"/></svg><span><b><a href="/tools/shape-generator/">Shape Generator</a></b><small>Cylinders, cones, domes, pyramids, arches, ellipsoids and ellipses with 3D previews, layer blueprints and material counts.</small><span class="cat">Building · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="shape-generator" aria-pressed="false" aria-label="Favorite Shape Generator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#circle"/></svg><span><b><a href="/tools/circle-generator/">Circle Generator</a></b><small>Pixel-perfect circles and ovals from 3 to 500 blocks wide, with zoom, block counts, PNG download and share links.</small><span class="cat">Building</span></span><button class="fav" type="button" data-fav="circle-generator" aria-pressed="false" aria-label="Favorite Circle Generator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#chest"/></svg><span><b><a href="/tools/stack-calculator/">Stack Calculator</a></b><small>Turn any item count into stacks, shulker boxes and double chests, for 64, 16 and 1 stack sizes.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="stack-calculator" aria-pressed="false" aria-label="Favorite Stack Calculator">☆</button></div></div></section>
 </div>
@@ -90,9 +89,6 @@
 <script src="/assets/ads-config.js" defer></script>
 <script src="/assets/data.js" defer></script>
 <script src="/assets/site.js" defer></script>
-<script src="/assets/blocks.js"></script>
-<script src="/assets/pixtex.js"></script>
-<script src="/assets/mctex.js"></script>
 <script src="/assets/voxel.js"></script>
 <script>addEventListener('DOMContentLoaded',()=>{
 (()=>{const $=id=>document.getElementById(id),P=window.CS?CS.params():{};let type=P.t==='solid'?'solid':'hollow';

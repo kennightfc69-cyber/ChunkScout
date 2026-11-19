@@ -51,8 +51,9 @@
 </div>
 <div class="card" aria-live="polite">
   <div class="row" style="align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px"><h2 style="font-size:17px;margin:0;flex:0 0 auto">Preview</h2><div class="seg" id="maView" role="group" aria-label="View" style="flex:0 0 auto"><button type="button" data-v="map" class="on" aria-pressed="true">Map colors</button><button type="button" data-v="orig" aria-pressed="false">Original</button><button type="button" data-v="both" aria-pressed="false">Side by side</button></div><label class="check" style="flex:0 0 auto;margin:0!important"><input type="checkbox" id="maGrid" checked> Grid</label></div>
-  <div class="mapview" id="maBox" style="margin-top:10px"><canvas id="maCv" aria-label="Map art preview"></canvas></div>
-  <p class="note" id="maHover">Choose an image to start. Hover or tap the preview to see each block.</p>
+  <div class="mapview mv2" id="maBox" style="margin-top:10px"><canvas id="maCv" aria-label="Map art preview. Drag to move, scroll or pinch to zoom." tabindex="0"></canvas>
+   <div class="zoomctl mvz" role="group" aria-label="Preview zoom"><button type="button" id="maZo" aria-label="Zoom out">−</button><span id="maZl">Fit</span><button type="button" id="maZi" aria-label="Zoom in">+</button><button type="button" id="maZf" style="width:auto;padding:6px 10px">Fit</button></div></div>
+  <p class="note" id="maHover">Choose an image to start. Drag to move around, scroll or pinch to zoom in on single blocks, and hover or tap to see each block.</p>
   <div class="kv" id="maStats"></div>
   <div style="overflow-x:auto"><table class="mini" id="maTable"></table></div>
   <textarea id="maList" hidden readonly></textarea>
@@ -61,8 +62,8 @@
 </div>
 <div class="meta-line"><span>Java 1.17+ palette · Bedrock approximate</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
 <div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
-<div data-aside-wrap><div>
-<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#how">How map art works</a></li><li><a href="#accuracy">Getting the closest match to your image</a></li><li><a href="#build">Building it in survival</a></li><li><a href="#flat">Flat vs staircase</a></li><li><a href="#editions">Java and Bedrock</a></li><li><a href="#faq">FAQ</a></li></ol></nav>
+<div class="art-wrap" data-aside-wrap><div class="art-main">
+
 <article class="prose">
 <h2 id="how">How map art works</h2>
 <p>A Minecraft map shows a 128 × 128 area of the world, one pixel per block, colored by the block on top. Every block has a fixed map color, and the game shows each color at three brightness levels depending on whether the block is higher, level with, or lower than the block to its north. ChunkScout scales your image to the size you choose, then replaces every pixel with the closest color you can actually build.</p>
@@ -87,7 +88,7 @@
 <details class="faq"><summary>Why are water and some blocks missing?</summary><p>Water’s map shade depends on its depth, which makes it hard to control, so it isn’t used. Expensive blocks (gold, diamond, emerald, lapis and iron) and blocks that need support (leaves, glow lichen) can be switched on in “Blocks to use”.</p></details>
 <details class="faq"><summary>Is my image uploaded?</summary><p>No. Everything happens in your browser. The image never leaves your device.</p></details>
 </article>
-</div><aside><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+</div><aside class="rail"><nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#how">How map art works</a></li><li><a href="#accuracy">Getting the closest match to your image</a></li><li><a href="#build">Building it in survival</a></li><li><a href="#flat">Flat vs staircase</a></li><li><a href="#editions">Java and Bedrock</a></li><li><a href="#faq">FAQ</a></li></ol></nav><nav class="rail-box" aria-label="More tools"><b>More tools</b><ul><li><a href="/tools/sphere-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#sphere"/></svg><span>Sphere Generator</span></a></li><li><a href="/tools/shape-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#shapes"/></svg><span>Shape Generator</span></a></li><li><a href="/seed-map/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#map"/></svg><span>Seed Map</span></a></li><li><a href="/tools/enchantment-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#book"/></svg><span>Enchantment Order</span></a></li><li><a href="/tools/xp-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#xp"/></svg><span>XP Calculator</span></a></li></ul><a class="more-link" href="/tools/">All tools →</a></nav><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
 <div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
 <section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#gradient"/></svg><span><b><a href="/tools/block-gradient-generator/">Block Gradient Generator</a></b><small>Blend between two colors or blocks and get a matching palette of Minecraft blocks, step by step.</small><span class="cat">Building · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="block-gradient-generator" aria-pressed="false" aria-label="Favorite Block Gradient Generator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#circle"/></svg><span><b><a href="/tools/circle-generator/">Circle Generator</a></b><small>Pixel-perfect circles and ovals from 3 to 500 blocks wide, with zoom, block counts, PNG download and share links.</small><span class="cat">Building</span></span><button class="fav" type="button" data-fav="circle-generator" aria-pressed="false" aria-label="Favorite Circle Generator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#chest"/></svg><span><b><a href="/tools/stack-calculator/">Stack Calculator</a></b><small>Turn any item count into stacks, shulker boxes and double chests, for 64, 16 and 1 stack sizes.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="stack-calculator" aria-pressed="false" aria-label="Favorite Stack Calculator">☆</button></div></div></section>
 </div>
@@ -158,7 +159,7 @@ function run(){if(!srcData)return;const sz=sizeFor();if(!sz){$('maErr').textCont
   if(D==='bayer'){const t=BAYER[(y%4)*4+(x%4)]*48;r+=t;g+=t;b+=t;}
   const p=near(r,g,b);idx[y*W+x]=p;
   if(D==='fs'||D==='atk'){const q=pal[p].rgb;spread(x,y,d[j]-q[0],d[j+1]-q[1],d[j+2]-q[2],D==='fs'?FS:ATK);}}
- stats();paint();['maCopy','maCsv','maPng','maBp'].forEach(id=>$(id).disabled=false);}
+ fr={};hov=null;const firstPaint=!vs;stats();paint(!firstPaint&&window.__maKeep===W+'x'+H);window.__maKeep=W+'x'+H;['maCopy','maCsv','maPng','maBp'].forEach(id=>$(id).disabled=false);}
 function stats(){const cnt=new Map();for(let i=0;i<idx.length;i++){const c=pal[idx[i]].c;cnt.set(c,(cnt.get(c)||0)+1);}
  const rows=[...cnt.entries()].sort((a,b)=>b[1]-a[1]);let heights='';
  if($('maMode').value==='stair'){let lo=0,hi=0;for(let x=0;x<W;x++){let h=0;for(let y=0;y<H;y++){const s=pal[idx[y*W+x]].s;h+=s===2?1:s===0?-1:0;lo=Math.min(lo,h);hi=Math.max(hi,h);}}
@@ -170,18 +171,43 @@ function stats(){const cnt=new Map();for(let i=0;i<idx.length;i++){const c=pal[i
 function frame(kind){const c=document.createElement('canvas');c.width=W;c.height=H;const im=c.getContext('2d').createImageData(W,H);
  for(let i=0;i<W*H;i++){const q=kind==='map'?pal[idx[i]].rgb:[area.orig[i*3],area.orig[i*3+1],area.orig[i*3+2]].map(v=>Math.max(0,Math.min(255,v)));im.data[i*4]=q[0];im.data[i*4+1]=q[1];im.data[i*4+2]=q[2];im.data[i*4+3]=255;}
  c.getContext('2d').putImageData(im,0,0);return c;}
-function paint(){if(!idx)return;const both=view==='both',box=$('maBox').clientWidth-12,cols=both?2:1,cs=Math.max(1,Math.min(8,Math.floor((box-(both?12:0))/(W*cols)))),gap=both?12:0,c=$('maCv'),g=c.getContext('2d');
- c.width=W*cs*cols+gap;c.height=H*cs;c.style.width=c.width+'px';c.style.height=c.height+'px';g.imageSmoothingEnabled=false;g.fillStyle='#0c100e';g.fillRect(0,0,c.width,c.height);
- // the "original" view shows exactly what the converter sees (your image scaled to the build size, before colors are matched)
- if(both){g.drawImage(frame('orig'),0,0,W*cs,H*cs);g.drawImage(frame('map'),W*cs+gap,0,W*cs,H*cs);if($('maGrid').checked){grid(g,cs,W,H,0,0);grid(g,cs,W,H,W*cs+gap,0);}}
- else{g.drawImage(frame(view),0,0,W*cs,H*cs);if($('maGrid').checked)grid(g,cs,W,H,0,0);}c._cs=cs;c._gap=gap;}
-function grid(g,cs,W,H,ox,oy){g.lineWidth=1;g.strokeStyle='rgba(0,0,0,.35)';g.beginPath();for(let x=16;x<W;x+=16){g.moveTo(ox+x*cs+.5,oy);g.lineTo(ox+x*cs+.5,oy+H*cs);}for(let y=16;y<H;y+=16){g.moveTo(ox,oy+y*cs+.5);g.lineTo(ox+W*cs,oy+y*cs+.5);}g.stroke();
+// ---- zoomable, pannable preview ----
+let fr={},vs=0,vx=0,vy=0,hov=null,fitS=1;const GAP=10;
+function panes(){const c=$('maCv'),Wc=c.clientWidth,Hc=c.clientHeight;return view==='both'?[[0,(Wc-GAP)/2,'orig'],[(Wc+GAP)/2,(Wc-GAP)/2,'map']]:[[0,Wc,view]];}
+function fit(){const c=$('maCv'),p=panes(),pw=p[0][1],ph=c.clientHeight;fitS=Math.min(pw/W,ph/H);vs=fitS;vx=(W-pw/vs)/2;vy=(H-ph/vs)/2;}
+function sizeCanvas(){const c=$('maCv'),box=$('maBox'),bw=box.clientWidth-14,ar=view==='both'?(2*W+GAP/2)/H:W/H;const h=Math.max(260,Math.min(window.innerHeight*0.7,bw/ar));c.style.width=bw+'px';c.style.height=Math.round(h)+'px';}
+function paint(keep){if(!idx)return;const c=$('maCv'),d=window.devicePixelRatio||1;sizeCanvas();if(!keep||!vs)fit();
+ c.width=Math.round(c.clientWidth*d);c.height=Math.round(c.clientHeight*d);const g=c.getContext('2d');g.setTransform(d,0,0,d,0,0);g.fillStyle='#0c100e';g.fillRect(0,0,c.clientWidth,c.clientHeight);
+ if(!fr.map)fr.map=frame('map');if(view!=='map'&&!fr.orig)fr.orig=frame('orig');const Hc=c.clientHeight;
+ for(const [ox,pw,kind] of panes()){g.save();g.beginPath();g.rect(ox,0,pw,Hc);g.clip();g.imageSmoothingEnabled=false;
+  g.drawImage(fr[kind],ox-vx*vs,-vy*vs,W*vs,H*vs);
+  if($('maGrid').checked)grid(g,vs,ox,pw,Hc);
+  if(hov){g.lineWidth=2;g.strokeStyle='#000';g.strokeRect(ox+(hov[0]-vx)*vs-1,(hov[1]-vy)*vs-1,vs+2,vs+2);g.strokeStyle='#fff';g.lineWidth=1.5;g.strokeRect(ox+(hov[0]-vx)*vs,(hov[1]-vy)*vs,vs,vs);}
+  if(view==='both'){g.fillStyle='rgba(11,15,13,.8)';g.fillRect(ox+6,6,kind==='map'?84:62,20);g.fillStyle='#e6efe9';g.font='600 11px Space Grotesk, sans-serif';g.fillText(kind==='map'?'Map colors':'Original',ox+12,20);}
+  g.restore();}
+ $('maZl').textContent=Math.abs(vs-fitS)<1e-6?'Fit':(vs>=1?Math.round(vs*10)/10+' px/block':'1:'+Math.round(1/vs));}
+function bpGrid(g,cs,W,H,ox,oy){g.lineWidth=1;g.strokeStyle='rgba(0,0,0,.35)';g.beginPath();for(let x=16;x<W;x+=16){g.moveTo(ox+x*cs+.5,oy);g.lineTo(ox+x*cs+.5,oy+H*cs);}for(let y=16;y<H;y+=16){g.moveTo(ox,oy+y*cs+.5);g.lineTo(ox+W*cs,oy+y*cs+.5);}g.stroke();
  g.strokeStyle='rgba(242,193,78,.9)';g.lineWidth=2;g.beginPath();for(let x=128;x<W;x+=128){g.moveTo(ox+x*cs,oy);g.lineTo(ox+x*cs,oy+H*cs);}for(let y=128;y<H;y+=128){g.moveTo(ox,oy+y*cs);g.lineTo(ox+W*cs,oy+y*cs);}g.stroke();}
-function hover(e){if(!idx)return;const c=$('maCv'),r=c.getBoundingClientRect(),cs=c._cs*(r.width/c.width);let px=(e.clientX-r.left)/cs;if(view==='both'&&px>=W)px-=W+c._gap/cs;
- const x=Math.floor(px),y=Math.floor((e.clientY-r.top)/cs);if(x<0||y<0||x>=W||y>=H)return;
+function grid(g,s,ox,pw,Hc){const x0=Math.max(0,Math.floor(vx)),x1=Math.min(W,Math.ceil(vx+pw/s)),y0=Math.max(0,Math.floor(vy)),y1=Math.min(H,Math.ceil(vy+Hc/s)),X=x=>Math.round(ox+(x-vx)*s)+.5,Y=y=>Math.round((y-vy)*s)+.5;
+ if(s>=7){g.lineWidth=1;g.strokeStyle='rgba(0,0,0,.28)';g.beginPath();for(let x=x0;x<=x1;x++){g.moveTo(X(x),Y(y0));g.lineTo(X(x),Y(y1));}for(let y=y0;y<=y1;y++){g.moveTo(X(x0),Y(y));g.lineTo(X(x1),Y(y));}g.stroke();}
+ g.lineWidth=s>=7?2:1;g.strokeStyle='rgba(0,0,0,.55)';g.beginPath();for(let x=Math.ceil(x0/16)*16;x<=x1;x+=16){g.moveTo(X(x),Y(y0));g.lineTo(X(x),Y(y1));}for(let y=Math.ceil(y0/16)*16;y<=y1;y+=16){g.moveTo(X(x0),Y(y));g.lineTo(X(x1),Y(y));}g.stroke();
+ g.lineWidth=2.5;g.strokeStyle='rgba(242,193,78,.95)';g.beginPath();for(let x=Math.ceil(x0/128)*128;x<=x1;x+=128){if(x===0||x===W)continue;g.moveTo(X(x),Y(y0));g.lineTo(X(x),Y(y1));}for(let y=Math.ceil(y0/128)*128;y<=y1;y+=128){if(y===0||y===H)continue;g.moveTo(X(x0),Y(y));g.lineTo(X(x1),Y(y));}g.stroke();
+ if(s>=22){g.fillStyle='rgba(255,255,255,.75)';g.font='600 9px JetBrains Mono, monospace';g.textAlign='left';g.textBaseline='top';for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++)if(x%8===0&&y%8===0)g.fillText(`${x%128+1},${y%128+1}`,ox+(x-vx)*s+2,(y-vy)*s+2);}}
+function zoomAt(f,sx,sy){const c=$('maCv'),p=panes();let ox=0;for(const q of p)if(sx>=q[0])ox=q[0];const bx=vx+(sx-ox)/vs,by=vy+sy/vs;vs=Math.max(fitS*0.5,Math.min(64,vs*f));vx=bx-(sx-ox)/vs;vy=by-sy/vs;paint(true);}
+function blockAt(e){const c=$('maCv'),r=c.getBoundingClientRect(),sx=e.clientX-r.left,sy=e.clientY-r.top;for(const [ox,pw] of panes())if(sx>=ox&&sx<ox+pw){const x=Math.floor(vx+(sx-ox)/vs),y=Math.floor(vy+sy/vs);return x>=0&&y>=0&&x<W&&y<H?[x,y]:null;}return null;}
+function hover(e){if(!idx)return;const b=blockAt(e);hov=b;paint(true);if(!b)return;const [x,y]=b;
  const p=pal[idx[y*W+x]],st=$('maMode').value==='stair'?[' · one block lower than the block to its north',' · same height as the block to its north',' · one block higher than the block to its north'][p.s]:'';
- $('maHover').textContent=`Map ${Math.floor(x/128)+1},${Math.floor(y/128)+1} · column ${x%128+1}, row ${y%128+1}: ${p.c[5]}${st}`;}
-$('maCv').addEventListener('pointermove',hover);$('maCv').addEventListener('pointerdown',hover);
+ $('maHover').textContent=`Map ${Math.floor(x/128)+1},${Math.floor(y/128)+1} · column ${x%128+1}, row ${y%128+1} (from the north-west corner): ${p.c[5]}${st}`;}
+{const c=$('maCv');let drag=null,ptrs={},pinch=null;c.style.touchAction='none';
+ c.addEventListener('pointerdown',e=>{c.setPointerCapture(e.pointerId);ptrs[e.pointerId]=[e.clientX,e.clientY];drag=[e.clientX,e.clientY,vx,vy,false];});
+ c.addEventListener('pointermove',e=>{if(!ptrs[e.pointerId]){hover(e);return;}ptrs[e.pointerId]=[e.clientX,e.clientY];const ids=Object.keys(ptrs);
+  if(ids.length===2){const a=ptrs[ids[0]],b=ptrs[ids[1]],d=Math.hypot(a[0]-b[0],a[1]-b[1]),r=c.getBoundingClientRect();if(pinch)zoomAt(d/pinch,(a[0]+b[0])/2-r.left,(a[1]+b[1])/2-r.top);pinch=d;return;}
+  if(drag){const dx=e.clientX-drag[0],dy=e.clientY-drag[1];if(Math.abs(dx)+Math.abs(dy)>4)drag[4]=true;if(drag[4]){vx=drag[2]-dx/vs;vy=drag[3]-dy/vs;paint(true);}}});
+ const up=e=>{if(drag&&!drag[4])hover(e);delete ptrs[e.pointerId];pinch=null;drag=null;};c.addEventListener('pointerup',up);c.addEventListener('pointercancel',up);
+ c.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'&&!drag){hov=null;paint(true);}});
+ c.addEventListener('wheel',e=>{if(!idx)return;e.preventDefault();const r=c.getBoundingClientRect();zoomAt(e.deltaY<0?1.25:0.8,e.clientX-r.left,e.clientY-r.top);},{passive:false});
+ c.addEventListener('keydown',e=>{const k={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];if(k){e.preventDefault();vx+=k[0]*40/vs;vy+=k[1]*40/vs;paint(true);}else if(e.key==='+'||e.key==='=')zoomAt(1.25,c.clientWidth/2,c.clientHeight/2);else if(e.key==='-')zoomAt(0.8,c.clientWidth/2,c.clientHeight/2);});
+ $('maZi').onclick=()=>zoomAt(1.5,c.clientWidth/(view==='both'?4:2),c.clientHeight/2);$('maZo').onclick=()=>zoomAt(1/1.5,c.clientWidth/(view==='both'?4:2),c.clientHeight/2);$('maZf').onclick=()=>paint(false);}
 const drop=$('maDrop');drop.onclick=()=>$('maFile').click();drop.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();$('maFile').click();}};
 $('maFile').onchange=()=>load($('maFile').files[0]);
 ['dragenter','dragover'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add('over');}));['dragleave','drop'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove('over');}));
@@ -189,17 +215,17 @@ drop.addEventListener('drop',e=>load(e.dataTransfer.files[0]));
 function sizeUI(){const m=$('maSize').value;$('maAutoW').hidden=m!=='auto';$('maMapsW').hidden=m!=='maps';$('maExW').hidden=m!=='exact';$('maBgW').hidden=$('maFit').value!=='contain';}
 $('maSize').addEventListener('change',()=>{sizeUI();schedule();});$('maFit').addEventListener('change',()=>{sizeUI();schedule();});
 ['maMax','maW','maH','maMode','maDither','maBg','maTrim'].forEach(id=>$(id).addEventListener('change',schedule));['maBr','maCo','maSa','maEw','maEh','maBg'].forEach(id=>$(id).addEventListener('input',schedule));
-$('maCats').addEventListener('change',schedule);$('maGrid').addEventListener('change',paint);
-document.querySelectorAll('#maView button').forEach(b=>b.onclick=()=>{view=b.dataset.v;document.querySelectorAll('#maView button').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b);});paint();});
+$('maCats').addEventListener('change',schedule);$('maGrid').addEventListener('change',()=>paint(true));
+document.querySelectorAll('#maView button').forEach(b=>b.onclick=()=>{view=b.dataset.v;document.querySelectorAll('#maView button').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b);});paint(false);});
 const dl=(blob,n)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=n;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},800);};
 $('maCsv').onclick=()=>{const rows=window.__maRows||[];dl(new Blob(['Block,Count,Stacks,Remainder\n'+rows.map(([c,n])=>`"${c[5]}",${n},${Math.floor(n/64)},${n%64}`).join('\n')],{type:'text/csv'}),`map-art-materials-${W}x${H}.csv`);};
 $('maPng').onclick=()=>frame('map').toBlob(b=>dl(b,`map-art-preview-${W}x${H}.png`),'image/png');
 $('maBp').onclick=()=>{const cs=W>256||H>256?6:8,pad=36,c=document.createElement('canvas');c.width=W*cs+pad*2;c.height=H*cs+pad*2+20;const g=c.getContext('2d');g.fillStyle='#0e1311';g.fillRect(0,0,c.width,c.height);
- g.imageSmoothingEnabled=false;g.drawImage(frame('map'),pad,pad,W*cs,H*cs);grid(g,cs,W,H,pad,pad);g.fillStyle='#e6efe9';g.font='600 13px Space Grotesk, sans-serif';g.textAlign='center';
+ g.imageSmoothingEnabled=false;g.drawImage(frame('map'),pad,pad,W*cs,H*cs);bpGrid(g,cs,W,H,pad,pad);g.fillStyle='#e6efe9';g.font='600 13px Space Grotesk, sans-serif';g.textAlign='center';
  for(let mx=0;mx<Math.ceil(W/128);mx++)for(let my=0;my<Math.ceil(H/128);my++){g.fillText(`Map ${mx+1},${my+1}`,pad+Math.min(W,mx*128+64)*cs,pad+my*128*cs+(my?16:-8));}
  g.textAlign='left';g.fillStyle='#8fa39a';g.fillText(`${W}×${H} map art · thin lines every 16 blocks (chunks) · yellow lines = map borders · north is up · chunkscout.com`,pad,c.height-14);
  c.toBlob(b=>b?dl(b,`map-art-blueprint-${W}x${H}.png`):(window.CS&&CS.toast('Image too large for this browser')),'image/png');};
-sizeUI();window.addEventListener('resize',()=>paint());})();
+sizeUI();window.addEventListener('resize',()=>paint(true));})();
 });</script>
 </body>
 </html>

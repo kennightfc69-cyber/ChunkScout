@@ -34,8 +34,8 @@
 <div class="card" style="align-self:start">
   <label for="enItem">Item</label><select id="enItem"></select>
   <label for="enUses">Times this item has already been used in an anvil</label><select id="enUses"><option value="0">Never (new or freshly enchanted)</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
-  <label>Enchanted books you have</label>
-  <p class="note" style="margin-top:0">Tick each book and choose its level. Conflicting enchantments are greyed out.</p>
+  <div class="row" style="align-items:flex-end;justify-content:space-between;margin-top:14px"><label style="margin:0!important;flex:1 1 auto">Enchanted books you have</label><span style="flex:0 0 auto;display:flex;gap:6px"><button type="button" id="enBest" style="padding:6px 10px">Best set</button><button type="button" id="enClear" style="padding:6px 10px">Clear</button></span></div>
+  <p class="note" style="margin-top:4px">Tick each book and choose its level. Enchantments that can’t go together are greyed out; hover one to see why.</p>
   <div id="enList" class="enlist"></div>
   <label class="check"><input type="checkbox" id="enRename"> Also rename the item (+1 level on the last step)</label>
   <p class="err" id="enErr" role="alert"></p>
@@ -50,8 +50,8 @@
 </div>
 <div class="meta-line"><span>Java Edition costs · Bedrock approximate</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
 <div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
-<div data-aside-wrap><div>
-<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#cost">How anvil costs work</a></li><li><a href="#order">Why the order matters</a></li><li><a href="#mult">Enchantment cost table</a></li><li><a href="#faq">FAQ</a></li></ol></nav>
+<div class="art-wrap" data-aside-wrap><div class="art-main">
+
 <article class="prose">
 <h2 id="cost">How anvil costs work</h2>
 <p>Every time you combine two things in an anvil (Java Edition), the cost in levels is:</p>
@@ -67,7 +67,7 @@
 <details class="faq"><summary>Why do I need more levels than the total cost?</summary><p>Each step needs you to have at least that many levels at the time. Because higher levels cost more points, you spend fewer XP points by doing expensive steps at a low level and refilling in between. The “XP points” figure assumes you start each step with exactly the levels it costs.</p></details>
 <details class="faq"><summary>Can I fix “Too Expensive” on an item I already made?</summary><p>No. Prior work penalty never goes down. Use a new item, or grindstone it (which removes enchantments and resets the penalty) and start again in a good order.</p></details>
 </article>
-</div><aside><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+</div><aside class="rail"><nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#cost">How anvil costs work</a></li><li><a href="#order">Why the order matters</a></li><li><a href="#mult">Enchantment cost table</a></li><li><a href="#faq">FAQ</a></li></ol></nav><nav class="rail-box" aria-label="More tools"><b>More tools</b><ul><li><a href="/seed-map/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#map"/></svg><span>Seed Map</span></a></li><li><a href="/tools/nether-portal-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#portal"/></svg><span>Nether Portal Calculator</span></a></li><li><a href="/tools/direction-finder/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#compass"/></svg><span>Direction Finder</span></a></li><li><a href="/tools/sphere-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#sphere"/></svg><span>Sphere Generator</span></a></li><li><a href="/tools/circle-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#circle"/></svg><span>Circle Generator</span></a></li></ul><a class="more-link" href="/tools/">All tools →</a></nav><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
 <div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
 <section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#xp"/></svg><span><b><a href="/tools/xp-calculator/">XP Calculator</a></b><small>Levels to experience points and back, points needed for any target level, and how many mobs, ores or bottles that takes.</small><span class="cat">Survival · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="xp-calculator" aria-pressed="false" aria-label="Favorite XP Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#chest"/></svg><span><b><a href="/tools/stack-calculator/">Stack Calculator</a></b><small>Turn any item count into stacks, shulker boxes and double chests, for 64, 16 and 1 stack sizes.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="stack-calculator" aria-pressed="false" aria-label="Favorite Stack Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#beacon"/></svg><span><b><a href="/tools/beacon-calculator/">Beacon Calculator</a></b><small>Blocks, ingots and layer-by-layer blueprints for beacon pyramids, including shared bases for several beacons.</small><span class="cat">Survival · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="beacon-calculator" aria-pressed="false" aria-label="Favorite Beacon Calculator">☆</button></div></div></section>
 </div>
@@ -89,22 +89,26 @@ sword:['Sword',['sharp','smite','bane','kb','fire','loot','sweep',...COMMON]],ax
 mace:['Mace',['density','breach','smite','bane','wind','fire',...COMMON]],bow:['Bow',['power','punch','flame','inf',...COMMON]],crossbow:['Crossbow',['multi','pierce','qc',...COMMON]],trident:['Trident',['loyal','chan','rip','imp',...COMMON]],rod:['Fishing Rod',['luck','lure',...COMMON]],elytra:['Elytra',COMMON],shears:['Shears',['eff',...COMMON]]};
 const CONFLICT=[['prot','fprot','bprot','pprot'],['sharp','smite','bane'],['density','breach','smite','bane'],['silk','fortune'],['inf','mend'],['multi','pierce'],['depth','frost'],['rip','loyal'],['rip','chan']];
 const conflicts=(a,b)=>CONFLICT.some(g=>g.includes(a)&&g.includes(b));
-const DEF={sword:{sharp:5,loot:3,sweep:3,fire:2,unb:3,mend:1},pick:{eff:5,fortune:3,unb:3,mend:1}};
+const BEST={helmet:['prot','resp','aqua','unb','mend'],chest:['prot','unb','mend'],legs:['prot','sneak','unb','mend'],boots:['prot','ff','depth','soul','unb','mend'],sword:['sharp','loot','sweep','fire','kb','unb','mend'],axe:['sharp','eff','unb','mend'],pick:['eff','fortune','unb','mend'],shovel:['eff','fortune','unb','mend'],hoe:['eff','fortune','unb','mend'],
+mace:['density','wind','fire','unb','mend'],bow:['power','punch','flame','inf','unb'],crossbow:['multi','qc','unb','mend'],trident:['loyal','chan','imp','unb','mend'],rod:['luck','lure','unb','mend'],elytra:['unb','mend'],shears:['eff','unb','mend']};
+const bestSet=it=>Object.fromEntries(BEST[it].map(k=>[k,E[k][1]]));
+const DEF={sword:bestSet('sword')};
 const roman=n=>['','I','II','III','IV','V'][n];
 let item=ITEMS[P.i]?P.i:'sword',sel={};
 if(P.e)P.e.split('.').forEach(t=>{const [k,l]=t.split('-');if(E[k])sel[k]=Math.max(1,Math.min(E[k][1],+l||E[k][1]));});else sel={...DEF.sword};
 if(P.u)$('enUses').value=Math.max(0,Math.min(5,+P.u|0));
 $('enItem').innerHTML=Object.entries(ITEMS).map(([k,v])=>`<option value="${k}">${v[0]}</option>`).join('');$('enItem').value=item;
 document.querySelector('#enTable tbody').innerHTML=Object.values(E).map(e=>`<tr><td>${e[0]}</td><td>${roman(e[1])}</td><td>×${e[2]}</td><td>×${e[3]}</td></tr>`).join('');
-function list(){const ks=ITEMS[item][1];$('enList').innerHTML=ks.map(k=>{const e=E[k],on=k in sel,blocked=!on&&Object.keys(sel).some(o=>conflicts(o,k));
- return `<div class="enrow${blocked?' off':''}"><label class="check"><input type="checkbox" data-k="${k}"${on?' checked':''}${blocked?' disabled':''}> ${e[0]}</label>${e[1]>1?`<select data-l="${k}" aria-label="${e[0]} level"${on?'':' disabled'}>${Array.from({length:e[1]},(_,i)=>`<option value="${i+1}"${(sel[k]||e[1])===i+1?' selected':''}>${roman(i+1)}</option>`).join('')}</select>`:'<span class="note" style="margin:0">I</span>'}</div>`;}).join('');}
+function list(){const ks=ITEMS[item][1];$('enList').innerHTML=ks.map(k=>{const e=E[k],on=k in sel,by=on?null:Object.keys(sel).find(o=>conflicts(o,k)),blocked=!!by;
+ return `<div class="enrow${blocked?' off':''}"${blocked?` title="Can’t be combined with ${E[by][0]}"`:''}><label class="check"><input type="checkbox" data-k="${k}"${on?' checked':''}${blocked?' disabled':''}> ${e[0]}</label>${e[1]>1?`<select data-l="${k}" aria-label="${e[0]} level"${on?'':' disabled'}>${Array.from({length:e[1]},(_,i)=>`<option value="${i+1}"${(sel[k]||e[1])===i+1?' selected':''}>${roman(i+1)}</option>`).join('')}</select>`:'<span class="note" style="margin:0">I</span>'}</div>`;}).join('');}
 $('enList').addEventListener('change',e=>{const k=e.target.dataset.k,l=e.target.dataset.l;if(k){if(e.target.checked){sel[k]=E[k][1];}else delete sel[k];list();}if(l)sel[l]=+e.target.value;solve();});
 $('enItem').addEventListener('change',()=>{item=$('enItem').value;const ok=new Set(ITEMS[item][1]);Object.keys(sel).forEach(k=>{if(!ok.has(k))delete sel[k];});list();solve();});
+$('enBest').onclick=()=>{sel=bestSet(item);list();solve();};$('enClear').onclick=()=>{sel={};list();solve();};
 $('enUses').addEventListener('change',solve);$('enRename').addEventListener('change',solve);
 const pen=n=>(1<<n)-1;
 // exhaustive search over merge trees with dynamic programming on subsets; keeps the cheapest cost for each anvil-use count
 function solve(){$('enErr').textContent='';const books=Object.keys(sel),n=books.length,N=n+1,ALL=(1<<N)-1,iu=+$('enUses').value;
- if(!n){$('enOut').innerHTML='<li class="empty">Tick at least one book.</li>';['enTot','enMax','enSteps','enPts'].forEach(i=>$(i).textContent='0');$('enNote').textContent='';$('enText').value='';return;}
+ if(!n){$('enOut').innerHTML='<li class="empty">Tick at least one book, or press “Best set”.</li>';['enTot','enMax','enSteps','enPts'].forEach(i=>$(i).textContent='0');$('enNote').textContent='';$('enText').value='';return;}
  const val=new Array(1<<N).fill(0);for(let m=1;m<=ALL;m++){let v=0;for(let i=0;i<n;i++)if(m&(1<<(i+1)))v+=sel[books[i]]*E[books[i]][3];val[m]=v;}
  // best[m] = Map uses -> {cost, max, plan}
  const best=new Array(1<<N);for(let i=0;i<N;i++)best[1<<i]=new Map([[i===0?iu:0,{cost:0,max:0,plan:null}]]);
@@ -124,7 +128,7 @@ function solve(){$('enErr').textContent='';const books=Object.keys(sel),n=books.
  const tp=L=>L<=16?L*L+6*L:L<=31?2.5*L*L-40.5*L+360:4.5*L*L-162.5*L+2220;
  if(ren&&mx>=40){$('enErr').textContent='Renaming pushes the last step to 40 levels, which is Too Expensive. Rename before you start instead (rename alone costs 1 level).';}
  $('enTot').textContent=f(tot);$('enMax').textContent=f(mx);$('enSteps').textContent=steps.length;$('enPts').textContent=f(steps.reduce((t,s)=>t+tp(s.st),0));
- $('enOut').innerHTML=steps.map((s,i)=>`<li><span><b>${name(s.a)}</b> <em>left</em> + <b>${name(s.bm)}</b> <em>right</em></span><span class="lv">${s.st} level${s.st===1?'':'s'}</span></li>`).join('');
+ $('enOut').innerHTML=steps.map((s,i)=>`<li><span class="enslots"><span class="slot l"><em>Left</em>${name(s.a)}</span><span class="plus">+</span><span class="slot r"><em>Right</em>${name(s.bm)}</span></span><span class="lv">${s.st} level${s.st===1?'':'s'}${i===steps.length-1&&ren?'<small>incl. rename</small>':''}</span></li>`).join('');
  $('enText').value=steps.map((s,i)=>`${i+1}. ${name(s.a)} (left) + ${name(s.bm)} (right) = ${s.st} levels`).join('\n')+`\nTotal: ${tot} levels`;
  const finalUses=bu;$('enNote').textContent=`Put the first item in the left anvil slot and the second in the right. Afterwards the ${ITEMS[item][0].toLowerCase()} has been through the anvil ${finalUses} time${finalUses===1?'':'s'}: its next anvil use costs at least ${pen(finalUses)} extra levels. Costs are for Java Edition.`;}
 $('enShare').onclick=e=>window.CS&&CS.share({i:item,u:$('enUses').value,e:Object.entries(sel).map(([k,l])=>k+'-'+l).join('.')},e.target);

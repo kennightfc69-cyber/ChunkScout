@@ -155,8 +155,10 @@ window.CS_CONFIG = {
     var li = function (p) { return '<li><a href="' + p.url + '">' + esc(p.short || p.title) + '</a></li>'; };
     ft.innerHTML = '<div class="sf-in"><div><a class="brand" href="/"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>' +
       '<p>Free Minecraft tools for Java and Bedrock players. Everything on this site runs in your browser, and you don’t need an account.</p></div>' +
-      '<div><h2>Tools</h2><ul>' + tools.slice(0, 6).map(li).join('') + '</ul></div>' +
-      '<div><h2>More tools</h2><ul>' + tools.slice(6).map(li).join('') + '<li><a href="/tools/">All tools →</a></li></ul></div>' +
+      (function () { var by = function (c) { return tools.filter(function (p) { return c.indexOf(p.cat) >= 0; }); };
+        return '<div><h2>Building</h2><ul>' + by(['Building']).map(li).join('') + '</ul></div>' +
+          '<div><h2>Survival</h2><ul>' + by(['Survival']).map(li).join('') + '</ul></div>' +
+          '<div><h2>Technical, player &amp; server</h2><ul>' + by(['Redstone & Technical', 'Player', 'Server']).map(li).join('') + '<li><a href="/tools/">All tools →</a></li></ul></div>'; })() +
       '<div><h2>ChunkScout</h2><ul><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li><li><a href="/privacy/">Privacy Policy</a></li><li><a href="/terms/">Terms of Use</a></li><li><a href="/sitemap.xml">Sitemap</a></li></ul></div></div>' +
       '<div class="sf-legal"><span>© ' + new Date().getFullYear() + ' ChunkScout. Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</span>' +
       (((window.CS_CONFIG || {}).ga4 || ((window.CS_ADS || {}).enabled && !(window.CS_ADS || {}).useGoogleConsent)) ? '<button type="button" data-consent-open>Cookie settings</button>' : '') + '</div>';
@@ -233,4 +235,20 @@ window.CS_CONFIG = {
   window.CS = { copy: copy, toast: toast, store: store, search: search, share: shareLink, params: params, track: function (n, p) { if (window.gtag) window.gtag('event', n, p || {}); } };
 
   renderLists();
+})();
+/* Sticky shorter column: when one side of a two-column tool is much shorter, keep it in view while the other scrolls. */
+(function () {
+  function upd() {
+    var mob = window.matchMedia('(max-width:820px)').matches;
+    document.querySelectorAll('.tool').forEach(function (t) {
+      var k = Array.prototype.filter.call(t.children, function (c) { return c.offsetParent !== null; });
+      k.forEach(function (c) { c.classList.remove('stick'); });
+      if (mob || k.length !== 2) return;
+      var a = k[0].getBoundingClientRect().height, b = k[1].getBoundingClientRect().height, s = a < b ? k[0] : k[1], sh = Math.min(a, b), lg = Math.max(a, b);
+      if (lg - sh > 120 && sh < window.innerHeight - 96) s.classList.add('stick');
+    });
+  }
+  var t = 0; function later() { clearTimeout(t); t = setTimeout(upd, 120); }
+  window.addEventListener('load', upd); window.addEventListener('resize', later);
+  if (window.ResizeObserver) document.addEventListener('DOMContentLoaded', function () { var ro = new ResizeObserver(later); document.querySelectorAll('.tool,.tool>*').forEach(function (e) { ro.observe(e); }); });
 })();
