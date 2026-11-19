@@ -76,25 +76,28 @@
   function Viewer(canvas, opts) {
     opts = opts || {};
     var g = canvas.getContext('2d'), self = this, yaw = -0.7, pitch = 0.55, zoom = 1, vox = null, pts = null, n = 0, simplified = 1, hl = -1, raf = 0;
-    var base = opts.color || [123, 220, 106], hlc = [242, 193, 78];
+    var base = opts.color || [123, 220, 106], hlc = [242, 193, 78], tex = null, texHl = null;
+    // faces: +x,-x,+y,-y,+z,-z  (bit order); each face = normal + 4 corners (unit cube centred on 0)
+    var FACES = [[1, 0, 0, [[.5, -.5, -.5], [.5, -.5, .5], [.5, .5, .5], [.5, .5, -.5]]], [-1, 0, 0, [[-.5, -.5, .5], [-.5, -.5, -.5], [-.5, .5, -.5], [-.5, .5, .5]]],
+      [0, 1, 0, [[-.5, .5, -.5], [.5, .5, -.5], [.5, .5, .5], [-.5, .5, .5]]], [0, -1, 0, [[-.5, -.5, .5], [.5, -.5, .5], [.5, -.5, -.5], [-.5, -.5, -.5]]],
+      [0, 0, 1, [[.5, -.5, .5], [-.5, -.5, .5], [-.5, .5, .5], [.5, .5, .5]]], [0, 0, -1, [[-.5, -.5, -.5], [.5, -.5, -.5], [.5, .5, -.5], [-.5, .5, -.5]]]];
+    var SHADE = [0.8, 0.8, 1, 0.5, 0.65, 0.65]; // Minecraft-style fixed face lighting: top brightest, sides darker
+    this.setBlock = function (b) { // b = {hex, canvas?}
+      base = [1, 3, 5].map(function (i) { return parseInt(b.hex.substr(i, 2), 16); }); tex = b.canvas || null;
+      if (tex) { var c = document.createElement('canvas'); c.width = c.height = 16; var cg = c.getContext('2d'); cg.drawImage(tex, 0, 0); cg.fillStyle = 'rgba(242,193,78,.55)'; cg.fillRect(0, 0, 16, 16); texHl = c; }
+      this.draw();
+    };
     this.set = function (v) {
       vox = v; var X = v.X, Y = v.Y, Z = v.Z, d = v.data, list = [], i = 0, x, y, z;
       for (y = 0; y < Y; y++) for (z = 0; z < Z; z++) for (x = 0; x < X; x++, i++) {
         if (!d[i]) continue;
-        var nx = (x === 0 || !d[i - 1] ? -1 : 0) + (x === X - 1 || !d[i + 1] ? 1 : 0), nz = (z === 0 || !d[i - X] ? -1 : 0) + (z === Z - 1 || !d[i + X] ? 1 : 0),
-          ny = (y === 0 || !d[i - X * Z] ? -1 : 0) + (y === Y - 1 || !d[i + X * Z] ? 1 : 0);
-        var exposed = x === 0 || x === X - 1 || y === 0 || y === Y - 1 || z === 0 || z === Z - 1 || !d[i - 1] || !d[i + 1] || !d[i - X] || !d[i + X] || !d[i - X * Z] || !d[i + X * Z];
-        if (!exposed) continue;
-        // thin shells are open on both sides, so opposite directions cancel: fall back to the direction from the centre
-        if (!nx && !ny && !nz) { nx = x + 0.5 - X / 2; ny = y + 0.5 - Y / 2; nz = z + 0.5 - Z / 2; if (!nx && !ny && !nz) ny = 1; }
-        list.push(x, y, z, nx, ny, nz);
+        var m = (x === X - 1 || !d[i + 1] ? 1 : 0) | (x === 0 || !d[i - 1] ? 2 : 0) | (y === Y - 1 || !d[i + X * Z] ? 4 : 0) | (y === 0 || !d[i - X * Z] ? 8 : 0) | (z === Z - 1 || !d[i + X] ? 16 : 0) | (z === 0 || !d[i - X] ? 32 : 0);
+        if (m) list.push(x, y, z, m);
       }
-      var total = list.length / 6, max = 70000; simplified = total > max ? Math.ceil(total / max) : 1;
-      n = Math.ceil(total / simplified); pts = new Float32Array(n * 7);
-      for (var k = 0, o = 0; k < total; k += simplified, o += 7) {
-        var b = k * 6, L = Math.hypot(list[b + 3], list[b + 4], list[b + 5]) || 1;
-        pts[o] = list[b] + 0.5 - X / 2; pts[o + 1] = list[b + 1] + 0.5 - Y / 2; pts[o + 2] = list[b + 2] + 0.5 - Z / 2;
-        pts[o + 3] = list[b + 3] / L; pts[o + 4] = list[b + 4] / L; pts[o + 5] = list[b + 5] / L; pts[o + 6] = list[b + 1];
+      var total = list.length / 4, max = 90000; simplified = total > max ? Math.ceil(total / max) : 1;
+      n = Math.ceil(total / simplified); pts = new Float32Array(n * 5);
+      for (var k = 0, o = 0; k < total; k += simplified, o += 5) {
+        var b = k * 4; pts[o] = list[b] + 0.5 - X / 2; pts[o + 1] = list[b + 1] + 0.5 - Y / 2; pts[o + 2] = list[b + 2] + 0.5 - Z / 2; pts[o + 3] = simplified > 1 ? 63 : list[b + 3]; pts[o + 4] = list[b + 1];
       }
       this.draw(); return { shown: n, simplified: simplified > 1 };
     };
@@ -102,33 +105,53 @@
     this.highlight = function (layer) { hl = layer; this.draw(); };
     this.mark = function (p) { mark = p; this.draw(); };
     this.reset = function () { yaw = -0.7; pitch = 0.55; zoom = 1; this.draw(); };
-    this.zoomBy = function (f) { zoom = Math.max(0.3, Math.min(8, zoom * f)); this.draw(); };
+    this.zoomBy = function (f) { zoom = Math.max(0.3, Math.min(12, zoom * f)); this.draw(); };
     this.draw = function () { if (!raf) raf = requestAnimationFrame(function () { raf = 0; render(); }); };
     function render() {
       var r = canvas.getBoundingClientRect(), W = r.width, H = r.height, dpr = window.devicePixelRatio || 1;
       if (!W) return; canvas.width = W * dpr; canvas.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
       if (!vox || !n) { g.fillStyle = '#8fa39a'; g.font = '14px Space Grotesk, sans-serif'; g.textAlign = 'center'; g.fillText(vox ? 'Nothing to show' : 'Generating…', W / 2, H / 2); return; }
       var cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch), span = Math.max(vox.X, vox.Y, vox.Z) * 1.75;
-      var s = Math.min(W, H) / span * zoom, sz = Math.max(1.5, s * Math.pow(simplified, 1 / 2) * 1.6) /* a tilted cube covers ~1.6× its edge on screen */, order = new Uint32Array(n), depth = new Float32Array(n), px = new Float32Array(n), py = new Float32Array(n);
-      for (var k = 0, o = 0; k < n; k++, o += 7) {
-        var x = pts[o], y = pts[o + 1], z = pts[o + 2], x1 = x * cy - z * sy, z1 = x * sy + z * cy, y2 = y * cp - z1 * sp, z2 = y * sp + z1 * cp;
-        px[k] = W / 2 + x1 * s; py[k] = H / 2 - y2 * s; depth[k] = z2; order[k] = k;
-      }
-      order.sort(function (a, b) { return depth[a] - depth[b]; }); // far first, near last
-      var lx = -0.45, ly = 0.75, lz = -0.5;
+      var s = Math.min(W, H) / span * zoom;
+      var P = function (x, y, z) { var x1 = x * cy - z * sy, z1 = x * sy + z * cy; return [W / 2 + x1 * s, H / 2 - (y * cp - z1 * sp) * s, y * sp + z1 * cp]; };
+      // which faces point at the camera (orthographic, so the same for every block)
+      var vis = [], f, j;
+      for (f = 0; f < 6; f++) { var F = FACES[f], nz1 = F[0] * sy + F[2] * cy; if (F[1] * sp + nz1 * cp > 1e-6) vis.push(f); }
+      // projected corner offsets for each visible face, relative to the block centre
+      var off = vis.map(function (f) { return FACES[f][3].map(function (c) { var x1 = c[0] * cy - c[2] * sy, z1 = c[0] * sy + c[2] * cy; return [x1 * s, -(c[1] * cp - z1 * sp) * s]; }); });
+      var order = new Uint32Array(n), depth = new Float32Array(n), px = new Float32Array(n), py = new Float32Array(n), k, o;
+      for (k = 0, o = 0; k < n; k++, o += 5) { var p = P(pts[o], pts[o + 1], pts[o + 2]); px[k] = p[0]; py[k] = p[1]; depth[k] = p[2]; order[k] = k; }
+      order.sort(function (a, b) { return depth[a] - depth[b]; }); // far first
+      var faceCount = 0; for (k = 0; k < n; k++) for (j = 0; j < vis.length; j++) if (pts[k * 5 + 3] & (1 << vis[j])) faceCount++;
+      var useTex = tex && s >= 5 && faceCount < 45000, edges = s >= 4, small = s < 1.2;
+      var cols = vis.map(function (f) { return [base, hlc].map(function (c) { var l = SHADE[f]; return 'rgb(' + (c[0] * l | 0) + ',' + (c[1] * l | 0) + ',' + (c[2] * l | 0) + ')'; }); });
+      var dark = vis.map(function (f) { return 'rgba(0,0,0,' + (1 - SHADE[f]).toFixed(2) + ')'; });
+      g.lineJoin = 'round'; g.lineWidth = Math.max(0.6, Math.min(1.6, s / 12)); g.strokeStyle = 'rgba(0,0,0,.55)';
       for (var t = 0; t < n; t++) {
-        var k2 = order[t], o2 = k2 * 7, nx = pts[o2 + 3], ny = pts[o2 + 4], nz = pts[o2 + 5];
-        var rx = nx * cy - nz * sy, rz = nx * sy + nz * cy, ry2 = ny * cp - rz * sp, rz2 = ny * sp + rz * cp;
-        var lam = 0.45 + 0.55 * Math.max(0, rx * lx + ry2 * ly + rz2 * lz), c = pts[o2 + 6] === hl ? hlc : base;
-        g.fillStyle = 'rgb(' + (c[0] * lam | 0) + ',' + (c[1] * lam | 0) + ',' + (c[2] * lam | 0) + ')';
-        g.fillRect(px[k2] - sz / 2, py[k2] - sz / 2, sz, sz);
+        k = order[t]; o = k * 5; var mask = pts[o + 3], isHl = pts[o + 4] === hl, cx = px[k], cyy = py[k];
+        for (j = 0; j < vis.length; j++) {
+          if (!(mask & (1 << vis[j]))) continue; var q = off[j];
+          if (small) { g.fillStyle = cols[j][isHl ? 1 : 0]; g.fillRect(cx + q[0][0], cyy + q[0][1], Math.max(1, q[2][0] - q[0][0]), Math.max(1, q[2][1] - q[0][1])); continue; }
+          if (useTex) {
+            // affine map of the 16x16 texture onto the face parallelogram (corner0 -> corner1 is u, corner0 -> corner3 is v)
+            var ux = (q[1][0] - q[0][0]) / 16, uy = (q[1][1] - q[0][1]) / 16, vx = (q[3][0] - q[0][0]) / 16, vy = (q[3][1] - q[0][1]) / 16;
+            g.save(); g.beginPath(); g.moveTo(cx + q[0][0], cyy + q[0][1]); for (var c2 = 1; c2 < 4; c2++) g.lineTo(cx + q[c2][0], cyy + q[c2][1]); g.closePath(); g.clip();
+            g.setTransform(ux * dpr, uy * dpr, vx * dpr, vy * dpr, (cx + q[0][0]) * dpr, (cyy + q[0][1]) * dpr); g.imageSmoothingEnabled = false;
+            g.drawImage(isHl ? texHl : tex, -0.3, -0.3, 16.6, 16.6); g.restore();
+            if (SHADE[vis[j]] < 1) { g.fillStyle = dark[j]; g.beginPath(); g.moveTo(cx + q[0][0], cyy + q[0][1]); for (c2 = 1; c2 < 4; c2++) g.lineTo(cx + q[c2][0], cyy + q[c2][1]); g.closePath(); g.fill(); }
+            if (edges) g.stroke();
+          } else {
+            g.fillStyle = cols[j][isHl ? 1 : 0]; g.beginPath(); g.moveTo(cx + q[0][0], cyy + q[0][1]); for (var c3 = 1; c3 < 4; c3++) g.lineTo(cx + q[c3][0], cyy + q[c3][1]); g.closePath(); g.fill();
+            if (edges) g.stroke();
+          }
+        }
       }
-      var proj = function (x, y, z) { var x1 = x * cy - z * sy, z1 = x * sy + z * cy; return [W / 2 + x1 * s, H / 2 - (y * cp - z1 * sp) * s]; };
-      if (mark) { var m = proj(mark[0] + 0.5 - vox.X / 2, mark[1] + 0.5 - vox.Y / 2, mark[2] + 0.5 - vox.Z / 2); g.strokeStyle = '#fff'; g.lineWidth = 2; g.strokeRect(m[0] - sz / 2 - 2, m[1] - sz / 2 - 2, sz + 4, sz + 4); g.fillStyle = 'rgba(255,255,255,.35)'; g.fillRect(m[0] - sz / 2, m[1] - sz / 2, sz, sz); }
+      if (mark) { var m = P(mark[0] + 0.5 - vox.X / 2, mark[1] + 0.5 - vox.Y / 2, mark[2] + 0.5 - vox.Z / 2); g.lineWidth = 2.5; g.strokeStyle = '#fff'; g.fillStyle = 'rgba(255,255,255,.45)';
+        vis.forEach(function (f, j) { var q = off[j]; g.beginPath(); g.moveTo(m[0] + q[0][0], m[1] + q[0][1]); for (var c4 = 1; c4 < 4; c4++) g.lineTo(m[0] + q[c4][0], m[1] + q[c4][1]); g.closePath(); g.fill(); g.stroke(); }); }
       // compass on the ground plane
       g.font = '700 12px Space Grotesk, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
       var R = Math.max(vox.X, vox.Z) / 2 + 2.5, gy = -vox.Y / 2;
-      [['N', 0, -R, '#f2c14e'], ['S', 0, R, '#8fa39a'], ['E', R, 0, '#8fa39a'], ['W', -R, 0, '#8fa39a']].forEach(function (c) { var p = proj(c[1], gy, c[2]); g.fillStyle = c[3]; g.fillText(c[0], p[0], p[1]); });
+      [['N', 0, -R, '#f2c14e'], ['S', 0, R, '#8fa39a'], ['E', R, 0, '#8fa39a'], ['W', -R, 0, '#8fa39a']].forEach(function (c) { var p = P(c[1], gy, c[2]); g.fillStyle = c[3]; g.fillText(c[0], p[0], p[1]); });
     }
     var drag = null, pinch = null, ptrs = {};
     canvas.style.touchAction = 'none';
@@ -299,6 +322,19 @@
     $('lyR').addEventListener('input', function () { setLayer(+$('lyR').value - 1); });
     $('lyPrev').onclick = function () { setLayer(ly - 1); }; $('lyNext').onclick = function () { setLayer(ly + 1); };
     $('hlLayer').addEventListener('change', function () { viewer.highlight($('hlLayer').checked ? ly : -1); });
+    (function blockPicker() {
+      var sel = $('v3dBlock'), B = window.CS_BLOCKS; if (!sel || !B || !window.CSPix) return;
+      sel.innerHTML = B.map(function (b, i) { return '<option value="' + i + '">' + b[0] + '</option>'; }).join('');
+      var saved = null; try { saved = localStorage.getItem('cs_vox_block'); } catch (e) {}
+      var idx = B.findIndex(function (b) { return b[0] === (saved || 'Stone Bricks'); }); sel.value = idx < 0 ? 0 : idx;
+      function apply() {
+        var b = B[+sel.value], pix = CSPix.make(b[0], b[1], b[2]), pack = window.CSTex && CSTex.saved(), t = pack && pack.tex[CSTex.file(b[0])];
+        viewer.setBlock({ hex: t ? t.avg : b[1], canvas: pix.canvas });
+        if (t) { var im = new Image(); im.onload = function () { viewer.setBlock({ hex: t.avg, canvas: im }); }; im.src = t.url; }
+        try { localStorage.setItem('cs_vox_block', b[0]); } catch (e) {}
+      }
+      sel.addEventListener('change', apply); apply();
+    })();
     $('v3dReset').onclick = function () { viewer.reset(); }; $('v3dIn').onclick = function () { viewer.zoomBy(1.25); }; $('v3dOut').onclick = function () { viewer.zoomBy(0.8); };
     $('lyPng').onclick = function () { if (!cur) return; toBlob(layerCanvas(cur, ly, cfg.title(curSpec))).then(function (b) { download(b, cfg.slug(curSpec) + '-layer-' + (ly + 1) + '.png'); }); };
     $('lyTxt').onclick = function () { if (!cur) return; download(new Blob([instructions(cur, cfg.title(curSpec))], { type: 'text/plain' }), cfg.slug(curSpec) + '-instructions.txt'); };

@@ -46,6 +46,7 @@
 <div>
 <div class="card"><div class="row" style="align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px"><h2 style="font-size:17px;margin:0;flex:0 0 auto">3D preview</h2>
 <div class="zoomctl" role="group" aria-label="3D view"><button type="button" id="v3dOut" aria-label="Zoom out">−</button><button type="button" id="v3dIn" aria-label="Zoom in">+</button><button type="button" id="v3dReset" style="width:auto;padding:8px 12px">Reset view</button></div></div>
+<div class="row" style="align-items:center;margin-top:8px"><label for="v3dBlock" style="margin:0!important;flex:0 0 auto">Preview block</label><select id="v3dBlock" style="flex:1 1 auto"></select></div>
 <div class="v3wrap"><canvas id="v3d" class="v3d" aria-label="Rotatable 3D preview of the shape. Use the layer blueprints below for exact block positions."></canvas><div class="busy" id="vxBusy" hidden>Generating…</div></div>
 <p class="note" id="v3dNote"></p></div>
 <div class="card" style="margin-top:16px"><h2 style="font-size:17px;margin:0 0 8px">Layer by layer</h2>
@@ -89,6 +90,9 @@
 <script src="/assets/ads-config.js" defer></script>
 <script src="/assets/data.js" defer></script>
 <script src="/assets/site.js" defer></script>
+<script src="/assets/blocks.js"></script>
+<script src="/assets/pixtex.js"></script>
+<script src="/assets/mctex.js"></script>
 <script src="/assets/voxel.js"></script>
 <script>addEventListener('DOMContentLoaded',()=>{
 (()=>{const $=id=>document.getElementById(id),P=window.CS?CS.params():{};let type=P.t==='solid'?'solid':'hollow';

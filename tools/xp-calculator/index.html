@@ -37,6 +37,12 @@
   <label for="xpT">Target level</label><input id="xpT" type="number" min="0" max="21863" value="30" inputmode="numeric">
   <div class="toolbar" style="margin-top:8px" aria-label="Common targets"><button type="button" data-t="30">30 (best enchants)</button><button type="button" data-t="39">39 (anvil limit)</button><button type="button" data-t="50">50</button><button type="button" data-t="100">100</button></div>
   <p class="err" id="xpErr" role="alert"></p>
+  <h2 style="font-size:17px;margin:22px 0 4px">What can you get to?</h2>
+  <p class="note" style="margin-top:0">Tick everything you have. The route below updates to the fastest option.</p>
+  <div id="xpHave" style="display:grid;grid-template-columns:1fr 1fr;gap:0 10px">
+   <label class="check"><input type="checkbox" value="nether" checked> The Nether</label><label class="check"><input type="checkbox" value="end"> The End</label>
+   <label class="check"><input type="checkbox" value="spawner"> A mob spawner</label><label class="check"><input type="checkbox" value="blaze"> A blaze spawner</label>
+   <label class="check"><input type="checkbox" value="villagers"> Villagers to trade with</label><label class="check"><input type="checkbox" value="dragon"> Dragon still alive (first kill)</label></div>
   <h2 style="font-size:17px;margin:22px 0 4px">Points ↔ levels</h2>
   <div class="row"><div><label for="xpPts">Total points</label><input id="xpPts" type="number" min="0" value="1395" inputmode="numeric"></div><div><label for="xpLv">Level</label><input id="xpLv" type="number" min="0" max="21863" value="30" inputmode="numeric"></div></div>
   <p class="note" id="xpConv"></p>
@@ -45,7 +51,8 @@
   <div class="stats"><div class="stat hl"><b id="oNeed">0</b><span>points needed</span></div><div class="stat"><b id="oHave">0</b><span>points you have now</span></div><div class="stat"><b id="oTot">0</b><span>total points at target</span></div><div class="stat"><b id="oDeath">0</b><span>points dropped if you die now</span></div></div>
   <div class="xpbar" aria-hidden="true"><i id="xpBar"></i></div>
   <p class="note" id="oNext"></p>
-  <h2 style="font-size:16px;margin:18px 0 6px">That’s about…</h2>
+  <div class="route" id="xpRoute"></div>
+  <h2 style="font-size:16px;margin:18px 0 6px">Every source, side by side</h2>
   <div style="overflow-x:auto"><table class="mini" id="xpSrc"></table></div>
   <p class="note">Ranges are Java Edition orb drops. “About” uses the average of each range, so real numbers vary a little. Looting doesn’t add mob XP.</p>
   <div class="copyrow"><button type="button" id="xpShare">Copy link</button></div>
@@ -101,7 +108,25 @@ function conv(src){const el=$('xpConv');if(src==='pts'){const p=Math.floor(+$('x
 ['xpL','xpP','xpT'].forEach(i=>$(i).addEventListener('input',calc));$('xpPts').addEventListener('input',()=>conv('pts'));$('xpLv').addEventListener('input',()=>conv('lv'));
 document.querySelectorAll('[data-t]').forEach(x=>x.onclick=()=>{$('xpT').value=x.dataset.t;calc();});
 $('xpShare').onclick=e=>window.CS&&CS.share({l:$('xpL').value,p:$('xpP').value,t:$('xpT').value},e.target);
-calc();conv('pts');})();
+
+const ROUTES=[
+ {need:['dragon','end'],id:'dragon',t:'Kill the Ender Dragon',xp:12000,unit:'first kill',how:'The first dragon kill drops 12,000 points, enough for level 68 from zero. Respawned dragons give only 500.',farm:false},
+ {need:['end'],t:'Enderman farm in the End',xp:5,unit:'Endermen',how:'Build a platform far from the main island so Endermen spawn into a drop and are killed by a single hit. This is the fastest XP in the game: level 30 in a minute or two.',farm:true},
+ {need:['nether'],t:'Gold farm (zombified piglins)',xp:5,unit:'kills',how:'A portal-based or roof-of-the-Nether gold farm gives XP and gold together. Kill them yourself for the XP; drops-only kills give none.',farm:true},
+ {need:['blaze'],t:'Blaze spawner farm',xp:10,unit:'blazes',how:'Blazes give 10 points each, double most mobs. Funnel them to a spot where you finish them with one hit.',farm:true},
+ {need:['spawner'],t:'Mob spawner XP farm',xp:5,unit:'mobs',how:'Push the zombies or skeletons from the spawner with water into a drop that leaves them on half a heart, then finish each with one hit.',farm:true},
+ {need:['villagers'],t:'Trade with villagers',xp:4.5,unit:'trades',how:'Every trade gives 3–6 points (and more when the villager levels up). Cheap trades like paper, sticks and wheat add up quickly.',farm:false},
+ {need:['nether'],t:'Mine nether quartz ore',xp:3.5,unit:'ores',how:'Quartz is everywhere in the Nether and gives 2–5 points per ore without Silk Touch. Fortune adds more quartz, not more XP.',farm:false},
+ {need:[],t:'Mine coal, redstone and lapis, and smelt',xp:2.5,unit:'ores',how:'With no farms yet, mining ores (without Silk Touch) is the steady option. Cooking food and smelting ores in a furnace also stores XP you collect when taking the items out.',farm:false}];
+function route(){const have=new Set([...document.querySelectorAll('#xpHave input:checked')].map(x=>x.value)),need=+$('oNeed').textContent.replace(/,/g,'')||0,box=$('xpRoute');
+ if(!need){box.innerHTML='<b>You’re already there.</b>';return;}
+ const ok=ROUTES.filter(r=>r.need.every(n=>have.has(n))),best=ok[0],T=+$('xpT').value;
+ const spend=T>30?`<li>Going past 30 makes every level cost more: 30 → ${T} takes ${f(tot(T)-tot(30))} points. If you want levels to enchant with, using an enchanting table at 30 and refilling is cheaper. Anvil work never needs more than 39.</li>`:'';
+ box.innerHTML=`<b>Fastest route for you: ${best.t}</b><p>${best.how}</p><p class="big">${best.id==='dragon'?(need<=12000?'One kill covers it.':`One kill gives 12,000 of the ${f(need)} points; get the rest from an Enderman farm (~${f(Math.ceil((need-12000)/5))} Endermen).`):`≈ ${f(Math.ceil(need/best.xp))} ${best.unit}`}</p>
+ <ul>${best.farm?'<li><b>Kill the mobs yourself</b> (with a weapon, or a final punch). Mobs killed only by fall damage, lava or cramming drop no XP.</li>':''}<li>Take off <b>Mending</b> gear while collecting, or the orbs repair it instead of filling your bar.</li>${spend}</ul>
+ ${ok.length>1?`<p class="note">Also available to you: ${ok.slice(1,4).map(r=>r.t+' (≈'+f(Math.ceil(need/r.xp))+' '+r.unit+')').join(', ')}.</p>`:''}`;}
+$('xpHave').addEventListener('change',route);['xpL','xpP','xpT'].forEach(i=>$(i).addEventListener('input',route));document.querySelectorAll('[data-t]').forEach(x=>x.addEventListener('click',route));
+calc();conv('pts');route();})();
 });</script>
 </body>
 </html>
