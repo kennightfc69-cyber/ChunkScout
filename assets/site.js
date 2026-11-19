@@ -61,9 +61,9 @@ window.CS_CONFIG = {
 
   function iconSVG(p) { return p.icon ? '<svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#' + p.icon + '"/></svg>' : ''; }
   function card(p) {
-    return '<a class="tcard" href="' + p.url + '">' + iconSVG(p) + '<span><b>' + esc(p.title) + '</b><small>' + esc(p.desc) + '</small>' +
+    return '<div class="tcard">' + iconSVG(p) + '<span><b><a href="' + p.url + '">' + esc(p.title) + '</a></b><small>' + esc(p.desc) + '</small>' +
       '<span class="cat">' + esc(p.cat) + (p.isNew ? ' · <span class="new">New</span>' : '') + '</span></span>' +
-      (p.type === 'tool' ? '<button class="fav" type="button" data-fav="' + p.id + '" aria-pressed="false" aria-label="Favorite ' + esc(p.title) + '">☆</button>' : '') + '</a>';
+      (p.type === 'tool' ? '<button class="fav" type="button" data-fav="' + p.id + '" aria-pressed="false" aria-label="Favorite ' + esc(p.title) + '">☆</button>' : '') + '</div>';
   }
   function renderLists() {
     $$('[data-list]').forEach(function (el) {
@@ -104,7 +104,7 @@ window.CS_CONFIG = {
     input.addEventListener('input', function () { act = 0; draw(); });
     input.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); if (!res.length) return; act = (act + (e.key === 'ArrowDown' ? 1 : -1) + res.length) % res.length; draw(); var a = $('#' + list.id + '-' + act); if (a) a.scrollIntoView({ block: 'nearest' }); }
-      else if (e.key === 'Enter') { e.preventDefault(); if (res[act]) location.href = res[act].url; }
+      else if (e.key === 'Enter') { e.preventDefault(); if (res[act]) location.href = res[act].url; else if (input.value.trim()) location.href = '/tools/?q=' + encodeURIComponent(input.value.trim().slice(0, 64)); }
     });
     return draw;
   }
@@ -125,14 +125,15 @@ window.CS_CONFIG = {
   document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[data-search-open]')) { e.preventDefault(); openSearch(); } });
   document.addEventListener('keydown', function (e) {
     var typing = /INPUT|SELECT|TEXTAREA/.test(e.target.tagName) || e.target.isContentEditable;
-    if ((e.key === '/' && !typing) || (e.key.toLowerCase() === 'k' && (e.ctrlKey || e.metaKey))) { e.preventDefault(); openSearch(); }
+    var k = typeof e.key === 'string' ? e.key : '';
+    if ((k === '/' && !typing) || (k.toLowerCase() === 'k' && (e.ctrlKey || e.metaKey))) { e.preventDefault(); openSearch(); }
   });
   $$('[data-search-inline]').forEach(function (inp) {
     var list = document.getElementById(inp.getAttribute('aria-controls')); if (!list) return;
     var box = inp.closest('.hero-search'), draw = wireSearch(inp, list, { onDraw: function () { if (box) box.classList.toggle('open', !!inp.value.trim()); } });
     inp.addEventListener('focus', function () { if (inp.value.trim()) draw(); });
     document.addEventListener('click', function (e) { if (box && !box.contains(e.target)) box.classList.remove('open'); });
-    var f = inp.closest('form'); if (f) f.addEventListener('submit', function (e) { e.preventDefault(); var r = search(inp.value); if (r[0]) location.href = r[0].url; });
+    var f = inp.closest('form'); if (f) f.addEventListener('submit', function (e) { e.preventDefault(); var v = inp.value.trim(), r = v ? search(v) : []; location.href = r[0] ? r[0].url : '/tools/' + (v ? '?q=' + encodeURIComponent(v.slice(0, 64)) : ''); });
   });
 
   /* ---------- nav ---------- */
@@ -155,7 +156,7 @@ window.CS_CONFIG = {
     ft.innerHTML = '<div class="sf-in"><div><a class="brand" href="/"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>' +
       '<p>Free Minecraft tools for Java and Bedrock players. Everything on this site runs in your browser, and you don’t need an account.</p></div>' +
       '<div><h2>Tools</h2><ul>' + tools.slice(0, 6).map(li).join('') + '</ul></div>' +
-      '<div><h2>More tools</h2><ul>' + tools.slice(6, 11).map(li).join('') + '<li><a href="/tools/">All tools →</a></li></ul></div>' +
+      '<div><h2>More tools</h2><ul>' + tools.slice(6).map(li).join('') + '<li><a href="/tools/">All tools →</a></li></ul></div>' +
       '<div><h2>ChunkScout</h2><ul><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li><li><a href="/privacy/">Privacy Policy</a></li><li><a href="/terms/">Terms of Use</a></li><li><a href="/sitemap.xml">Sitemap</a></li></ul></div></div>' +
       '<div class="sf-legal"><span>© ' + new Date().getFullYear() + ' ChunkScout. Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</span>' +
       (((window.CS_CONFIG || {}).ga4 || ((window.CS_ADS || {}).enabled && !(window.CS_ADS || {}).useGoogleConsent)) ? '<button type="button" data-consent-open>Cookie settings</button>' : '') + '</div>';
