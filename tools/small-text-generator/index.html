@@ -17,11 +17,11 @@
 <link rel="stylesheet" href="/assets/site.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Small Text Generator"}]}</script>
 </head>
-<body class="page" data-tool="small-text-generator">
+<body class="page" data-tool="small-text-generator" data-page="tool">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header"><div class="sh-in">
   <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
-  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/">Tools</a><a href="/about/">About</a></nav>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/" data-exact>All Tools</a><a href="/tools/building/">Building</a><a href="/tools/survival/">Survival</a><a href="/tools/redstone/">Redstone</a><a href="/tools/player/">Player</a><a href="/tools/server/">Server</a></nav>
   <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
   <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div></header>
@@ -29,17 +29,23 @@
 <div class="wrap">
 <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Small Text Generator</li></ol></nav>
 <div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#small"/></svg><div><h1>Small Text Generator</h1><p>Turn text into sᴍᴀʟʟ ᴄᴀᴘs for tab lists, scoreboards and item names.</p></div><button class="favbtn" type="button" data-fav="small-text-generator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
 <div class="card" style="max-width:760px"><label for="smIn">Your text</label><textarea id="smIn" rows="3">Small text looks neat</textarea>
 <label for="smOut">Small caps</label><textarea id="smOut" readonly rows="3"></textarea>
 <div class="copyrow"><button type="button" class="primary" data-copy="smOut">Copy small text</button></div></div>
 <div class="meta-line"><span>Java &amp; Bedrock · any version</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div data-aside-wrap><div>
 <article class="prose"><h2>Where small text works</h2>
 <p>Small caps are ordinary Unicode letters, not a Minecraft font, so they work anywhere text is shown: tab lists, scoreboards, item names, signs, chat and server MOTDs, on both Java and Bedrock.</p>
 <p>A few letters have no small-cap version in Unicode (for example <b>x</b>), so they stay as normal lowercase. Numbers and symbols aren’t changed. Some fonts and older devices may show missing characters as boxes.</p></article>
-<section class="related"><h2>Related tools</h2><div class="cards"><a class="tcard" href="/tools/color-text-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#color"/></svg><span><b>Color Code &amp; Gradient Generator</b><small>Preview &amp; and § formatting codes, build hex gradients and copy them for chat, MOTDs and signs.</small><span class="cat">Text</span></span><button class="fav" type="button" data-fav="color-text-generator" aria-pressed="false" aria-label="Favorite Color Code &amp; Gradient Generator">☆</button></a><a class="tcard" href="/tools/server-start-script-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#term"/></svg><span><b>Server Start Script Generator</b><small>Create a start.bat or start.sh with Aikar’s flags, the right RAM and optional auto-restart.</small><span class="cat">Server</span></span><button class="fav" type="button" data-fav="server-start-script-generator" aria-pressed="false" aria-label="Favorite Server Start Script Generator">☆</button></a><a class="tcard" href="/tools/stack-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#chest"/></svg><span><b>Stack Calculator</b><small>Turn any item count into stacks, shulker boxes and double chests, for 64, 16 and 1 stack sizes.</small><span class="cat">Inventory · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="stack-calculator" aria-pressed="false" aria-label="Favorite Stack Calculator">☆</button></a></div></section>
+</div><aside><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><a class="tcard" href="/tools/color-text-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#color"/></svg><span><b>Color Code &amp; Gradient Generator</b><small>Preview &amp; and § formatting codes, build hex gradients and copy them for chat, MOTDs and signs.</small><span class="cat">Player</span></span><button class="fav" type="button" data-fav="color-text-generator" aria-pressed="false" aria-label="Favorite Color Code &amp; Gradient Generator">☆</button></a><a class="tcard" href="/tools/server-start-script-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#term"/></svg><span><b>Server Start Script Generator</b><small>Create a start.bat or start.sh with Aikar’s flags, the right RAM and optional auto-restart.</small><span class="cat">Server</span></span><button class="fav" type="button" data-fav="server-start-script-generator" aria-pressed="false" aria-label="Favorite Server Start Script Generator">☆</button></a><a class="tcard" href="/tools/stack-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#chest"/></svg><span><b>Stack Calculator</b><small>Turn any item count into stacks, shulker boxes and double chests, for 64, 16 and 1 stack sizes.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="stack-calculator" aria-pressed="false" aria-label="Favorite Stack Calculator">☆</button></a></div></section>
 </div>
 </main>
 <footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js" defer></script>
 <script src="/assets/data.js" defer></script>
 <script src="/assets/site.js" defer></script>
 <script>addEventListener('DOMContentLoaded',()=>{

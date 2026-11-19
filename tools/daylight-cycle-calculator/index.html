@@ -17,11 +17,11 @@
 <link rel="stylesheet" href="/assets/site.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Daylight Cycle & Tick Calculator"}]}</script>
 </head>
-<body class="page" data-tool="daylight-cycle-calculator">
+<body class="page" data-tool="daylight-cycle-calculator" data-page="tool">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header"><div class="sh-in">
   <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
-  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/">Tools</a><a href="/about/">About</a></nav>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/" data-exact>All Tools</a><a href="/tools/building/">Building</a><a href="/tools/survival/">Survival</a><a href="/tools/redstone/">Redstone</a><a href="/tools/player/">Player</a><a href="/tools/server/">Server</a></nav>
   <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
   <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div></header>
@@ -29,6 +29,7 @@
 <div class="wrap">
 <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Daylight Cycle &amp; Tick Calculator</li></ol></nav>
 <div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#sun"/></svg><div><h1>Daylight Cycle &amp; Tick Calculator</h1><p>Convert between game ticks, the in-game clock and real time, with ready-to-copy <code>/time set</code> commands.</p></div><button class="favbtn" type="button" data-fav="daylight-cycle-calculator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
 <div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
 <div class="card"><h2 style="font-size:17px;margin:0 0 4px">Ticks ↔ clock</h2>
 <div class="row"><div><label for="dyT">Game ticks (0–23999)</label><input id="dyT" type="number" min="0" max="23999" value="6000"></div><div><label for="dyC">In-game clock</label><input id="dyC" type="time" value="12:00"></div></div>
@@ -36,6 +37,8 @@
 <div class="card"><h2 style="font-size:17px;margin:0 0 4px">Real time → game time</h2>
 <label for="dyR">Real minutes</label><input id="dyR" type="number" min="0" value="20"><div class="out" id="dyOut2" aria-live="polite"></div></div></div>
 <div class="meta-line"><span>Java &amp; Bedrock · all current versions</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div data-aside-wrap><div>
 <article class="prose"><h2>How the Minecraft day works</h2>
 <p>A full day–night cycle is 24,000 game ticks. At the normal 20 ticks per second that’s 20 real minutes. Tick 0 is 6:00 in the morning, 6,000 is noon, 12,000 is roughly sunset and 18,000 is midnight.</p>
 <table><thead><tr><th>Ticks</th><th>Clock</th><th>What happens</th></tr></thead><tbody>
@@ -43,10 +46,13 @@
 <tr><td>12542</td><td>18:32</td><td>Beds can be used (clear weather)</td></tr><tr><td>13000</td><td>19:00</td><td><code>/time set night</code>; hostile mobs start spawning on the surface</td></tr>
 <tr><td>18000</td><td>00:00</td><td>Midnight (<code>/time set midnight</code>)</td></tr><tr><td>23460</td><td>05:28</td><td>Beds stop working; mobs stop spawning soon after</td></tr></tbody></table>
 <p>Exact spawn timings depend on light level and weather; this table is for clear weather in Java Edition.</p></article>
-<section class="related"><h2>Related tools</h2><div class="cards"><a class="tcard" href="/tools/direction-finder/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#compass"/></svg><span><b>Direction Finder</b><small>Work out which way you are heading on the X and Z axes and how to reach a destination.</small><span class="cat">Navigation</span></span><button class="fav" type="button" data-fav="direction-finder" aria-pressed="false" aria-label="Favorite Direction Finder">☆</button></a><a class="tcard" href="/tools/nether-portal-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#portal"/></svg><span><b>Nether Portal Calculator</b><small>Convert Overworld and Nether coordinates with the 8:1 ratio so your portals link up.</small><span class="cat">Navigation</span></span><button class="fav" type="button" data-fav="nether-portal-calculator" aria-pressed="false" aria-label="Favorite Nether Portal Calculator">☆</button></a><a class="tcard" href="/tools/server-start-script-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#term"/></svg><span><b>Server Start Script Generator</b><small>Create a start.bat or start.sh with Aikar’s flags, the right RAM and optional auto-restart.</small><span class="cat">Server</span></span><button class="fav" type="button" data-fav="server-start-script-generator" aria-pressed="false" aria-label="Favorite Server Start Script Generator">☆</button></a></div></section>
+</div><aside><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><a class="tcard" href="/tools/direction-finder/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#compass"/></svg><span><b>Direction Finder</b><small>Work out which way you are heading on the X and Z axes and how to reach a destination.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="direction-finder" aria-pressed="false" aria-label="Favorite Direction Finder">☆</button></a><a class="tcard" href="/tools/nether-portal-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#portal"/></svg><span><b>Nether Portal Calculator</b><small>Convert Overworld and Nether coordinates with the 8:1 ratio so your portals link up.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="nether-portal-calculator" aria-pressed="false" aria-label="Favorite Nether Portal Calculator">☆</button></a><a class="tcard" href="/tools/server-start-script-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#term"/></svg><span><b>Server Start Script Generator</b><small>Create a start.bat or start.sh with Aikar’s flags, the right RAM and optional auto-restart.</small><span class="cat">Server</span></span><button class="fav" type="button" data-fav="server-start-script-generator" aria-pressed="false" aria-label="Favorite Server Start Script Generator">☆</button></a></div></section>
 </div>
 </main>
 <footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js" defer></script>
 <script src="/assets/data.js" defer></script>
 <script src="/assets/site.js" defer></script>
 <script>addEventListener('DOMContentLoaded',()=>{

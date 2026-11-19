@@ -17,11 +17,11 @@
 <link rel="stylesheet" href="/assets/site.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Direction Finder"}]}</script>
 </head>
-<body class="page" data-tool="direction-finder">
+<body class="page" data-tool="direction-finder" data-page="tool">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header"><div class="sh-in">
   <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
-  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/">Tools</a><a href="/about/">About</a></nav>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/" data-exact>All Tools</a><a href="/tools/building/">Building</a><a href="/tools/survival/">Survival</a><a href="/tools/redstone/">Redstone</a><a href="/tools/player/">Player</a><a href="/tools/server/">Server</a></nav>
   <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
   <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div></header>
@@ -29,6 +29,7 @@
 <div class="wrap">
 <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Direction Finder</li></ol></nav>
 <div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#compass"/></svg><div><h1>Direction Finder</h1><p>Shows which way you are heading on the X and Z axes, and which way your destination is.</p></div><button class="favbtn" type="button" data-fav="direction-finder" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
 <div class="card"><div class="cgrid">
 <div>
 <label>Where you were (X, Z)</label><div class="row"><input id="dfX0" type="number" value="0" aria-label="Previous X"><input id="dfZ0" type="number" value="0" aria-label="Previous Z"></div>
@@ -40,15 +41,20 @@
 <div class="legend2"><span><i style="background:#7bdc6a"></i>Your heading</span><span><i style="background:#f2c14e"></i>Destination</span></div></div>
 </div></div>
 <div class="meta-line"><span>Java &amp; Bedrock · any version</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div data-aside-wrap><div>
 <article class="prose"><h2>Minecraft directions and coordinates</h2>
 <table><thead><tr><th>Direction</th><th>Axis</th><th>F3 facing</th></tr></thead><tbody>
 <tr><td>North</td><td>Z goes down (−Z)</td><td>180° / −180°</td></tr><tr><td>South</td><td>Z goes up (+Z)</td><td>0°</td></tr>
 <tr><td>East</td><td>X goes up (+X)</td><td>−90°</td></tr><tr><td>West</td><td>X goes down (−X)</td><td>90°</td></tr></tbody></table>
 <p>The sun and moon rise in the east and set in the west, and clouds drift west in Java Edition, which helps when you have no coordinates.</p></article>
-<section class="related"><h2>Related tools</h2><div class="cards"><a class="tcard" href="/tools/nether-portal-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#portal"/></svg><span><b>Nether Portal Calculator</b><small>Convert Overworld and Nether coordinates with the 8:1 ratio so your portals link up.</small><span class="cat">Navigation</span></span><button class="fav" type="button" data-fav="nether-portal-calculator" aria-pressed="false" aria-label="Favorite Nether Portal Calculator">☆</button></a><a class="tcard" href="/seed-map/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#map"/></svg><span><b>Seed Map</b><small>Biomes, structures, slime chunks and strongholds for any Java or Bedrock seed, with /locate-style search.</small><span class="cat">World</span></span><button class="fav" type="button" data-fav="seed-map" aria-pressed="false" aria-label="Favorite Seed Map">☆</button></a><a class="tcard" href="/tools/daylight-cycle-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#sun"/></svg><span><b>Daylight Cycle &amp; Tick Calculator</b><small>Convert between game ticks, the in-game clock and real minutes, with /time set commands.</small><span class="cat">Utilities</span></span><button class="fav" type="button" data-fav="daylight-cycle-calculator" aria-pressed="false" aria-label="Favorite Daylight Cycle &amp; Tick Calculator">☆</button></a></div></section>
+</div><aside><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><a class="tcard" href="/tools/nether-portal-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#portal"/></svg><span><b>Nether Portal Calculator</b><small>Convert Overworld and Nether coordinates with the 8:1 ratio so your portals link up.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="nether-portal-calculator" aria-pressed="false" aria-label="Favorite Nether Portal Calculator">☆</button></a><a class="tcard" href="/seed-map/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#map"/></svg><span><b>Seed Map</b><small>Biomes, structures, slime chunks and strongholds for any Java or Bedrock seed, with /locate-style search.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="seed-map" aria-pressed="false" aria-label="Favorite Seed Map">☆</button></a><a class="tcard" href="/tools/daylight-cycle-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#sun"/></svg><span><b>Daylight Cycle &amp; Tick Calculator</b><small>Convert between game ticks, the in-game clock and real minutes, with /time set commands.</small><span class="cat">Redstone & Technical</span></span><button class="fav" type="button" data-fav="daylight-cycle-calculator" aria-pressed="false" aria-label="Favorite Daylight Cycle &amp; Tick Calculator">☆</button></a></div></section>
 </div>
 </main>
 <footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js" defer></script>
 <script src="/assets/data.js" defer></script>
 <script src="/assets/site.js" defer></script>
 <script>addEventListener('DOMContentLoaded',()=>{

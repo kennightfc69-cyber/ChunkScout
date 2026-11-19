@@ -17,11 +17,11 @@
 <link rel="stylesheet" href="/assets/site.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Privacy Policy"}]}</script>
 </head>
-<body class="page">
+<body class="page" data-page="page">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header"><div class="sh-in">
   <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
-  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/">Tools</a><a href="/about/">About</a></nav>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/" data-exact>All Tools</a><a href="/tools/building/">Building</a><a href="/tools/survival/">Survival</a><a href="/tools/redstone/">Redstone</a><a href="/tools/player/">Player</a><a href="/tools/server/">Server</a></nav>
   <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
   <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div></header>
@@ -34,6 +34,8 @@
 <p>ChunkScout is hosted on Cloudflare. Like any web host, Cloudflare processes technical request data (such as IP address, browser type and the page requested) to deliver and protect the site. We use <b>Cloudflare Web Analytics</b> to count page views. It doesn’t use cookies and doesn’t track you across sites. See <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener">Cloudflare’s privacy policy</a>.</p>
 <h2>Fonts</h2>
 <p>Pages load the Space Grotesk and JetBrains Mono fonts from Google Fonts, which means your browser requests them from Google’s servers. See <a href="https://policies.google.com/privacy" rel="noopener">Google’s privacy policy</a>.</p>
+<h2>Shareable links</h2>
+<p>Some tools have a <b>Copy link</b> button. The link contains only that tool’s settings (for example a circle size or a beacon level), never personal information.</p>
 <h2>Cookies</h2>
 <p>ChunkScout currently sets no advertising or analytics cookies. If we add Google Analytics or advertising (such as Google AdSense) in the future, we’ll update this page first, and where the law requires it we’ll ask for your consent before any such cookies are set. Third-party vendors, including Google, may then use cookies to serve ads based on your visits to this and other websites. You’d be able to opt out of personalised advertising at <a href="https://adssettings.google.com" rel="noopener">Google Ads Settings</a>.</p>
 <h2>Emails</h2>
@@ -44,6 +46,7 @@
 <p>We’ll update the date at the top when this policy changes. Questions: <a href="mailto:contact@chunkscout.com">contact@chunkscout.com</a>.</p></div>
 </main>
 <footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js" defer></script>
 <script src="/assets/data.js" defer></script>
 <script src="/assets/site.js" defer></script>
 

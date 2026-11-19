@@ -17,11 +17,11 @@
 <link rel="stylesheet" href="/assets/site.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Contact"}]}</script>
 </head>
-<body class="page">
+<body class="page" data-page="page">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header"><div class="sh-in">
   <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
-  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/">Tools</a><a href="/about/">About</a></nav>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/" data-exact>All Tools</a><a href="/tools/building/">Building</a><a href="/tools/survival/">Survival</a><a href="/tools/redstone/">Redstone</a><a href="/tools/player/">Player</a><a href="/tools/server/">Server</a></nav>
   <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
   <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div></header>
@@ -29,12 +29,14 @@
 <div class="doc"><nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Contact</li></ol></nav><h1>Contact</h1>
 <p>Found a bug, spotted a wrong result, or have an idea for a tool? We’d like to hear it.</p>
 <p><a class="btn primary big" href="mailto:contact@chunkscout.com?subject=ChunkScout%20feedback">Email contact@chunkscout.com</a></p>
+<p>Advertising or sponsorship enquiries are welcome at the same address. All paid placements are clearly labeled “Sponsored” or “Advertisement”.</p>
 <h2>Reporting a bug</h2>
 <ul><li>The page or tool (a link is perfect)</li><li>For the seed map: seed, Java or Bedrock, game version and coordinates</li><li>What you expected and what happened</li><li>Your browser and device</li></ul>
 <h2>Server owners</h2>
-<p>A moderated server directory is planned. You don’t need to submit anything yet. We’ll announce it on the site when listings open.</p></div>
+<p>Server tools such as a status checker are planned. We’ll announce them on the site when they’re ready.</p></div>
 </main>
 <footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js" defer></script>
 <script src="/assets/data.js" defer></script>
 <script src="/assets/site.js" defer></script>
 

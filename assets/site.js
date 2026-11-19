@@ -2,8 +2,7 @@
    Page/tool list lives in /assets/data.js (window.CS_DATA). */
 window.CS_CONFIG = {
   // Fill these in only after you have the accounts. Leave empty to keep ChunkScout cookie-free.
-  ga4: '',          // e.g. 'G-XXXXXXXXXX'  (Google Analytics 4 measurement ID)
-  adsense: '',      // e.g. 'ca-pub-0000000000000000' (only after AdSense approval)
+  ga4: '',          // e.g. 'G-XXXXXXXXXX'  (Google Analytics 4 measurement ID). Ads are configured in /assets/ads-config.js
   contactEmail: 'contact@chunkscout.com'
 };
 (function () {
@@ -143,7 +142,10 @@ window.CS_CONFIG = {
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && nav.classList.contains('open')) { nav.classList.remove('open'); menu.setAttribute('aria-expanded', 'false'); menu.focus(); } });
   }
   var path = location.pathname;
-  $$('#site-nav a').forEach(function (a) { var h = a.getAttribute('href'); if (h !== '/' && path.indexOf(h) === 0) a.setAttribute('aria-current', 'page'); });
+  var navLinks = $$('#site-nav a'), best = null;
+  navLinks.forEach(function (a) { var h = a.getAttribute('href'); if (a.hasAttribute('data-exact') ? path === h : (h !== '/' && path.indexOf(h) === 0)) { if (!best || h.length > best.getAttribute('href').length) best = a; } });
+  if (!best && /^\/tools\/[^/]+\/$/.test(path) && document.body.getAttribute('data-tool')) { var cat = (byId[document.body.getAttribute('data-tool')] || {}).cat; navLinks.forEach(function (a) { if (a.textContent === (cat || '').split(' ')[0]) best = a; }); }
+  if (best) best.setAttribute('aria-current', 'page');
 
   /* ---------- footer (one place to edit for every page) ---------- */
   var ft = $('[data-footer]');
@@ -156,7 +158,7 @@ window.CS_CONFIG = {
       '<div><h2>More tools</h2><ul>' + tools.slice(6, 11).map(li).join('') + '<li><a href="/tools/">All tools →</a></li></ul></div>' +
       '<div><h2>ChunkScout</h2><ul><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li><li><a href="/privacy/">Privacy Policy</a></li><li><a href="/terms/">Terms of Use</a></li><li><a href="/sitemap.xml">Sitemap</a></li></ul></div></div>' +
       '<div class="sf-legal"><span>© ' + new Date().getFullYear() + ' ChunkScout. Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</span>' +
-      ((C.ga4 || C.adsense) ? '<button type="button" data-consent-open>Cookie settings</button>' : '') + '</div>';
+      (((window.CS_CONFIG || {}).ga4 || ((window.CS_ADS || {}).enabled && !(window.CS_ADS || {}).useGoogleConsent)) ? '<button type="button" data-consent-open>Cookie settings</button>' : '') + '</div>';
   }
 
   /* ---------- reveal on scroll ---------- */
@@ -166,32 +168,68 @@ window.CS_CONFIG = {
     rv.forEach(function (el) { io.observe(el); });
   } else rv.forEach(function (el) { el.classList.add('in'); });
 
-  /* ---------- consent + optional analytics/ads (inactive until configured) ---------- */
-  function loadScript(src) { var s = document.createElement('script'); s.async = true; s.src = src; if (src.indexOf('adsbygoogle') >= 0) s.crossOrigin = 'anonymous'; document.head.appendChild(s); }
+  /* ---------- consent + optional analytics (inactive until configured) ---------- */
+  var A = window.CS_ADS || { enabled: false, slots: {}, sponsors: [] };
+  var adsOn = !!(A.enabled && /^ca-pub-\d{10,20}$/.test(A.publisherId || ''));
+  var needBanner = !!C.ga4 || (adsOn && !A.useGoogleConsent);
+  function loadScript(src, cross) { if (document.querySelector('script[src="' + src + '"]')) return; var s = document.createElement('script'); s.async = true; s.src = src; if (cross) s.crossOrigin = 'anonymous'; document.head.appendChild(s); }
   function applyConsent(ok) {
-    if (!ok) return;
-    if (C.ga4 && !window.gtag) {
+    if (ok && C.ga4 && !window.gtag) {
       loadScript('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(C.ga4));
       window.dataLayer = window.dataLayer || []; window.gtag = function () { window.dataLayer.push(arguments); };
       window.gtag('js', new Date()); window.gtag('config', C.ga4, { anonymize_ip: true });
     }
-    if (C.adsense && !window.adsbygoogle) loadScript('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(C.adsense));
+    renderAds(ok || !!A.useGoogleConsent);
   }
   function consentBanner() {
     var old = $('.cs-consent'); if (old) old.remove();
     var b = document.createElement('div'); b.className = 'cs-consent'; b.setAttribute('role', 'dialog'); b.setAttribute('aria-label', 'Cookie choices');
-    b.innerHTML = '<p>ChunkScout would like to use cookies for ' + (C.adsense ? 'ads and ' : '') + 'anonymous usage statistics. The tools work the same either way. <a href="/privacy/">Privacy Policy</a></p>' +
+    b.innerHTML = '<p>ChunkScout would like to use cookies for ' + (adsOn && !A.useGoogleConsent ? 'ads and ' : '') + 'anonymous usage statistics. The tools work the same either way. <a href="/privacy/">Privacy Policy</a></p>' +
       '<div class="row"><button type="button" data-c="0">Decline</button><button type="button" class="primary" data-c="1">Accept</button></div>';
     document.body.appendChild(b);
     $$('button', b).forEach(function (btn) { btn.addEventListener('click', function () { var ok = btn.getAttribute('data-c') === '1'; store.set('cs_consent', ok ? 'yes' : 'no'); b.remove(); applyConsent(ok); }); });
   }
-  if (C.ga4 || C.adsense) {
-    var c = store.get('cs_consent', null);
-    if (c === null) consentBanner(); else applyConsent(c === 'yes');
-    document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[data-consent-open]')) consentBanner(); });
+
+  /* ---------- AdSlot renderer ----------
+     Markup: <div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+     A slot only appears when it has a sponsor (labelled "Sponsored") or AdSense is fully configured for it
+     (labelled "Advertisement"). Otherwise it stays hidden, so pages never show empty or fake ads. */
+  var adsPushed = false;
+  function safeUrl(u) { return /^(https:\/\/|\/)/.test(u || '') ? u : ''; }
+  function renderAds(consentOk) {
+    var ptype = document.body.getAttribute('data-page') || 'page';
+    $$('.ad-slot[data-ad]').forEach(function (el) {
+      if (el.getAttribute('data-filled')) return;
+      var id = el.getAttribute('data-ad'), cfg = (A.slots || {})[id] || {};
+      var sp = (A.sponsors || []).filter(function (x) { return x && x.slot === id && x.active !== false && safeUrl(x.url); })[0];
+      var show = false;
+      if (sp) {
+        el.innerHTML = '<span class="ad-label">Sponsored</span><div class="ad-box" style="min-height:0"><a class="sponsor" href="' + esc(safeUrl(sp.url)) + '" rel="sponsored noopener" target="_blank">' +
+          (safeUrl(sp.image) ? '<img src="' + esc(safeUrl(sp.image)) + '" alt="" loading="lazy" width="64" height="64">' : '') + '<span><b>' + esc(sp.title || '') + '</b><small>' + esc(sp.text || '') + '</small></span></a></div>';
+        show = true;
+      } else if (adsOn && consentOk && cfg.enabled && /^\d{6,}$/.test(cfg.unit || '') && (A.pages || {})[ptype] && !(cfg.format === 'sidebar' && !A.sidebar)) {
+        el.innerHTML = '<span class="ad-label">Advertisement</span><div class="ad-box"><ins class="adsbygoogle" style="display:block" data-ad-client="' + esc(A.publisherId) + '" data-ad-slot="' + esc(cfg.unit) + '" data-ad-format="auto" data-full-width-responsive="true"></ins></div>';
+        loadScript('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(A.publisherId), true);
+        try { (window.adsbygoogle = window.adsbygoogle || []).push({}); adsPushed = true; } catch (e) {}
+        show = true;
+      }
+      if (show) { el.hidden = false; el.setAttribute('data-filled', '1'); var w = el.closest('[data-aside-wrap]'); if (w) w.classList.add('has-aside'); }
+    });
   }
+  if (needBanner) {
+    var c = store.get('cs_consent', null);
+    if (c === null) { consentBanner(); renderAds(!!A.useGoogleConsent); } else applyConsent(c === 'yes');
+    document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('[data-consent-open]')) consentBanner(); });
+  } else renderAds(true);
   /* Tool usage event (only sent if GA4 is configured and accepted) */
-  window.CS = { copy: copy, toast: toast, store: store, search: search, track: function (n, p) { if (window.gtag) window.gtag('event', n, p || {}); } };
+  /* Shareable links: only the tool's own settings go in the URL, never personal data. */
+  function shareLink(params, btn) {
+    var u = new URL(location.href); u.search = ''; u.hash = '';
+    Object.keys(params).forEach(function (k) { if (params[k] !== '' && params[k] != null) u.searchParams.set(k, params[k]); });
+    copy(u.toString(), btn); return u.toString();
+  }
+  function params() { var o = {}; new URLSearchParams(location.search).forEach(function (v, k) { o[k] = v.slice(0, 64); }); return o; }
+  window.CS = { copy: copy, toast: toast, store: store, search: search, share: shareLink, params: params, track: function (n, p) { if (window.gtag) window.gtag('event', n, p || {}); } };
 
   renderLists();
 })();
