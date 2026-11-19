@@ -6,5 +6,7 @@
     // /tools/ serves tools/index.html, and unknown URLs show 404.html with a real 404 status
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
-  }
+  },
+  // Branch preview builds run "npx wrangler preview", which requires this block (it can stay empty)
+  "previews": {}
 }
