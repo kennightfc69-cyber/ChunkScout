@@ -59,7 +59,7 @@ window.CS_CONFIG = {
   var tool = document.body.getAttribute('data-tool');
   if (tool && byId[tool]) { recent = [tool].concat(recent.filter(function (x) { return x !== tool && byId[x]; })).slice(0, 6); store.set('cs_recent', recent); }
 
-  function iconSVG(p) { return p.icon ? '<svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#' + p.icon + '"/></svg>' : ''; }
+  function iconSVG(p) { return p.icon ? '<svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#' + p.icon + '"/></svg>' : ''; }
   function card(p) {
     return '<div class="tcard">' + iconSVG(p) + '<span><b><a href="' + p.url + '">' + esc(p.title) + '</a></b><small>' + esc(p.desc) + '</small>' +
       '<span class="cat">' + esc(p.cat) + (p.isNew ? ' · <span class="new">New</span>' : '') + '</span></span>' +
