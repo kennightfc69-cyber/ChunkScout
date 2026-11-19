@@ -145,8 +145,22 @@ window.CS_CONFIG = {
   var path = location.pathname;
   var navLinks = $$('#site-nav a'), best = null;
   navLinks.forEach(function (a) { var h = a.getAttribute('href'); if (a.hasAttribute('data-exact') ? path === h : (h !== '/' && path.indexOf(h) === 0)) { if (!best || h.length > best.getAttribute('href').length) best = a; } });
-  if (!best && /^\/tools\/[^/]+\/$/.test(path) && document.body.getAttribute('data-tool')) { var cat = (byId[document.body.getAttribute('data-tool')] || {}).cat; navLinks.forEach(function (a) { if (a.textContent === (cat || '').split(' ')[0]) best = a; }); }
+  if (!best && /^\/tools\/[^/]+\/$/.test(path) && document.body.getAttribute('data-tool')) { var cat = (byId[document.body.getAttribute('data-tool')] || {}).cat; navLinks.forEach(function (a) { var t = a.querySelector('b'); if ((t ? t.textContent : a.textContent) === (cat || '')) best = a; }); }
   if (best) best.setAttribute('aria-current', 'page');
+  if (best && best.closest('.dd')) { var ddb = best.closest('.dd').querySelector('.dd-btn'); if (ddb) ddb.classList.add('on'); }
+  $$('.dd').forEach(function (dd) {
+    var b = dd.querySelector('.dd-btn'); if (!b) return;
+    function set(o) { dd.classList.toggle('open', o); b.setAttribute('aria-expanded', o ? 'true' : 'false'); }
+    b.addEventListener('click', function (e) { e.stopPropagation(); set(!dd.classList.contains('open')); if (dd.classList.contains('open')) { var f = dd.querySelector('.dd-menu a'); if (f && e.detail === 0) f.focus(); } });
+    document.addEventListener('click', function (e) { if (!dd.contains(e.target)) set(false); });
+    dd.addEventListener('keydown', function (e) {
+      var items = Array.prototype.slice.call(dd.querySelectorAll('.dd-menu a')), i = items.indexOf(document.activeElement);
+      if (e.key === 'Escape' && dd.classList.contains('open')) { set(false); b.focus(); e.stopPropagation(); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); set(true); (items[i + 1] || items[0]).focus(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); set(true); (items[i - 1] || items[items.length - 1]).focus(); }
+    });
+    dd.addEventListener('focusout', function (e) { if (!dd.contains(e.relatedTarget)) set(false); });
+  });
 
   /* ---------- footer (one place to edit for every page) ---------- */
   var ft = $('[data-footer]');

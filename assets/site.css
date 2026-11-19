@@ -19,6 +19,18 @@
 .site-nav a{color:var(--muted);text-decoration:none;font:600 14px var(--font);padding:7px 12px;border-radius:7px;border:1px solid transparent;white-space:nowrap}
 .site-nav a:hover{color:var(--text);background:var(--panel2)}
 .site-nav a[aria-current="page"],.site-nav a.on{color:var(--accent);border-color:var(--accent2);background:var(--panel2)}
+.dd{position:relative;display:flex}
+.dd-btn{display:flex;align-items:center;gap:6px;background:none;color:var(--muted);font:600 14px var(--font);padding:7px 12px;border-radius:7px;border:1px solid transparent;cursor:pointer;white-space:nowrap}
+.dd-btn svg{width:12px;height:12px;transition:transform .15s}.dd-btn:hover,.dd.open .dd-btn{color:var(--text);background:var(--panel2)}
+.dd-btn.on{color:var(--accent);border-color:var(--accent2);background:var(--panel2)}.dd.open .dd-btn svg{transform:rotate(180deg)}
+.dd-menu{position:absolute;left:0;top:calc(100% + 8px);width:340px;display:flex;flex-direction:column;gap:2px;padding:8px;background:var(--panel);border:1px solid var(--line2);border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,.55);z-index:60;opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .14s,transform .14s,visibility .14s}
+.dd-menu::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px}
+.dd.open .dd-menu{opacity:1;visibility:visible;transform:none;transition:opacity .14s,transform .14s,visibility 0s}
+@media (hover:hover) and (min-width:761px){.dd:hover .dd-menu{opacity:1;visibility:visible;transform:none}.dd:hover .dd-btn svg{transform:rotate(180deg)}}
+.site-nav .dd-menu a{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:8px;white-space:normal;color:var(--text);border:1px solid transparent}
+.dd-menu a .ic{width:30px;height:30px;flex:0 0 30px}.dd-menu a b{display:block;font-size:14px}.dd-menu a small{display:block;font:400 12px/1.35 var(--font);color:var(--muted);margin-top:1px}
+.site-nav .dd-menu a:hover{background:#18201c}.site-nav .dd-menu a[aria-current="page"]{border-color:var(--accent2);background:#17241c}.site-nav .dd-menu a[aria-current="page"] b{color:var(--accent)}
+.dd-menu .dd-all{border-bottom:1px solid var(--line)!important;border-radius:8px 8px 0 0;margin-bottom:4px;padding-bottom:11px}
 .site-nav .soon{font-size:10px;color:var(--warn);margin-left:4px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
 .sh-search{margin-left:auto;display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:7px 10px 7px 11px;font:500 13px var(--font);cursor:pointer;min-width:200px}
 .sh-search:hover{border-color:var(--accent2);color:var(--text)}
@@ -28,13 +40,16 @@
 .sh-menu{display:none;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;width:40px;height:38px;padding:0;cursor:pointer;place-items:center}
 .sh-menu svg{width:20px;height:20px}
 @media (max-width:1180px){.sh-search{min-width:0}.sh-search span{display:none}}
-@media (max-width:1080px){
+@media (max-width:760px){
   .sh-in{padding:8px 12px;gap:8px}
   .sh-search{min-width:0;padding:8px 10px}.sh-search span,.sh-search kbd{display:none}
   .sh-menu{display:grid}
   .site-nav{display:none;position:absolute;left:0;right:0;top:100%;margin:0;flex-direction:column;gap:2px;padding:10px 12px 14px;background:var(--panel);border-bottom:1px solid var(--line);box-shadow:0 14px 30px rgba(0,0,0,.45)}
   .site-nav.open{display:flex}
   .site-nav a{padding:12px 12px;font-size:15px}
+  .dd-btn{display:none!important}.dd-menu{position:static!important;display:flex!important;flex-direction:column;box-shadow:none!important;border:0!important;background:transparent!important;padding:0 0 0 0!important;width:auto!important;opacity:1!important;visibility:visible!important;transform:none!important}
+  .dd{display:block}.dd-menu{width:100%!important}.dd-menu .dd-all{border-bottom-color:transparent!important;margin-bottom:0;padding-bottom:9px}.site-nav>a{color:var(--text);font-weight:700}
+  .dd-menu a small{display:none}.dd-menu a .ic{width:22px;height:22px;flex-basis:22px}
 }
 
 /* ---------- Search dialog ---------- */
