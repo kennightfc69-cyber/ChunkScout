@@ -11,6 +11,7 @@ Static site deployed as a Cloudflare Worker with static assets (`wrangler.jsonc`
 - `assets/data.js`: the list of pages used by search, favorites and the footer. **Add a new tool here** and to `sitemap.xml`.
 - `assets/icons.svg`: pixel icon sprite.
 - `assets/voxel.js`: shape engine for the sphere and shape generators (Web Worker generation, 3D preview, layer blueprints, PNG/ZIP export). Loaded only on those pages.
+- `assets/mctex.js` – reads block textures from the visitor’s own Minecraft .jar or resource pack in the browser (nothing is bundled or uploaded)
 - `assets/blocks.js`: block colors for the gradient generator (approximate texture averages) and the map palette for the map art generator.
 - `tools/building/`, `tools/survival/`, `tools/redstone/`, `tools/player/`, `tools/server/`: category pages.
 - `.assetsignore`: files that are not published (README, wrangler config, the old backup HTML).
