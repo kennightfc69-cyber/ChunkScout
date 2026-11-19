@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft XP Calculator – Levels, Points &amp; Level 30 | ChunkScout</title>
+<meta name="description" content="Convert Minecraft levels to experience points and back, see how many points you need for level 30 or any target, how many mobs, ores or bottles that is, and what you lose on death.">
+<link rel="canonical" href="https://chunkscout.com/tools/xp-calculator/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Minecraft XP Calculator – Levels, Points &amp; Level 30 | ChunkScout"><meta property="og:description" content="Convert Minecraft levels to experience points and back, see how many points you need for level 30 or any target, how many mobs, ores or bottles that is, and what you lose on death.">
+<meta property="og:url" content="https://chunkscout.com/tools/xp-calculator/"><meta property="og:image" content="https://chunkscout.com/assets/og.png?v=793048b94b">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=f00751567c">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "XP Calculator"}]}</script>
+</head>
+<body class="page" data-tool="xp-calculator" data-page="tool">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><div class="dd"><button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-tools" aria-haspopup="true">All Tools<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="dd-menu" id="dd-tools"><a href="/tools/" data-exact class="dd-all"><span><b>All tools</b><small>Every calculator and generator</small></span></a><a href="/tools/building/"><span><b>Building</b><small>Circle, sphere and shape planners for builders.</small></span></a><a href="/tools/survival/"><span><b>Survival</b><small>Calculators for portals, storage, beacons and exploring your world.</small></span></a><a href="/tools/redstone/"><span><b>Redstone & Technical</b><small>Chunk maths, game ticks and other technical helpers.</small></span></a><a href="/tools/player/"><span><b>Player</b><small>Text formatting and player utilities.</small></span></a><a href="/tools/server/"><span><b>Server</b><small>Start scripts, memory planning and other tools for server owners.</small></span></a></div></div></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">XP Calculator</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#xp"/></svg><div><h1>XP Calculator</h1><p>Work out how many experience points you need for any level, and how many mobs, ores or bottles that takes.</p></div><button class="favbtn" type="button" data-fav="xp-calculator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
+<div class="tool">
+<div class="card" style="align-self:start">
+  <h2 style="font-size:17px;margin:0 0 4px">From where you are to where you want to be</h2>
+  <div class="row"><div><label for="xpL">Current level</label><input id="xpL" type="number" min="0" max="21863" value="0" inputmode="numeric"></div><div><label for="xpP">Bar progress (%)</label><input id="xpP" type="number" min="0" max="99.9" step="any" value="0" inputmode="decimal"></div></div>
+  <label for="xpT">Target level</label><input id="xpT" type="number" min="0" max="21863" value="30" inputmode="numeric">
+  <div class="toolbar" style="margin-top:8px" aria-label="Common targets"><button type="button" data-t="30">30 (best enchants)</button><button type="button" data-t="39">39 (anvil limit)</button><button type="button" data-t="50">50</button><button type="button" data-t="100">100</button></div>
+  <p class="err" id="xpErr" role="alert"></p>
+  <h2 style="font-size:17px;margin:22px 0 4px">What can you get to?</h2>
+  <p class="note" style="margin-top:0">Tick everything you have. The route below updates to the fastest option.</p>
+  <div id="xpHave" style="display:grid;grid-template-columns:1fr 1fr;gap:0 10px">
+   <label class="check"><input type="checkbox" value="nether" checked> The Nether</label><label class="check"><input type="checkbox" value="end"> The End</label>
+   <label class="check"><input type="checkbox" value="spawner"> A mob spawner</label><label class="check"><input type="checkbox" value="blaze"> A blaze spawner</label>
+   <label class="check"><input type="checkbox" value="villagers"> Villagers to trade with</label><label class="check"><input type="checkbox" value="dragon"> Dragon still alive (first kill)</label></div>
+  <h2 style="font-size:17px;margin:22px 0 4px">Points ↔ levels</h2>
+  <div class="row"><div><label for="xpPts">Total points</label><input id="xpPts" type="number" min="0" value="1395" inputmode="numeric"></div><div><label for="xpLv">Level</label><input id="xpLv" type="number" min="0" max="21863" value="30" inputmode="numeric"></div></div>
+  <p class="note" id="xpConv"></p>
+</div>
+<div class="card" aria-live="polite">
+  <div class="stats"><div class="stat hl"><b id="oNeed">0</b><span>points needed</span></div><div class="stat"><b id="oHave">0</b><span>points you have now</span></div><div class="stat"><b id="oTot">0</b><span>total points at target</span></div><div class="stat"><b id="oDeath">0</b><span>points dropped if you die now</span></div></div>
+  <div class="xpbar" aria-hidden="true"><i id="xpBar"></i></div>
+  <p class="note" id="oNext"></p>
+  <div class="route" id="xpRoute"></div>
+  <h2 style="font-size:16px;margin:18px 0 6px">Every source, side by side</h2>
+  <div style="overflow-x:auto"><table class="mini" id="xpSrc"></table></div>
+  <p class="note">Ranges are Java Edition orb drops. “About” uses the average of each range, so real numbers vary a little. Looting doesn’t add mob XP.</p>
+  <div class="copyrow"><button type="button" id="xpShare">Copy link</button></div>
+</div>
+</div>
+<div class="meta-line"><span>Java &amp; Bedrock level curve · Java orb values</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div class="art-wrap" data-aside-wrap><div class="art-main">
+
+<article class="prose">
+<h2 id="formula">How levels and points work</h2>
+<p>Experience orbs give <b>points</b>. Your <b>level</b> is how many times the bar has filled, and each level needs more points than the one before. The game uses three formulas depending on your level:</p>
+<div class="formula">Points for the next level (current level L)<br>  L 0–15:  2L + 7<br>  L 16–30: 5L − 38<br>  L 31+:   9L − 158<br><br>Total points to reach level L<br>  L 0–16:  L² + 6L<br>  L 17–31: 2.5L² − 40.5L + 360<br>  L 32+:   4.5L² − 162.5L + 2220</div>
+<p>The same curve is used in Java and Bedrock. Level 30 needs 1,395 points in total. Level 50 needs 5,345, nearly four times as many.</p>
+<h2 id="tips">Spending XP wisely</h2>
+<ul><li>An enchanting table needs level 30 for its best offers but only <b>takes 1–3 levels</b>. Levels above 30 cost more points each, so enchant as soon as you reach 30 instead of saving up.</li>
+<li>Anvils charge levels, not points. In survival, anything that would cost 40 or more levels shows “Too Expensive!”, so 39 is the most you’ll ever need for one anvil use.</li>
+<li>Mending repairs 2 durability per XP point, so a mending tool soaks up orbs before they reach your bar.</li></ul>
+<h2 id="death">What you lose when you die</h2>
+<p>When you die in Java Edition (without keepInventory) you drop 7 points per level you had, up to a maximum of 100 points. Everything else is lost. Above level 7 or so, most of your experience is gone for good, so spend it before risky trips.</p>
+<h2 id="table">Level table</h2>
+<div style="overflow-x:auto"><table><thead><tr><th>Level</th><th>Total points</th><th>Points to next level</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>7</td></tr><tr><td>1</td><td>7</td><td>9</td></tr><tr><td>2</td><td>16</td><td>11</td></tr><tr><td>3</td><td>27</td><td>13</td></tr><tr><td>4</td><td>40</td><td>15</td></tr><tr><td>5</td><td>55</td><td>17</td></tr><tr><td>6</td><td>72</td><td>19</td></tr><tr><td>7</td><td>91</td><td>21</td></tr><tr><td>8</td><td>112</td><td>23</td></tr><tr><td>9</td><td>135</td><td>25</td></tr><tr><td>10</td><td>160</td><td>27</td></tr><tr><td>11</td><td>187</td><td>29</td></tr><tr><td>12</td><td>216</td><td>31</td></tr><tr><td>13</td><td>247</td><td>33</td></tr><tr><td>14</td><td>280</td><td>35</td></tr><tr><td>15</td><td>315</td><td>37</td></tr><tr><td>16</td><td>352</td><td>42</td></tr><tr><td>17</td><td>394</td><td>47</td></tr><tr><td>18</td><td>441</td><td>52</td></tr><tr><td>19</td><td>493</td><td>57</td></tr><tr><td>20</td><td>550</td><td>62</td></tr><tr><td>21</td><td>612</td><td>67</td></tr><tr><td>22</td><td>679</td><td>72</td></tr><tr><td>23</td><td>751</td><td>77</td></tr><tr><td>24</td><td>828</td><td>82</td></tr><tr><td>25</td><td>910</td><td>87</td></tr><tr><td>26</td><td>997</td><td>92</td></tr><tr><td>27</td><td>1,089</td><td>97</td></tr><tr><td>28</td><td>1,186</td><td>102</td></tr><tr><td>29</td><td>1,288</td><td>107</td></tr><tr><td>30</td><td>1,395</td><td>112</td></tr><tr><td>31</td><td>1,507</td><td>121</td></tr><tr><td>32</td><td>1,628</td><td>130</td></tr><tr><td>33</td><td>1,758</td><td>139</td></tr><tr><td>34</td><td>1,897</td><td>148</td></tr><tr><td>35</td><td>2,045</td><td>157</td></tr><tr><td>36</td><td>2,202</td><td>166</td></tr><tr><td>37</td><td>2,368</td><td>175</td></tr><tr><td>38</td><td>2,543</td><td>184</td></tr><tr><td>39</td><td>2,727</td><td>193</td></tr><tr><td>40</td><td>2,920</td><td>202</td></tr><tr><td>45</td><td>4,020</td><td>247</td></tr><tr><td>50</td><td>5,345</td><td>292</td></tr><tr><td>60</td><td>8,670</td><td>382</td></tr><tr><td>70</td><td>12,895</td><td>472</td></tr><tr><td>80</td><td>18,020</td><td>562</td></tr><tr><td>90</td><td>24,045</td><td>652</td></tr><tr><td>100</td><td>30,970</td><td>742</td></tr></tbody></table></div>
+<h2 id="faq">FAQ</h2>
+<details class="faq"><summary>How much XP is level 30?</summary><p>1,395 points from level 0. Going from 29 to 30 alone takes 107 points.</p></details>
+<details class="faq"><summary>What gives the most XP?</summary><p>Killing the Ender Dragon the first time gives 12,000 points. For repeatable XP, mob farms (especially blazes, which give 10 points each) and Endermen in the End are the fastest. Smelting and breeding also add up.</p></details>
+<details class="faq"><summary>Is there a maximum level?</summary><p>In practice no: the commands allow levels in the millions. Normal survival play rarely goes far past 100.</p></details>
+</article>
+</div><aside class="rail"><nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#formula">How levels and points work</a></li><li><a href="#tips">Spending XP wisely</a></li><li><a href="#death">What you lose when you die</a></li><li><a href="#table">Level table</a></li><li><a href="#faq">FAQ</a></li></ol></nav><nav class="rail-box" aria-label="More tools"><b>More tools</b><ul><li><a href="/seed-map/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#map"/></svg><span>Seed Map</span></a></li><li><a href="/tools/enchantment-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#book"/></svg><span>Enchantment Order</span></a></li><li><a href="/tools/direction-finder/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#compass"/></svg><span>Direction Finder</span></a></li><li><a href="/tools/sphere-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#sphere"/></svg><span>Sphere Generator</span></a></li><li><a href="/tools/circle-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#circle"/></svg><span>Circle Generator</span></a></li></ul><a class="more-link" href="/tools/">All tools →</a></nav><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#beacon"/></svg><span><b><a href="/tools/beacon-calculator/">Beacon Calculator</a></b><small>Blocks, ingots and layer-by-layer blueprints for beacon pyramids, including shared bases for several beacons.</small><span class="cat">Survival · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="beacon-calculator" aria-pressed="false" aria-label="Favorite Beacon Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#chest"/></svg><span><b><a href="/tools/stack-calculator/">Stack Calculator</a></b><small>Turn any item count into stacks, shulker boxes and double chests, for 64, 16 and 1 stack sizes.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="stack-calculator" aria-pressed="false" aria-label="Favorite Stack Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#portal"/></svg><span><b><a href="/tools/nether-portal-calculator/">Nether Portal Calculator</a></b><small>Convert Overworld and Nether coordinates with the 8:1 ratio so your portals link up.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="nether-portal-calculator" aria-pressed="false" aria-label="Favorite Nether Portal Calculator">☆</button></div></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js?v=ee8709fb7b" defer></script>
+<script src="/assets/data.js?v=6c2a6f2a94" defer></script>
+<script src="/assets/site.js?v=56bf09d280" defer></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id),f=n=>Math.round(n).toLocaleString('en-US'),P=window.CS?CS.params():{};
+const tot=L=>L<=16?L*L+6*L:L<=31?2.5*L*L-40.5*L+360:4.5*L*L-162.5*L+2220;
+const nxt=L=>L<=15?2*L+7:L<=30?5*L-38:9*L-158;
+function levelOf(p){let lo=0,hi=21863;while(lo<hi){const m=Math.ceil((lo+hi)/2);if(tot(m)<=p)lo=m;else hi=m-1;}return [lo,(p-tot(lo))/nxt(lo)];}
+const SRC=[['Bottle o’ Enchanting','3–11',7],['Most hostile mobs (zombie, skeleton, creeper, spider, Enderman)','5',5],['Blaze, guardian, evoker','10',10],['Diamond or emerald ore','3–7',5],['Redstone ore','1–5',3],['Lapis or nether quartz ore','2–5',3.5],['Coal ore','0–2',1],['Breeding two animals','1–7',4],['Fishing (one catch)','1–6',3.5],['Trading with a villager','3–6',4.5]];
+if(P.l)$('xpL').value=P.l;if(P.p)$('xpP').value=P.p;if(P.t)$('xpT').value=P.t;
+function calc(){$('xpErr').textContent='';const L=Math.floor(+$('xpL').value),pr=+$('xpP').value,T=Math.floor(+$('xpT').value);
+ if(!(L>=0&&L<=21863&&T>=0&&T<=21863)||!(pr>=0&&pr<100)){$('xpErr').textContent='Levels must be 0–21,863 and bar progress 0–99.9%.';return;}
+ const have=tot(L)+Math.floor(nxt(L)*pr/100),goal=tot(T),need=Math.max(0,goal-have);
+ $('oNeed').textContent=f(need);$('oHave').textContent=f(have);$('oTot').textContent=f(goal);$('oDeath').textContent=f(Math.min(7*L,100));
+ $('xpBar').style.width=pr+'%';
+ $('oNext').textContent=T<=L&&need===0?(T<L?`You’re already ${L-T} level${L-T===1?'':'s'} above your target. Spending down to level ${T} uses ${f(have-goal)} points.`:'You’re already at your target.'):`Level ${L} → ${L+1} takes ${f(nxt(L))} points (${f(nxt(L)-Math.floor(nxt(L)*pr/100))} more to fill this bar).`;
+ $('xpSrc').innerHTML='<tr><th>Source</th><th style="text-align:right">XP each</th><th style="text-align:right">About</th></tr>'+SRC.map(s=>`<tr><td>${s[0]}</td><td class="n">${s[1]}</td><td class="n">${need?f(Math.ceil(need/s[2])):'–'}</td></tr>`).join('');}
+function conv(src){const el=$('xpConv');if(src==='pts'){const p=Math.floor(+$('xpPts').value);if(!(p>=0&&p<=2147483647)){el.textContent='Enter a whole number of points.';return;}const [l,fr]=levelOf(p);$('xpLv').value=l;el.textContent=`${f(p)} points = level ${l} and ${Math.floor(fr*100)}% of the way to ${l+1} (${f(p-tot(l))}/${f(nxt(l))}).`;}
+ else{const l=Math.floor(+$('xpLv').value);if(!(l>=0&&l<=21863)){el.textContent='Enter a level from 0 to 21,863.';return;}$('xpPts').value=tot(l);el.textContent=`Level ${l} with an empty bar = ${f(tot(l))} points. The next level takes ${f(nxt(l))} more.`;}}
+['xpL','xpP','xpT'].forEach(i=>$(i).addEventListener('input',calc));$('xpPts').addEventListener('input',()=>conv('pts'));$('xpLv').addEventListener('input',()=>conv('lv'));
+document.querySelectorAll('[data-t]').forEach(x=>x.onclick=()=>{$('xpT').value=x.dataset.t;calc();});
+$('xpShare').onclick=e=>window.CS&&CS.share({l:$('xpL').value,p:$('xpP').value,t:$('xpT').value},e.target);
+
+const ROUTES=[
+ {need:['dragon','end'],id:'dragon',t:'Kill the Ender Dragon',xp:12000,unit:'first kill',how:'The first dragon kill drops 12,000 points, enough for level 68 from zero. Respawned dragons give only 500.',farm:false},
+ {need:['end'],t:'Enderman farm in the End',xp:5,unit:'Endermen',how:'Build a platform far from the main island so Endermen spawn into a drop and are killed by a single hit. This is the fastest XP in the game: level 30 in a minute or two.',farm:true},
+ {need:['nether'],t:'Gold farm (zombified piglins)',xp:5,unit:'kills',how:'A portal-based or roof-of-the-Nether gold farm gives XP and gold together. Kill them yourself for the XP; drops-only kills give none.',farm:true},
+ {need:['blaze'],t:'Blaze spawner farm',xp:10,unit:'blazes',how:'Blazes give 10 points each, double most mobs. Funnel them to a spot where you finish them with one hit.',farm:true},
+ {need:['spawner'],t:'Mob spawner XP farm',xp:5,unit:'mobs',how:'Push the zombies or skeletons from the spawner with water into a drop that leaves them on half a heart, then finish each with one hit.',farm:true},
+ {need:['villagers'],t:'Trade with villagers',xp:4.5,unit:'trades',how:'Every trade gives 3–6 points (and more when the villager levels up). Cheap trades like paper, sticks and wheat add up quickly.',farm:false},
+ {need:['nether'],t:'Mine nether quartz ore',xp:3.5,unit:'ores',how:'Quartz is everywhere in the Nether and gives 2–5 points per ore without Silk Touch. Fortune adds more quartz, not more XP.',farm:false},
+ {need:[],t:'Mine coal, redstone and lapis, and smelt',xp:2.5,unit:'ores',how:'With no farms yet, mining ores (without Silk Touch) is the steady option. Cooking food and smelting ores in a furnace also stores XP you collect when taking the items out.',farm:false}];
+function route(){const have=new Set([...document.querySelectorAll('#xpHave input:checked')].map(x=>x.value)),need=+$('oNeed').textContent.replace(/,/g,'')||0,box=$('xpRoute');
+ if(!need){box.innerHTML='<b>You’re already there.</b>';return;}
+ const ok=ROUTES.filter(r=>r.need.every(n=>have.has(n))),best=ok[0],T=+$('xpT').value;
+ const spend=T>30?`<li>Going past 30 makes every level cost more: 30 → ${T} takes ${f(tot(T)-tot(30))} points. If you want levels to enchant with, using an enchanting table at 30 and refilling is cheaper. Anvil work never needs more than 39.</li>`:'';
+ box.innerHTML=`<b>Fastest route for you: ${best.t}</b><p>${best.how}</p><p class="big">${best.id==='dragon'?(need<=12000?'One kill covers it.':`One kill gives 12,000 of the ${f(need)} points; get the rest from an Enderman farm (~${f(Math.ceil((need-12000)/5))} Endermen).`):`≈ ${f(Math.ceil(need/best.xp))} ${best.unit}`}</p>
+ <ul>${best.farm?'<li><b>Kill the mobs yourself</b> (with a weapon, or a final punch). Mobs killed only by fall damage, lava or cramming drop no XP.</li>':''}<li>Take off <b>Mending</b> gear while collecting, or the orbs repair it instead of filling your bar.</li>${spend}</ul>
+ ${ok.length>1?`<p class="note">Also available to you: ${ok.slice(1,4).map(r=>r.t+' (≈'+f(Math.ceil(need/r.xp))+' '+r.unit+')').join(', ')}.</p>`:''}`;}
+$('xpHave').addEventListener('change',route);['xpL','xpP','xpT'].forEach(i=>$(i).addEventListener('input',route));document.querySelectorAll('[data-t]').forEach(x=>x.addEventListener('click',route));
+calc();conv('pts');route();})();
+});</script>
+</body>
+</html>

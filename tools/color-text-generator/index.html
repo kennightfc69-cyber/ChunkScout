@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Color Codes &amp; Gradient Generator (&amp; and § codes) | ChunkScout</title>
+<meta name="description" content="Preview Minecraft color and formatting codes, convert between &amp; and §, and build hex gradients for chat, MOTDs and plugins. Explains Java, Bedrock and server differences.">
+<link rel="canonical" href="https://chunkscout.com/tools/color-text-generator/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Minecraft Color Codes &amp; Gradient Generator (&amp; and § codes) | ChunkScout"><meta property="og:description" content="Preview Minecraft color and formatting codes, convert between &amp; and §, and build hex gradients for chat, MOTDs and plugins. Explains Java, Bedrock and server differences.">
+<meta property="og:url" content="https://chunkscout.com/tools/color-text-generator/"><meta property="og:image" content="https://chunkscout.com/assets/og.png?v=793048b94b">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=f00751567c">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Color Code & Gradient Generator"}]}</script>
+</head>
+<body class="page" data-tool="color-text-generator" data-page="tool">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><div class="dd"><button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-tools" aria-haspopup="true">All Tools<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="dd-menu" id="dd-tools"><a href="/tools/" data-exact class="dd-all"><span><b>All tools</b><small>Every calculator and generator</small></span></a><a href="/tools/building/"><span><b>Building</b><small>Circle, sphere and shape planners for builders.</small></span></a><a href="/tools/survival/"><span><b>Survival</b><small>Calculators for portals, storage, beacons and exploring your world.</small></span></a><a href="/tools/redstone/"><span><b>Redstone & Technical</b><small>Chunk maths, game ticks and other technical helpers.</small></span></a><a href="/tools/player/"><span><b>Player</b><small>Text formatting and player utilities.</small></span></a><a href="/tools/server/"><span><b>Server</b><small>Start scripts, memory planning and other tools for server owners.</small></span></a></div></div></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Color Code &amp; Gradient Generator</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#color"/></svg><div><h1>Color Code &amp; Gradient Generator</h1><p>Preview <code>&amp;</code> and <code>§</code> formatting codes and build hex gradients for chat, MOTDs and signs.</p></div><button class="favbtn" type="button" data-fav="color-text-generator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
+<div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+<div class="card"><h2 style="font-size:17px;margin:0">Color &amp; format codes</h2><p>Type with <code>&amp;</code> codes, or click a code to insert it at the cursor.</p>
+  <label for="ctIn">Your text</label><textarea id="ctIn" rows="3">&amp;aWelcome to &amp;lChunkScout&amp;r&amp;e!</textarea>
+  <div class="codes" id="ctCodes"></div>
+  <label>Preview</label><div class="mcprev" id="ctPrev"></div>
+  <label for="ctSec">With § symbols (for server.properties MOTDs, books and command blocks)</label><input id="ctSec" readonly>
+  <div class="copyrow"><button type="button" data-copy="ctSec">Copy § version</button><button type="button" class="primary" data-copy="ctIn">Copy &amp; version</button></div></div>
+<div class="card"><h2 style="font-size:17px;margin:0">Hex gradient</h2><p>For servers with plugins that support hex colors (Java 1.16+).</p>
+  <label for="grTxt">Text and colors</label>
+  <div class="row"><input id="grTxt" value="Gradient text"><input type="color" id="grA" value="#7bdc6a" style="flex:0 0 48px" aria-label="Start color"><input type="color" id="grB" value="#3fb6c9" style="flex:0 0 48px" aria-label="End color"></div>
+  <label for="grFmt">Output format</label>
+  <select id="grFmt"><option value="amp">&amp;#RRGGBB per letter (most plugins)</option><option value="mm">MiniMessage &lt;gradient&gt; (Paper, Adventure)</option><option value="bukkit">&amp;x&amp;R&amp;R&amp;G&amp;G&amp;B&amp;B (legacy hex)</option></select>
+  <label>Preview</label><div class="mcprev" id="grPrev"></div>
+  <label for="grOut">Code</label><textarea id="grOut" readonly rows="3"></textarea>
+  <div class="copyrow"><button type="button" class="primary" data-copy="grOut">Copy gradient</button></div></div>
+</div>
+<div class="meta-line"><span>Java &amp; Bedrock (hex colors: Java 1.16+ with plugins)</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div class="art-wrap" data-aside-wrap><div class="art-main">
+<article class="prose">
+<h2 id="codes">Minecraft color and formatting codes</h2>
+<table><thead><tr><th>Code</th><th>Effect</th><th>Code</th><th>Effect</th></tr></thead><tbody>
+<tr><td>&amp;0</td><td>Black</td><td>&amp;8</td><td>Dark gray</td></tr><tr><td>&amp;1</td><td>Dark blue</td><td>&amp;9</td><td>Blue</td></tr>
+<tr><td>&amp;2</td><td>Dark green</td><td>&amp;a</td><td>Green</td></tr><tr><td>&amp;3</td><td>Dark aqua</td><td>&amp;b</td><td>Aqua</td></tr>
+<tr><td>&amp;4</td><td>Dark red</td><td>&amp;c</td><td>Red</td></tr><tr><td>&amp;5</td><td>Dark purple</td><td>&amp;d</td><td>Light purple</td></tr>
+<tr><td>&amp;6</td><td>Gold</td><td>&amp;e</td><td>Yellow</td></tr><tr><td>&amp;7</td><td>Gray</td><td>&amp;f</td><td>White</td></tr>
+<tr><td>&amp;l</td><td>Bold</td><td>&amp;o</td><td>Italic</td></tr><tr><td>&amp;n</td><td>Underline</td><td>&amp;m</td><td>Strikethrough</td></tr>
+<tr><td>&amp;k</td><td>Obfuscated (scrambled)</td><td>&amp;r</td><td>Reset</td></tr></tbody></table>
+<p>A color code resets bold/italic/underline, so put formatting codes <i>after</i> the color: <code>&amp;a&amp;lBold green</code>, not <code>&amp;l&amp;aBold green</code>.</p>
+<h2 id="editions">&amp; vs §, and Java vs Bedrock vs servers</h2>
+<ul><li><b>§ (section sign)</b> is what the game itself reads. Use it in <code>server.properties</code> MOTDs (written as <code>\u00A7</code> in some setups), signs and books via commands, and Bedrock chat.</li>
+<li><b>&amp;</b> is a plugin convention (EssentialsX, LuckPerms and most Spigot/Paper plugins translate <code>&amp;</code> to <code>§</code>). Vanilla Java chat doesn’t accept either from players.</li>
+<li><b>Hex colors</b> (<code>&amp;#RRGGBB</code>, MiniMessage) need Java 1.16+ and plugin support. Bedrock doesn’t support hex colors.</li>
+<li><b>Bedrock</b> adds extra codes such as <code>§g</code> (Minecoin gold) and a set of material colors. On Bedrock, <code>§m</code> and <code>§n</code> are colors, not strikethrough and underline, which Bedrock doesn’t have.</li>
+<li><b>Vanilla Java commands</b> like <code>/tellraw</code> and <code>/title</code> use JSON text components (<code>{"text":"Hi","color":"green","bold":true}</code>) instead of codes.</li></ul>
+</article>
+</div><aside class="rail"><nav class="rail-box" aria-label="More tools"><b>More tools</b><ul><li><a href="/seed-map/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#map"/></svg><span>Seed Map</span></a></li><li><a href="/tools/sphere-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#sphere"/></svg><span>Sphere Generator</span></a></li><li><a href="/tools/enchantment-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#book"/></svg><span>Enchantment Order</span></a></li><li><a href="/tools/xp-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#xp"/></svg><span>XP Calculator</span></a></li><li><a href="/tools/circle-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#circle"/></svg><span>Circle Generator</span></a></li></ul><a class="more-link" href="/tools/">All tools →</a></nav><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#small"/></svg><span><b><a href="/tools/small-text-generator/">Small Text Generator</a></b><small>Convert text into small caps for tab lists, scoreboards and nametags.</small><span class="cat">Player</span></span><button class="fav" type="button" data-fav="small-text-generator" aria-pressed="false" aria-label="Favorite Small Text Generator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#term"/></svg><span><b><a href="/tools/server-start-script-generator/">Server Start Script Generator</a></b><small>Create a start.bat or start.sh with Aikar’s flags, the right RAM and optional auto-restart.</small><span class="cat">Server</span></span><button class="fav" type="button" data-fav="server-start-script-generator" aria-pressed="false" aria-label="Favorite Server Start Script Generator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#ram"/></svg><span><b><a href="/tools/server-ram-calculator/">Server RAM Calculator</a></b><small>A rough starting point for how much memory a Minecraft server needs.</small><span class="cat">Server</span></span><button class="fav" type="button" data-fav="server-ram-calculator" aria-pressed="false" aria-label="Favorite Server RAM Calculator">☆</button></div></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js?v=ee8709fb7b" defer></script>
+<script src="/assets/data.js?v=6c2a6f2a94" defer></script>
+<script src="/assets/site.js?v=56bf09d280" defer></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id);
+const MC={0:'#000000',1:'#0000AA',2:'#00AA00',3:'#00AAAA',4:'#AA0000',5:'#AA00AA',6:'#FFAA00',7:'#AAAAAA',8:'#555555',9:'#5555FF',a:'#55FF55',b:'#55FFFF',c:'#FF5555',d:'#FF55FF',e:'#FFFF55',f:'#FFFFFF'};
+const FM={l:'Bold',o:'Italic',n:'Underline',m:'Strikethrough',k:'Obfuscated',r:'Reset'};
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function mcRender(s){let out='',col='#FFFFFF',st={};const open=()=>`<span style="color:${col};${st.l?'font-weight:700;':''}${st.o?'font-style:italic;':''}${st.n||st.m?`text-decoration:${st.n?'underline ':''}${st.m?'line-through':''};`:''}">`;
+ let buf='';const flush=()=>{if(buf){out+=open()+esc(st.k?buf.replace(/\S/g,'▓'):buf)+'</span>';buf='';}};
+ for(let i=0;i<s.length;i++){const c=s[i],n=(s[i+1]||'').toLowerCase();
+  if((c==='&'||c==='§')&&n==='#'&&/^[0-9a-f]{6}$/i.test(s.substr(i+2,6))){flush();col='#'+s.substr(i+2,6);st={};i+=7;}
+  else if((c==='&'||c==='§')&&MC[n]){flush();col=MC[n];st={};i++;}
+  else if((c==='&'||c==='§')&&FM[n]){flush();if(n==='r'){col='#FFFFFF';st={};}else st[n]=1;i++;}
+  else buf+=c;}
+ flush();return out.replace(/\n/g,'<br>');}
+const ctIn=$('ctIn');function ctUpd(){$('ctPrev').innerHTML=mcRender(ctIn.value);$('ctSec').value=ctIn.value.replace(/&(?=[0-9a-fk-or#])/gi,'§');}
+{const cc=$('ctCodes');const mk=(code,label,bg,fg)=>{const b=document.createElement('button');b.type='button';b.textContent='&'+code;b.title=label;b.setAttribute('aria-label','Insert '+label+' (&'+code+')');if(bg){b.style.background=bg;b.style.color=fg;b.style.borderColor='transparent';}
+ b.onclick=()=>{const s=ctIn.selectionStart??ctIn.value.length;ctIn.value=ctIn.value.slice(0,s)+'&'+code+ctIn.value.slice(ctIn.selectionEnd??s);ctIn.focus();ctIn.selectionStart=ctIn.selectionEnd=s+2;ctUpd();};cc.appendChild(b);};
+ const NAMES={0:'black',1:'dark blue',2:'dark green',3:'dark aqua',4:'dark red',5:'dark purple',6:'gold',7:'gray',8:'dark gray',9:'blue',a:'green',b:'aqua',c:'red',d:'light purple',e:'yellow',f:'white'};
+ Object.keys(MC).forEach(k=>mk(k,NAMES[k],MC[k],'0123458'.includes(k)?'#fff':'#000'));Object.keys(FM).forEach(k=>mk(k,FM[k]));}
+ctIn.addEventListener('input',ctUpd);ctUpd();
+function grad(){const t=$('grTxt').value,a=$('grA').value,b=$('grB').value,f=$('grFmt').value;
+ const pa=[1,3,5].map(i=>parseInt(a.substr(i,2),16)),pb=[1,3,5].map(i=>parseInt(b.substr(i,2),16)),chars=[...t],n=Math.max(1,chars.length-1);
+ let out='',legacy='';chars.forEach((ch,i)=>{const hex=pa.map((v,k)=>Math.round(v+(pb[k]-v)*i/n).toString(16).padStart(2,'0')).join('');
+  legacy+=ch===' '?' ':'&#'+hex+ch;out+=ch===' '?' ':(f==='bukkit'?'&x'+[...hex].map(h=>'&'+h).join(''):'&#'+hex)+ch;});
+ $('grOut').value=f==='mm'?`<gradient:${a}:${b}>${t}</gradient>`:out;$('grPrev').innerHTML=mcRender(legacy);}
+['grTxt','grA','grB','grFmt'].forEach(id=>$(id).addEventListener('input',grad));grad();})();
+});</script>
+</body>
+</html>

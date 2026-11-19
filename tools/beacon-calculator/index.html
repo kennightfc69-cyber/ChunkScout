@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Beacon Calculator – Pyramid Blocks, Ingots &amp; Range | ChunkScout</title>
+<meta name="description" content="Calculate how many iron, gold, emerald, diamond or netherite blocks a Minecraft beacon pyramid needs for levels 1–4, including shared bases for several beacons, with range, effects and a layer blueprint.">
+<link rel="canonical" href="https://chunkscout.com/tools/beacon-calculator/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Minecraft Beacon Calculator – Pyramid Blocks, Ingots &amp; Range | ChunkScout"><meta property="og:description" content="Calculate how many iron, gold, emerald, diamond or netherite blocks a Minecraft beacon pyramid needs for levels 1–4, including shared bases for several beacons, with range, effects and a layer blueprint.">
+<meta property="og:url" content="https://chunkscout.com/tools/beacon-calculator/"><meta property="og:image" content="https://chunkscout.com/assets/og.png?v=793048b94b">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=f00751567c">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Beacon Calculator"}]}</script>
+</head>
+<body class="page" data-tool="beacon-calculator" data-page="tool">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><div class="dd"><button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-tools" aria-haspopup="true">All Tools<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="dd-menu" id="dd-tools"><a href="/tools/" data-exact class="dd-all"><span><b>All tools</b><small>Every calculator and generator</small></span></a><a href="/tools/building/"><span><b>Building</b><small>Circle, sphere and shape planners for builders.</small></span></a><a href="/tools/survival/"><span><b>Survival</b><small>Calculators for portals, storage, beacons and exploring your world.</small></span></a><a href="/tools/redstone/"><span><b>Redstone & Technical</b><small>Chunk maths, game ticks and other technical helpers.</small></span></a><a href="/tools/player/"><span><b>Player</b><small>Text formatting and player utilities.</small></span></a><a href="/tools/server/"><span><b>Server</b><small>Start scripts, memory planning and other tools for server owners.</small></span></a></div></div></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Beacon Calculator</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#beacon"/></svg><div><h1>Beacon Calculator</h1><p>How many blocks and ingots a beacon pyramid needs, its range and effects, and a layer-by-layer blueprint, including shared bases for several beacons.</p></div><button class="favbtn" type="button" data-fav="beacon-calculator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
+<div class="tool">
+<div class="card">
+  <label>Pyramid level</label>
+  <div class="seg" id="bcL" role="group" aria-label="Pyramid level"><button type="button" data-l="1" aria-pressed="false">1</button><button type="button" data-l="2" aria-pressed="false">2</button><button type="button" data-l="3" aria-pressed="false">3</button><button type="button" data-l="4" class="on" aria-pressed="true">4 (full)</button></div>
+  <label>Beacons on one shared base</label>
+  <div class="row"><div><label for="bcR" style="margin-top:0">Rows</label><input id="bcR" type="number" min="1" max="10" value="1" inputmode="numeric"></div><div><label for="bcC" style="margin-top:0">Columns</label><input id="bcC" type="number" min="1" max="10" value="1" inputmode="numeric"></div></div>
+  <p class="err" id="bcErr" role="alert"></p>
+  <label for="bcM">Mineral blocks</label>
+  <select id="bcM"><option value="iron">Iron blocks</option><option value="gold">Gold blocks</option><option value="emerald">Emerald blocks</option><option value="diamond">Diamond blocks</option><option value="netherite">Netherite blocks</option></select>
+  <p class="note">You can mix any of these five blocks in one pyramid. The material only changes the cost, not the range or effects.</p>
+  <div class="out" id="bcFx"></div>
+</div>
+<div class="card" aria-live="polite">
+  <div class="stats"><div class="stat hl"><b id="bcB">0</b><span>mineral blocks</span></div><div class="stat hl"><b id="bcI">0</b><span id="bcIl">iron ingots</span></div><div class="stat"><b id="bcSt">0</b><span>stacks of blocks</span></div><div class="stat"><b id="bcRg">0</b><span>range (blocks)</span></div></div>
+  <table class="mini" id="bcT"></table>
+  <label style="margin-top:14px">Top-down blueprint</label>
+  <div class="row" style="align-items:center"><select id="bcLay" aria-label="Layer to show" style="max-width:220px"></select><span class="note" style="margin:0">Cyan = beacon position</span></div>
+  <div style="overflow:auto;margin-top:8px"><canvas id="bcCv" style="display:block;margin:0 auto;max-width:100%" aria-label="Beacon pyramid blueprint"></canvas></div>
+  <div class="layer-legend" id="bcLeg"></div>
+  <div class="copyrow"><button type="button" id="bcShare">Copy link</button><button type="button" data-copy="bcList">Copy layer list</button></div>
+  <textarea id="bcList" hidden readonly></textarea>
+</div>
+</div>
+<div class="card" style="margin-top:16px"><h2 style="font-size:17px;margin:0">Compare configurations</h2><p>Every level for your layout, and how much a shared base saves compared with separate pyramids.</p><div style="overflow-x:auto"><table class="mini" id="bcCmp"></table></div></div>
+<div class="meta-line"><span>Java &amp; Bedrock · all current versions</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div class="art-wrap" data-aside-wrap><div class="art-main">
+
+<article class="prose">
+<h2 id="levels">Beacon levels, blocks and range</h2>
+<p>A beacon sits on top of a stepped pyramid. Each level adds a square layer two blocks wider than the one above it.</p>
+<table><thead><tr><th>Level</th><th>Layers</th><th>Blocks</th><th>Range</th><th>Effect duration</th></tr></thead><tbody>
+<tr><td>1</td><td>3×3</td><td>9</td><td>20 blocks</td><td>11 s</td></tr><tr><td>2</td><td>5×5 + 3×3</td><td>34</td><td>30 blocks</td><td>13 s</td></tr>
+<tr><td>3</td><td>7×7 + 5×5 + 3×3</td><td>83</td><td>40 blocks</td><td>15 s</td></tr><tr><td>4</td><td>9×9 + 7×7 + 5×5 + 3×3</td><td>164</td><td>50 blocks</td><td>17 s</td></tr></tbody></table>
+<div class="formula">blocks in layer n (from the top) = (2n + 1)²   ·   range = 10 × level + 10   ·   duration = 9 s + 2 s × level</div>
+<p>The range is a square around the beacon, not a circle, and it reaches up to the top of the world. Effects are re-applied every 4 seconds, so they never run out while you stay in range. One block of iron, gold, emerald or diamond is 9 ingots or gems. A netherite block is 9 netherite ingots, and each netherite ingot takes 4 netherite scrap and 4 gold ingots. Bedrock Edition uses the same pyramid sizes, but its range can reach about one block further on some sides.</p>
+<h2 id="effects">Effects at each level</h2>
+<table><thead><tr><th>Level</th><th>Unlocks</th></tr></thead><tbody>
+<tr><td>1</td><td>Speed or Haste (primary)</td></tr><tr><td>2</td><td>Resistance or Jump Boost (primary)</td></tr><tr><td>3</td><td>Strength (primary)</td></tr><tr><td>4</td><td>Secondary power: Regeneration, or level II of your chosen primary</td></tr></tbody></table>
+<h2 id="shared">Several beacons on one base</h2>
+<p>Beacons placed side by side can share one pyramid. Each layer only needs to be two blocks wider than the layer above on every side, so for a block of beacons that is R rows by C columns, layer n needs <b>(R + 2n) × (C + 2n)</b> blocks. A 2 × 2 group of level-4 beacons needs 216 blocks instead of 656 for four separate pyramids, and lets you run several different primary effects at once.</p>
+<h2 id="build">How to build and activate a beacon</h2>
+<ol><li>Craft the beacon: 5 glass, 3 obsidian and a Nether Star (dropped by the Wither).</li><li>Build the bottom layer first, centred where you want the beacon, then each smaller layer on top.</li><li>Place the beacon in the centre of the top layer. It needs a clear view of the sky (glass and other transparent blocks are fine).</li><li>Open the beacon, put in one iron ingot, gold ingot, emerald, diamond or netherite ingot, and choose your powers.</li></ol>
+<h2 id="faq">FAQ</h2>
+<details class="faq"><summary>Can I mix block types?</summary><p>Yes. Any mix of iron, gold, emerald, diamond and netherite blocks works, even within one layer.</p></details>
+<details class="faq"><summary>What is the cheapest full beacon?</summary><p>164 iron blocks, which is 1,476 iron ingots. Iron farms make this easy.</p></details>
+<details class="faq"><summary>Why isn’t my beacon beam showing?</summary><p>Something opaque is above the beacon, or the pyramid isn’t complete and centred. Every block in each layer must be a mineral block.</p></details>
+</article>
+</div><aside class="rail"><nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#levels">Beacon levels, blocks and range</a></li><li><a href="#effects">Effects at each level</a></li><li><a href="#shared">Several beacons on one base</a></li><li><a href="#build">How to build and activate a beacon</a></li><li><a href="#faq">FAQ</a></li></ol></nav><nav class="rail-box" aria-label="More tools"><b>More tools</b><ul><li><a href="/seed-map/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#map"/></svg><span>Seed Map</span></a></li><li><a href="/tools/xp-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#xp"/></svg><span>XP Calculator</span></a></li><li><a href="/tools/enchantment-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#book"/></svg><span>Enchantment Order</span></a></li><li><a href="/tools/direction-finder/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#compass"/></svg><span>Direction Finder</span></a></li></ul><a class="more-link" href="/tools/">All tools →</a></nav><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#chest"/></svg><span><b><a href="/tools/stack-calculator/">Stack Calculator</a></b><small>Turn any item count into stacks, shulker boxes and double chests, for 64, 16 and 1 stack sizes.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="stack-calculator" aria-pressed="false" aria-label="Favorite Stack Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#circle"/></svg><span><b><a href="/tools/circle-generator/">Circle Generator</a></b><small>Pixel-perfect circles and ovals from 3 to 500 blocks wide, with zoom, block counts, PNG download and share links.</small><span class="cat">Building</span></span><button class="fav" type="button" data-fav="circle-generator" aria-pressed="false" aria-label="Favorite Circle Generator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#portal"/></svg><span><b><a href="/tools/nether-portal-calculator/">Nether Portal Calculator</a></b><small>Convert Overworld and Nether coordinates with the 8:1 ratio so your portals link up.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="nether-portal-calculator" aria-pressed="false" aria-label="Favorite Nether Portal Calculator">☆</button></div></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js?v=ee8709fb7b" defer></script>
+<script src="/assets/data.js?v=6c2a6f2a94" defer></script>
+<script src="/assets/site.js?v=56bf09d280" defer></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id),P=window.CS?CS.params():{},f=n=>n.toLocaleString('en-US');
+const MAT={iron:['iron ingots','#d8d8d8'],gold:['gold ingots','#f5d04a'],emerald:['emeralds','#3fd07a'],diamond:['diamonds','#5fe3e0'],netherite:['netherite ingots','#5a4a4c']};
+let L=[1,2,3,4].includes(+P.l)?+P.l:4;if(P.r)$('bcR').value=P.r;if(P.c)$('bcC').value=P.c;if(MAT[P.m])$('bcM').value=P.m;
+const LCOL=['#7a8a84','#94a69f','#b3c3bc','#d2e0da'];
+const blocks=(l,r,c)=>{let t=0;for(let n=1;n<=l;n++)t+=(r+2*n)*(c+2*n);return t;};
+function seg(){document.querySelectorAll('#bcL button').forEach(x=>{const on=+x.dataset.l===L;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on);});}
+function calc(){$('bcErr').textContent='';let r=Math.round(+$('bcR').value),c=Math.round(+$('bcC').value);
+ if(!(r>=1&&r<=10&&c>=1&&c<=10)){$('bcErr').textContent='Rows and columns must be between 1 and 10.';r=Math.max(1,Math.min(10,r||1));c=Math.max(1,Math.min(10,c||1));}
+ const m=$('bcM').value,tot=blocks(L,r,c),n=r*c;
+ $('bcB').textContent=f(tot);$('bcI').textContent=f(tot*9);$('bcIl').textContent=MAT[m][0];$('bcSt').textContent=Math.floor(tot/64)+(tot%64?' + '+tot%64:'');$('bcRg').textContent=10*L+10;
+ let rows='<tr><th>Layer</th><th>Size</th><th style="text-align:right">Blocks</th></tr>',list=[];
+ for(let k=L;k>=1;k--){const w=c+2*k,h=r+2*k;rows+=`<tr><td>${L-k+1}${k===L?' (bottom)':''}${k===1&&L>1?' (top)':''}</td><td>${w} × ${h}</td><td class="n">${f(w*h)}</td></tr>`;list.push(`Layer ${L-k+1}: ${w} x ${h} = ${w*h} ${m} blocks`);}
+ rows+=`<tr class="hl"><td>Total</td><td>${n} beacon${n>1?'s':''}</td><td class="n">${f(tot)}</td></tr>`;$('bcT').innerHTML=rows;
+ list.push(`Total: ${tot} blocks = ${tot*9} ${MAT[m][0]}`);if(m==='netherite')list.push(`Netherite: ${tot*9*4} netherite scrap + ${tot*9*4} gold ingots`);$('bcList').value=list.join('\n');
+ $('bcFx').textContent=`Range: ${10*L+10} blocks around the beacon${n>1?'s':''}\nEffect duration: ${9+2*L} s (re-applied every 4 s)\nUnlocked: Speed, Haste${L>=2?', Resistance, Jump Boost':''}${L>=3?', Strength':''}${L>=4?'\nSecondary: Regeneration or level II of your primary':''}${m==='netherite'?`\n\nNetherite: ${f(tot*9)} ingots = ${f(tot*36)} netherite scrap + ${f(tot*36)} gold ingots`:''}`;
+ let cmp='<tr><th>Level</th><th style="text-align:right">Shared base</th><th style="text-align:right">'+(n>1?n+' separate pyramids':'Ingots / gems')+'</th><th style="text-align:right">Range</th></tr>';
+ for(let l=1;l<=4;l++){const s=blocks(l,r,c),sep=blocks(l,1,1)*n;cmp+=`<tr${l===L?' class="hl"':''}><td>${l}</td><td class="n">${f(s)}</td><td class="n">${n>1?f(sep)+' (saves '+f(sep-s)+')':f(s*9)}</td><td class="n">${10*l+10}</td></tr>`;}
+ $('bcCmp').innerHTML=cmp;
+ const sel=$('bcLay'),cur=sel.value;sel.innerHTML='<option value="0">All layers (top-down)</option>'+Array.from({length:L},(_,i)=>`<option value="${i+1}">Layer ${i+1}${i===0?' (bottom)':''}</option>`).join('');sel.value=(cur&&+cur<=L)?cur:'0';
+ $('bcLeg').innerHTML=Array.from({length:L},(_,i)=>`<span><i style="background:${LCOL[4-L+i]}"></i>Layer ${i+1}</span>`).join('');draw(r,c);}
+function draw(r,c){const cv=$('bcCv'),g=cv.getContext('2d'),W=c+2*L,H=r+2*L,cs=Math.max(8,Math.min(26,Math.floor(440/Math.max(W,H)))),d=window.devicePixelRatio||1,lay=+$('bcLay').value;
+ cv.width=W*cs*d;cv.height=H*cs*d;cv.style.width=W*cs+'px';cv.style.height=H*cs+'px';g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,W*cs,H*cs);
+ for(let y=0;y<H;y++)for(let x=0;x<W;x++){const ring=Math.min(x,y,W-1-x,H-1-y);// 0 = bottom layer edge
+  const top=Math.min(ring+1,L);// highest layer covering this cell (1 = bottom)
+  let col;if(lay===0)col=LCOL[4-L+top-1];else col=ring>=lay-1?LCOL[4-L+lay-1]:null;
+  if(col){g.fillStyle=col;g.fillRect(x*cs,y*cs,cs,cs);}else{g.fillStyle='#141b18';g.fillRect(x*cs,y*cs,cs,cs);}
+  if((lay===0||lay===L)&&x>=L&&x<L+c&&y>=L&&y<L+r){g.fillStyle='#5fe3e0';g.fillRect(x*cs+cs*.2,y*cs+cs*.2,cs*.6,cs*.6);}}
+ g.strokeStyle='rgba(0,0,0,.35)';g.lineWidth=1;g.beginPath();for(let x=0;x<=W;x++){g.moveTo(x*cs+.5,0);g.lineTo(x*cs+.5,H*cs);}for(let y=0;y<=H;y++){g.moveTo(0,y*cs+.5);g.lineTo(W*cs,y*cs+.5);}g.stroke();}
+document.querySelectorAll('#bcL button').forEach(b=>b.onclick=()=>{L=+b.dataset.l;seg();calc();});
+['bcR','bcC','bcM'].forEach(id=>$(id).addEventListener('input',calc));$('bcLay').addEventListener('change',()=>draw(Math.max(1,Math.min(10,Math.round(+$('bcR').value)||1)),Math.max(1,Math.min(10,Math.round(+$('bcC').value)||1))));
+$('bcShare').onclick=e=>window.CS&&CS.share({l:L,r:$('bcR').value,c:$('bcC').value,m:$('bcM').value},e.target);
+seg();calc();})();
+});</script>
+</body>
+</html>

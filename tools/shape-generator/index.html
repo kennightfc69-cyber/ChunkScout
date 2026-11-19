@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Shape Generator – Cylinders, Cones, Domes, Pyramids &amp; Arches | ChunkScout</title>
+<meta name="description" content="Generate Minecraft cylinders, cones, domes, pyramids, arches, ellipsoids and ellipses up to 160 blocks. 3D preview, layer-by-layer blueprints, block counts and downloadable building instructions.">
+<link rel="canonical" href="https://chunkscout.com/tools/shape-generator/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Minecraft Shape Generator – Cylinders, Cones, Domes, Pyramids &amp; Arches | ChunkScout"><meta property="og:description" content="Generate Minecraft cylinders, cones, domes, pyramids, arches, ellipsoids and ellipses up to 160 blocks. 3D preview, layer-by-layer blueprints, block counts and downloadable building instructions.">
+<meta property="og:url" content="https://chunkscout.com/tools/shape-generator/"><meta property="og:image" content="https://chunkscout.com/assets/og.png?v=793048b94b">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=f00751567c">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Shape Generator"}]}</script>
+</head>
+<body class="page" data-tool="shape-generator" data-page="tool">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><div class="dd"><button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-tools" aria-haspopup="true">All Tools<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="dd-menu" id="dd-tools"><a href="/tools/" data-exact class="dd-all"><span><b>All tools</b><small>Every calculator and generator</small></span></a><a href="/tools/building/"><span><b>Building</b><small>Circle, sphere and shape planners for builders.</small></span></a><a href="/tools/survival/"><span><b>Survival</b><small>Calculators for portals, storage, beacons and exploring your world.</small></span></a><a href="/tools/redstone/"><span><b>Redstone & Technical</b><small>Chunk maths, game ticks and other technical helpers.</small></span></a><a href="/tools/player/"><span><b>Player</b><small>Text formatting and player utilities.</small></span></a><a href="/tools/server/"><span><b>Server</b><small>Start scripts, memory planning and other tools for server owners.</small></span></a></div></div></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Shape Generator</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#shapes"/></svg><div><h1>Shape Generator</h1><p>Cylinders, cones, domes, pyramids, arches, ellipsoids and ellipses, with a 3D preview, layer blueprints and material counts.</p></div><button class="favbtn" type="button" data-fav="shape-generator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
+<div class="tool">
+<div class="card" style="align-self:start">
+  <label for="shS">Shape</label>
+  <select id="shS"><option value="cylinder">Cylinder / tower</option><option value="cone">Cone / spire</option><option value="dome">Dome</option><option value="pyramid">Pyramid (stepped)</option><option value="arch">Arch</option><option value="sphere">Sphere / ellipsoid</option><option value="ellipse">Circle / ellipse (flat)</option></select>
+  <div class="row"><div><label for="shW" id="shWl">Width (X)</label><input id="shW" type="number" min="1" max="160" value="15" inputmode="numeric"></div><div id="shHw"><label for="shH" id="shHl">Height (Y)</label><input id="shH" type="number" min="1" max="160" value="12" inputmode="numeric"></div><div><label for="shD" id="shDl">Depth (Z)</label><input id="shD" type="number" min="1" max="160" value="15" inputmode="numeric"></div></div>
+  <label class="check"><input type="checkbox" id="shLock" checked> Keep width and depth equal</label>
+  <div id="shHollowW"><label>Fill</label><div class="seg" id="shFill" role="group" aria-label="Fill"><button type="button" data-v="1" class="on" aria-pressed="true">Hollow</button><button type="button" data-v="0" aria-pressed="false">Solid</button></div></div>
+  <div id="shTw"><label for="shT" id="shTl">Wall thickness (blocks)</label><input id="shT" type="number" min="1" max="20" value="1" inputmode="numeric"></div>
+  <div id="shOpen"><label class="check"><input type="checkbox" id="shOpenTop"> Open top</label><label class="check"><input type="checkbox" id="shOpenBottom" checked> Open bottom (no floor)</label></div>
+  <p class="err" id="vxErr" role="alert"></p>
+  <div class="out" id="vxStat" aria-live="polite">Generating…</div>
+  <div class="copyrow"><button type="button" id="vxShare">Copy link</button></div>
+</div>
+<div>
+<div class="card"><div class="row" style="align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px"><h2 style="font-size:17px;margin:0;flex:0 0 auto">3D preview</h2>
+<div class="zoomctl" role="group" aria-label="3D view"><button type="button" id="v3dOut" aria-label="Zoom out">−</button><button type="button" id="v3dIn" aria-label="Zoom in">+</button><button type="button" id="v3dReset" style="width:auto;padding:8px 12px">Reset view</button></div></div>
+<div class="v3wrap"><canvas id="v3d" class="v3d" aria-label="Rotatable 3D preview of the shape. Use the layer blueprints below for exact block positions."></canvas><div class="busy" id="vxBusy" hidden>Generating…</div></div>
+<p class="note" id="v3dNote"></p></div>
+<div class="card" style="margin-top:16px"><h2 style="font-size:17px;margin:0 0 8px">Layer by layer</h2>
+<div class="row" style="align-items:center"><button type="button" id="lyPrev" style="flex:0 0 44px" aria-label="Previous layer">◀</button><input type="range" id="lyR" min="1" max="1" value="1" aria-label="Layer" style="padding:0"><button type="button" id="lyNext" style="flex:0 0 44px" aria-label="Next layer">▶</button></div>
+<p class="note" id="lyLbl" aria-live="polite"></p>
+<div class="row" style="align-items:center;flex-wrap:wrap;gap:8px"><label class="check" style="flex:1 1 auto;margin:0!important"><input type="checkbox" id="hlLayer" checked> Highlight this layer in 3D</label><label class="check" style="flex:1 1 auto;margin:0!important"><input type="checkbox" id="cutLayer"> Hide layers above it in 3D</label><div class="zoomctl" role="group" aria-label="Blueprint zoom" style="flex:0 0 auto"><button type="button" id="lyZout" aria-label="Zoom blueprint out">−</button><span id="lyZl">100%</span><button type="button" id="lyZin" aria-label="Zoom blueprint in">+</button></div></div>
+<div class="lyleg"><span><i style="background:#7bdc6a"></i>Block on top of the layer below</span><span><i style="background:#f2a54e"></i>Overhang: nothing directly below</span><span><i style="background:rgba(123,220,106,.28)"></i>Layer below (for lining up)</span><span><i style="background:transparent;border:1px dashed #f2c14e"></i>Centre lines</span></div>
+<div class="lywrap"><canvas id="lyCv" aria-label="Blueprint of the selected layer with numbered rows and columns"></canvas></div>
+<p class="note" id="lyInfo" aria-live="polite" style="min-height:2.6em">Hover or tap a square to see exactly where it goes.</p>
+<p class="note">Columns are numbered along the top (west to east) and rows down the side (north to south). The numbers on the right show how many blocks each row needs.</p>
+<label for="lyRows">Block positions on this layer</label><textarea id="lyRows" readonly rows="5"></textarea>
+<div class="copyrow"><button type="button" data-copy="lyRows">Copy layer</button><button type="button" id="lyPng">Layer PNG</button><button type="button" id="lyTxt">All layers (.txt)</button><button type="button" class="primary" id="lyZip">All layers (ZIP)</button></div></div>
+</div>
+</div>
+<div class="meta-line"><span>Java &amp; Bedrock · any version</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div class="art-wrap" data-aside-wrap><div class="art-main">
+
+<article class="prose">
+<h2 id="shapes">The shapes</h2>
+<table><thead><tr><th>Shape</th><th>Good for</th><th>Size settings</th></tr></thead><tbody>
+<tr><td>Cylinder</td><td>Towers, silos, round rooms, wells</td><td>Diameter, height (use different width and depth for an oval tower)</td></tr>
+<tr><td>Cone</td><td>Spires, tower roofs, volcanoes</td><td>Base diameter, height</td></tr>
+<tr><td>Dome</td><td>Domed roofs, observatories, biodomes</td><td>Base diameter, height (half the diameter gives a perfect half-sphere)</td></tr>
+<tr><td>Pyramid</td><td>Stepped pyramids, temple roofs</td><td>Base width and depth, height</td></tr>
+<tr><td>Arch</td><td>Gateways, bridges, doorways, vaults</td><td>Span (width), height, depth, thickness of the arch</td></tr>
+<tr><td>Sphere / ellipsoid</td><td>Planets, eggs, blimps</td><td>Width, height and depth (equal values make a sphere)</td></tr>
+<tr><td>Circle / ellipse</td><td>Floors, ponds, arenas</td><td>Width and depth (one layer)</td></tr></tbody></table>
+<h2 id="hollow">Hollow, solid and wall thickness</h2>
+<p><b>Hollow</b> keeps a shell of the thickness you choose. Shells are measured across block faces, so they’re watertight. Cylinders, cones and domes can be open at the top or bottom: an open bottom leaves out the floor so the shape can sit on the ground. For arches, the thickness is how deep the curved band of the arch is.</p>
+<h2 id="build">Building from the layer blueprints</h2>
+<ol><li>Mark the north-west corner of the footprint in-game. Row 1 is the north edge and column x1 is the west edge of every layer.</li><li>Build layer 1 (the bottom) from its blueprint, then move up one layer at a time.</li><li><b>All layers (.txt)</b> gives you written instructions with every run of blocks, which is handy on a phone. <b>All layers (ZIP)</b> gives you one image per layer.</li></ol>
+<h2 id="algo">How the shapes are calculated</h2>
+<p>A block is part of a shape when the centre of the block is inside the ideal shape. For example, a cone keeps blocks where the horizontal distance from the axis is no more than the base radius × (1 − height fraction). All sizes are up to 160 blocks per side, and the work runs in a background thread so the page stays responsive.</p>
+</article>
+</div><aside class="rail"><nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#shapes">The shapes</a></li><li><a href="#hollow">Hollow, solid and wall thickness</a></li><li><a href="#build">Building from the layer blueprints</a></li><li><a href="#algo">How the shapes are calculated</a></li></ol></nav><nav class="rail-box" aria-label="More tools"><b>More tools</b><ul><li><a href="/tools/block-gradient-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#gradient"/></svg><span>Block Gradients</span></a></li><li><a href="/tools/map-art-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#mapart"/></svg><span>Map Art</span></a></li><li><a href="/seed-map/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#map"/></svg><span>Seed Map</span></a></li><li><a href="/tools/enchantment-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#book"/></svg><span>Enchantment Order</span></a></li><li><a href="/tools/xp-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#xp"/></svg><span>XP Calculator</span></a></li></ul><a class="more-link" href="/tools/">All tools →</a></nav><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#sphere"/></svg><span><b><a href="/tools/sphere-generator/">Sphere Generator</a></b><small>Hollow or solid Minecraft spheres up to 200 blocks wide, with a rotatable 3D preview and a blueprint for every layer.</small><span class="cat">Building · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="sphere-generator" aria-pressed="false" aria-label="Favorite Sphere Generator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#circle"/></svg><span><b><a href="/tools/circle-generator/">Circle Generator</a></b><small>Pixel-perfect circles and ovals from 3 to 500 blocks wide, with zoom, block counts, PNG download and share links.</small><span class="cat">Building</span></span><button class="fav" type="button" data-fav="circle-generator" aria-pressed="false" aria-label="Favorite Circle Generator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#chest"/></svg><span><b><a href="/tools/stack-calculator/">Stack Calculator</a></b><small>Turn any item count into stacks, shulker boxes and double chests, for 64, 16 and 1 stack sizes.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="stack-calculator" aria-pressed="false" aria-label="Favorite Stack Calculator">☆</button></div></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js?v=ee8709fb7b" defer></script>
+<script src="/assets/data.js?v=6c2a6f2a94" defer></script>
+<script src="/assets/site.js?v=56bf09d280" defer></script>
+<script src="/assets/voxel.js?v=8276df573d"></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id),P=window.CS?CS.params():{};let hollow=P.f!=='0';
+const DEF={cylinder:[15,12,15],cone:[15,14,15],dome:[21,11,21],pyramid:[15,8,15],arch:[15,10,3],sphere:[21,21,21],ellipse:[21,1,21]};
+const SH=Object.keys(DEF);if(SH.includes(P.s))$('shS').value=P.s;
+['w','h','d','t'].forEach(k=>{if(P[k]&&/^\d+$/.test(P[k]))$('sh'+k.toUpperCase()).value=P[k];});if(P.lock==='0')$('shLock').checked=false;if(P.ot==='1')$('shOpenTop').checked=true;if(P.ob==='0')$('shOpenBottom').checked=false;
+function fields(){const s=$('shS').value,lockable=s!=='arch'&&s!=='sphere'||s==='sphere';
+ $('shHw').hidden=s==='ellipse';$('shHollowW').hidden=s==='arch';$('shTw').hidden=s!=='arch'&&!hollow;$('shOpen').hidden=!['cylinder','cone','dome'].includes(s)||!hollow;
+ $('shOpenTop').parentNode.hidden=s!=='cylinder';$('shLock').parentNode.hidden=s==='arch';
+ $('shWl').textContent=s==='arch'?'Span (X)':['cylinder','cone','dome','sphere','ellipse'].includes(s)?'Diameter X':'Base width (X)';
+ $('shDl').textContent=s==='arch'?'Depth (Z)':['cylinder','cone','dome','sphere','ellipse'].includes(s)?'Diameter Z':'Base depth (Z)';
+ $('shTl').textContent=s==='arch'?'Arch thickness (blocks)':'Wall thickness (blocks)';
+ document.querySelectorAll('#shFill button').forEach(x=>{const on=(x.dataset.v==='1')===hollow;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on);});
+ if($('shLock').checked&&s!=='arch')$('shD').value=$('shW').value;}
+const ui=CSVox.mountUI({
+ spec(){const s=$('shS').value,w=Math.round(+$('shW').value),h=s==='ellipse'?1:Math.round(+$('shH').value),d=Math.round(+$('shD').value),t=Math.round(+$('shT').value)||1;
+  for(const [n,v,lo] of [['Width',w,s==='ellipse'||s==='arch'?3:1],['Height',h,1],['Depth',d,1]])if(!(v>=lo&&v<=160))return{error:`${n} must be a whole number from ${lo} to 160.`};
+  if(s==='sphere'&&w*h*d<8)return{error:'Make the shape at least 2 blocks in each direction.'};
+  if((hollow||s==='arch')&&!(t>=1&&t<=20))return{error:'Thickness must be between 1 and 20.'};
+  if(s==='arch'&&(t>=w/2||t>=h))return{error:'The arch thickness must be less than half the span and less than the height, or there is no opening.'};
+  return{shape:s,x:w,y:h,z:d,hollow:s==='arch'?false:hollow,thickness:t,openTop:$('shOpenTop').checked&&s==='cylinder',openBottom:$('shOpenBottom').checked&&['cylinder','cone','dome'].includes(s)};},
+ title:s=>`Minecraft ${$('shS').selectedOptions[0].textContent.toLowerCase()} ${s.x}×${s.y}×${s.z}${s.shape!=='arch'?(s.hollow?' (hollow)':' (solid)'):''}`,
+ slug:s=>`${s.shape}-${s.x}x${s.y}x${s.z}`,
+ stats:v=>CSVox.statText(v),
+ share:s=>({s:s.shape,w:s.x,h:s.shape==='ellipse'?'':s.y,d:s.z,f:s.hollow?'':'0',t:s.thickness>1||s.shape==='arch'?s.thickness:'',lock:$('shLock').checked?'':'0',ot:s.openTop?1:'',ob:s.openBottom||!['cylinder','cone','dome'].includes(s.shape)?'':'0'})});
+$('shS').addEventListener('change',()=>{const v=DEF[$('shS').value];$('shW').value=v[0];$('shH').value=v[1];$('shD').value=v[2];$('shT').value=$('shS').value==='arch'?3:1;$('shLock').checked=$('shS').value!=='arch';fields();ui.schedule();});
+$('shW').addEventListener('input',()=>{if($('shLock').checked&&$('shS').value!=='arch')$('shD').value=$('shW').value;ui.schedule();});
+$('shD').addEventListener('input',()=>{if($('shLock').checked&&$('shS').value!=='arch')$('shW').value=$('shD').value;ui.schedule();});
+['shH','shT'].forEach(id=>$(id).addEventListener('input',ui.schedule));['shLock','shOpenTop','shOpenBottom'].forEach(id=>$(id).addEventListener('change',()=>{fields();ui.schedule();}));
+document.querySelectorAll('#shFill button').forEach(x=>x.onclick=()=>{hollow=x.dataset.v==='1';fields();ui.schedule();});
+fields();ui.run();})();
+});</script>
+</body>
+</html>

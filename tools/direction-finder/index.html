@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Direction Finder – Which Way Is North? | ChunkScout</title>
+<meta name="description" content="Find which way you are travelling in Minecraft from two coordinate readings, and get the direction and distance to any destination. Works for Java and Bedrock.">
+<link rel="canonical" href="https://chunkscout.com/tools/direction-finder/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Minecraft Direction Finder – Which Way Is North? | ChunkScout"><meta property="og:description" content="Find which way you are travelling in Minecraft from two coordinate readings, and get the direction and distance to any destination. Works for Java and Bedrock.">
+<meta property="og:url" content="https://chunkscout.com/tools/direction-finder/"><meta property="og:image" content="https://chunkscout.com/assets/og.png?v=793048b94b">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=f00751567c">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Direction Finder"}]}</script>
+</head>
+<body class="page" data-tool="direction-finder" data-page="tool">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><div class="dd"><button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-tools" aria-haspopup="true">All Tools<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="dd-menu" id="dd-tools"><a href="/tools/" data-exact class="dd-all"><span><b>All tools</b><small>Every calculator and generator</small></span></a><a href="/tools/building/"><span><b>Building</b><small>Circle, sphere and shape planners for builders.</small></span></a><a href="/tools/survival/"><span><b>Survival</b><small>Calculators for portals, storage, beacons and exploring your world.</small></span></a><a href="/tools/redstone/"><span><b>Redstone & Technical</b><small>Chunk maths, game ticks and other technical helpers.</small></span></a><a href="/tools/player/"><span><b>Player</b><small>Text formatting and player utilities.</small></span></a><a href="/tools/server/"><span><b>Server</b><small>Start scripts, memory planning and other tools for server owners.</small></span></a></div></div></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Direction Finder</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#compass"/></svg><div><h1>Direction Finder</h1><p>Shows which way you are heading on the X and Z axes, and which way your destination is.</p></div><button class="favbtn" type="button" data-fav="direction-finder" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
+<div class="card"><div class="cgrid">
+<div>
+<label>Where you were (X, Z)</label><div class="row"><input id="dfX0" type="number" value="0" aria-label="Previous X"><input id="dfZ0" type="number" value="0" aria-label="Previous Z"></div>
+<label>Where you are now (X, Z)</label><div class="row"><input id="dfX1" type="number" value="120" aria-label="Current X"><input id="dfZ1" type="number" value="-80" aria-label="Current Z"></div>
+<label>Destination (optional X, Z)</label><div class="row"><input id="dfX2" type="number" placeholder="X" aria-label="Destination X"><input id="dfZ2" type="number" placeholder="Z" aria-label="Destination Z"></div>
+<div class="out" id="dfOut" aria-live="polite"></div>
+<p class="note">Press F3 (Java) or turn on “Show Coordinates” (Bedrock), walk a little, and type both readings. North is up.</p></div>
+<div class="cgwrap"><canvas id="dfCv" style="width:100%;max-width:520px;aspect-ratio:1;display:block;margin:0 auto;background:#0c100e;border:1px solid var(--line);border-radius:8px" aria-label="Compass showing your heading and destination"></canvas>
+<div class="legend2"><span><i style="background:#7bdc6a"></i>Your heading</span><span><i style="background:#f2c14e"></i>Destination</span></div></div>
+</div></div>
+<div class="meta-line"><span>Java &amp; Bedrock · any version</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div class="art-wrap" data-aside-wrap><div class="art-main">
+<article class="prose"><h2>Minecraft directions and coordinates</h2>
+<table><thead><tr><th>Direction</th><th>Axis</th><th>F3 facing</th></tr></thead><tbody>
+<tr><td>North</td><td>Z goes down (−Z)</td><td>180° / −180°</td></tr><tr><td>South</td><td>Z goes up (+Z)</td><td>0°</td></tr>
+<tr><td>East</td><td>X goes up (+X)</td><td>−90°</td></tr><tr><td>West</td><td>X goes down (−X)</td><td>90°</td></tr></tbody></table>
+<p>The sun and moon rise in the east and set in the west, and clouds drift west in Java Edition, which helps when you have no coordinates.</p></article>
+</div><aside class="rail"><nav class="rail-box" aria-label="More tools"><b>More tools</b><ul><li><a href="/tools/xp-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#xp"/></svg><span>XP Calculator</span></a></li><li><a href="/tools/enchantment-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#book"/></svg><span>Enchantment Order</span></a></li><li><a href="/tools/stack-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#chest"/></svg><span>Stack Calculator</span></a></li><li><a href="/tools/beacon-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#beacon"/></svg><span>Beacon Calculator</span></a></li></ul><a class="more-link" href="/tools/">All tools →</a></nav><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#portal"/></svg><span><b><a href="/tools/nether-portal-calculator/">Nether Portal Calculator</a></b><small>Convert Overworld and Nether coordinates with the 8:1 ratio so your portals link up.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="nether-portal-calculator" aria-pressed="false" aria-label="Favorite Nether Portal Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#map"/></svg><span><b><a href="/seed-map/">Seed Map</a></b><small>Biomes, structures, slime chunks and strongholds for any Java or Bedrock seed, with /locate-style search.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="seed-map" aria-pressed="false" aria-label="Favorite Seed Map">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#sun"/></svg><span><b><a href="/tools/daylight-cycle-calculator/">Daylight Cycle &amp; Tick Calculator</a></b><small>Convert between game ticks, the in-game clock and real minutes, with /time set commands.</small><span class="cat">Redstone &amp; Technical</span></span><button class="fav" type="button" data-fav="daylight-cycle-calculator" aria-pressed="false" aria-label="Favorite Daylight Cycle &amp; Tick Calculator">☆</button></div></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js?v=ee8709fb7b" defer></script>
+<script src="/assets/data.js?v=6c2a6f2a94" defer></script>
+<script src="/assets/site.js?v=56bf09d280" defer></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id),cv=$('dfCv'),g=cv.getContext('2d');const num=id=>{const v=parseFloat($(id).value);return isNaN(v)?null:v;};
+const sg=v=>v>0?'+':'−',N8=['north','north-east','east','south-east','south','south-west','west','north-west'];
+const bearing=(dx,dz)=>(Math.atan2(dx,-dz)*180/Math.PI+360)%360,card=b=>N8[Math.round(b/45)%8];
+const quad=(dx,dz)=>dx&&dz?`${sg(dx)}X ${sg(dz)}Z`:dx?`${sg(dx)}X only`:`${sg(dz)}Z only`;
+function upd(){const x0=num('dfX0'),z0=num('dfZ0'),x1=num('dfX1'),z1=num('dfZ1'),x2=num('dfX2'),z2=num('dfZ2');let t='',h=null,d=null;
+ if(x0!==null&&z0!==null&&x1!==null&&z1!==null&&(x1!==x0||z1!==z0)){const dx=x1-x0,dz=z1-z0;h=bearing(dx,dz);const yaw=((Math.atan2(-dx,dz)*180/Math.PI+540)%360)-180;
+  t+=`You are heading ${quad(dx,dz)}  (${card(h)})\n`+(dx?`X is going ${dx>0?'up (east)':'down (west)'}`:'X is not changing')+'\n'+(dz?`Z is going ${dz>0?'up (south)':'down (north)'}`:'Z is not changing')+`\nF3 facing: about ${yaw.toFixed(0)}°`;}
+ else t+='Enter two different positions to see your heading.';
+ if(x1!==null&&z1!==null&&x2!==null&&z2!==null){const dx=x2-x1,dz=z2-z1,dist=Math.hypot(dx,dz);
+  if(dist<1)t+='\n\nYou are at the destination.';else{d=bearing(dx,dz);t+=`\n\nDestination is toward ${quad(dx,dz)}  (${card(d)})\n${Math.round(dist).toLocaleString()} blocks away`+(dx?`\nX needs to go ${dx>0?'up':'down'} by ${Math.abs(Math.round(dx)).toLocaleString()}`:'')+(dz?`\nZ needs to go ${dz>0?'up':'down'} by ${Math.abs(Math.round(dz)).toLocaleString()}`:'');
+   if(h!==null){const df=((d-h+540)%360)-180;t+='\n'+(Math.abs(df)<8?'You are on course.':Math.abs(df)>172?'Turn around.':`Turn ${df>0?'right':'left'} about ${Math.abs(df).toFixed(0)}°.`);}}}
+ $('dfOut').textContent=t;paint(h,d);}
+function paint(h,d){const r=cv.getBoundingClientRect();if(!r.width)return;const k=window.devicePixelRatio||1;cv.width=cv.height=r.width*k;g.setTransform(k,0,0,k,0,0);
+ const S=r.width,c=S/2,R=S/2-34;g.clearRect(0,0,S,S);const qOf=b=>b===null||b%90===0?-1:Math.floor(b/90);
+ const Q=[[c,34,'+X −Z'],[c,c,'+X +Z'],[34,c,'−X +Z'],[34,34,'−X −Z']],hq=qOf(h),dq=qOf(d);
+ Q.forEach((q,i)=>{g.fillStyle=i===hq?'rgba(123,220,106,.2)':i===dq?'rgba(242,193,78,.14)':'#141b18';g.fillRect(q[0],q[1],R,R);
+  g.fillStyle=i===hq?'#7bdc6a':i===dq?'#f2c14e':'#8fa39a';g.font=`${i===hq?700:600} ${Math.max(13,S/26)}px JetBrains Mono, monospace`;g.textAlign='center';g.textBaseline='middle';
+  g.fillText(q[2],q[0]+R/2+(i<2?R*.18:-R*.18),q[1]+R/2+(i===1||i===2?R*.22:-R*.22));});
+ g.strokeStyle='#3a4a43';g.lineWidth=1.5;g.strokeRect(34,34,R*2,R*2);g.beginPath();g.moveTo(c,34);g.lineTo(c,S-34);g.moveTo(34,c);g.lineTo(S-34,c);g.stroke();
+ g.fillStyle='#e6efe9';g.font='600 13px Space Grotesk, sans-serif';g.fillText('North  −Z',c,17);g.fillText('South  +Z',c,S-17);
+ g.save();g.translate(17,c);g.rotate(-Math.PI/2);g.fillText('West  −X',0,0);g.restore();g.save();g.translate(S-17,c);g.rotate(Math.PI/2);g.fillText('East  +X',0,0);g.restore();
+ const arrow=(b,col,len,w)=>{if(b===null)return;const a=b*Math.PI/180,ex=c+Math.sin(a)*len,ey=c-Math.cos(a)*len;g.strokeStyle=col;g.fillStyle=col;g.lineWidth=w;g.lineCap='round';
+  g.beginPath();g.moveTo(c,c);g.lineTo(ex,ey);g.stroke();g.beginPath();g.moveTo(ex+Math.sin(a)*12,ey-Math.cos(a)*12);g.lineTo(ex+Math.sin(a+2.4)*11,ey-Math.cos(a+2.4)*11);g.lineTo(ex+Math.sin(a-2.4)*11,ey-Math.cos(a-2.4)*11);g.closePath();g.fill();};
+ arrow(d,'#f2c14e',R*.62,3);arrow(h,'#7bdc6a',R*.8,5);g.fillStyle='#e6efe9';g.beginPath();g.arc(c,c,5,0,Math.PI*2);g.fill();}
+['dfX0','dfZ0','dfX1','dfZ1','dfX2','dfZ2'].forEach(id=>$(id).addEventListener('input',upd));window.addEventListener('resize',upd);upd();})();
+});</script>
+</body>
+</html>

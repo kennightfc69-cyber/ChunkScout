@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Enchantment Order Calculator – Cheapest Anvil Order | ChunkScout</title>
+<meta name="description" content="Find the cheapest order to combine enchanted books in a Minecraft anvil. Avoid Too Expensive, see every step with its level cost, and the full enchantment cost multiplier table.">
+<link rel="canonical" href="https://chunkscout.com/tools/enchantment-calculator/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Minecraft Enchantment Order Calculator – Cheapest Anvil Order | ChunkScout"><meta property="og:description" content="Find the cheapest order to combine enchanted books in a Minecraft anvil. Avoid Too Expensive, see every step with its level cost, and the full enchantment cost multiplier table.">
+<meta property="og:url" content="https://chunkscout.com/tools/enchantment-calculator/"><meta property="og:image" content="https://chunkscout.com/assets/og.png?v=793048b94b">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=f00751567c">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Enchantment Order Calculator"}]}</script>
+</head>
+<body class="page" data-tool="enchantment-calculator" data-page="tool">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><div class="dd"><button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-tools" aria-haspopup="true">All Tools<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="dd-menu" id="dd-tools"><a href="/tools/" data-exact class="dd-all"><span><b>All tools</b><small>Every calculator and generator</small></span></a><a href="/tools/building/"><span><b>Building</b><small>Circle, sphere and shape planners for builders.</small></span></a><a href="/tools/survival/"><span><b>Survival</b><small>Calculators for portals, storage, beacons and exploring your world.</small></span></a><a href="/tools/redstone/"><span><b>Redstone & Technical</b><small>Chunk maths, game ticks and other technical helpers.</small></span></a><a href="/tools/player/"><span><b>Player</b><small>Text formatting and player utilities.</small></span></a><a href="/tools/server/"><span><b>Server</b><small>Start scripts, memory planning and other tools for server owners.</small></span></a></div></div></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Enchantment Order Calculator</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#book"/></svg><div><h1>Enchantment Order Calculator</h1><p>Tick the books you have and get the cheapest anvil order, step by step, that never hits “Too Expensive!”.</p></div><button class="favbtn" type="button" data-fav="enchantment-calculator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
+<div class="tool">
+<div class="card" style="align-self:start">
+  <label for="enItem">Item</label><select id="enItem"></select>
+  <label for="enUses">Times this item has already been used in an anvil</label><select id="enUses"><option value="0">Never (new or freshly enchanted)</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+  <div class="row" style="align-items:flex-end;justify-content:space-between;margin-top:14px"><label style="margin:0!important;flex:1 1 auto">Enchanted books you have</label><span style="flex:0 0 auto;display:flex;gap:6px"><button type="button" id="enBest" style="padding:6px 10px">Best set</button><button type="button" id="enClear" style="padding:6px 10px">Clear</button></span></div>
+  <p class="note" style="margin-top:4px">Tick each book and choose its level. Enchantments that can’t go together are greyed out; hover one to see why.</p>
+  <div id="enList" class="enlist"></div>
+  <label class="check"><input type="checkbox" id="enRename"> Also rename the item (+1 level on the last step)</label>
+  <p class="err" id="enErr" role="alert"></p>
+</div>
+<div class="card" aria-live="polite">
+  <div class="stats"><div class="stat hl"><b id="enTot">0</b><span>levels in total</span></div><div class="stat"><b id="enMax">0</b><span>most expensive step</span></div><div class="stat"><b id="enSteps">0</b><span>anvil steps</span></div><div class="stat"><b id="enPts">0</b><span>XP points (each step started at its level)</span></div></div>
+  <ol class="ensteps" id="enOut"></ol>
+  <p class="note" id="enNote"></p>
+  <div class="copyrow"><button type="button" id="enShare">Copy link</button><button type="button" class="primary" data-copy="enText">Copy steps</button></div>
+  <textarea id="enText" hidden readonly></textarea>
+</div>
+</div>
+<div class="meta-line"><span>Java Edition costs · Bedrock approximate</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div class="art-wrap" data-aside-wrap><div class="art-main">
+
+<article class="prose">
+<h2 id="cost">How anvil costs work</h2>
+<p>Every time you combine two things in an anvil (Java Edition), the cost in levels is:</p>
+<div class="formula">cost = penalty(left) + penalty(right) + value of what’s on the right<br>penalty(n uses) = 2ⁿ − 1  →  0, 1, 3, 7, 15, 31…<br>value = for each enchantment on the right: final level × multiplier</div>
+<p>The result has one more anvil use than whichever input had more. In survival, any step costing 40 levels or more is refused as “Too Expensive!”.</p>
+<h2 id="order">Why the order matters</h2>
+<p>Adding books one at a time onto the item makes the item’s penalty double every step, so the last books get very expensive. Combining books with each other first, in pairs, keeps every piece’s penalty low. Expensive enchantments (like Mending, Silk Touch or Thorns) should be in the right slot as few times as possible. This calculator tries every possible combination order and picks the cheapest one that never hits Too Expensive.</p>
+<h2 id="mult">Enchantment cost table</h2>
+<p>The multiplier is lower when the enchantment comes from a book than from another item.</p>
+<div style="overflow-x:auto"><table id="enTable"><thead><tr><th>Enchantment</th><th>Max level</th><th>From item</th><th>From book</th></tr></thead><tbody></tbody></table></div>
+<h2 id="faq">FAQ</h2>
+<details class="faq"><summary>Does this work for Bedrock?</summary><p>Not exactly. Bedrock calculates some anvil costs differently, so use the results as a guide only. The order advice (pair books first, expensive enchantments as few times as possible) still helps.</p></details>
+<details class="faq"><summary>Why do I need more levels than the total cost?</summary><p>Each step needs you to have at least that many levels at the time. Because higher levels cost more points, you spend fewer XP points by doing expensive steps at a low level and refilling in between. The “XP points” figure assumes you start each step with exactly the levels it costs.</p></details>
+<details class="faq"><summary>Can I fix “Too Expensive” on an item I already made?</summary><p>No. Prior work penalty never goes down. Use a new item, or grindstone it (which removes enchantments and resets the penalty) and start again in a good order.</p></details>
+</article>
+</div><aside class="rail"><nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#cost">How anvil costs work</a></li><li><a href="#order">Why the order matters</a></li><li><a href="#mult">Enchantment cost table</a></li><li><a href="#faq">FAQ</a></li></ol></nav><nav class="rail-box" aria-label="More tools"><b>More tools</b><ul><li><a href="/seed-map/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#map"/></svg><span>Seed Map</span></a></li><li><a href="/tools/nether-portal-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#portal"/></svg><span>Nether Portal Calculator</span></a></li><li><a href="/tools/direction-finder/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#compass"/></svg><span>Direction Finder</span></a></li><li><a href="/tools/sphere-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#sphere"/></svg><span>Sphere Generator</span></a></li><li><a href="/tools/circle-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#circle"/></svg><span>Circle Generator</span></a></li></ul><a class="more-link" href="/tools/">All tools →</a></nav><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#xp"/></svg><span><b><a href="/tools/xp-calculator/">XP Calculator</a></b><small>Levels to experience points and back, points needed for any target level, and how many mobs, ores or bottles that takes.</small><span class="cat">Survival · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="xp-calculator" aria-pressed="false" aria-label="Favorite XP Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#chest"/></svg><span><b><a href="/tools/stack-calculator/">Stack Calculator</a></b><small>Turn any item count into stacks, shulker boxes and double chests, for 64, 16 and 1 stack sizes.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="stack-calculator" aria-pressed="false" aria-label="Favorite Stack Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#beacon"/></svg><span><b><a href="/tools/beacon-calculator/">Beacon Calculator</a></b><small>Blocks, ingots and layer-by-layer blueprints for beacon pyramids, including shared bases for several beacons.</small><span class="cat">Survival · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="beacon-calculator" aria-pressed="false" aria-label="Favorite Beacon Calculator">☆</button></div></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js?v=ee8709fb7b" defer></script>
+<script src="/assets/data.js?v=6c2a6f2a94" defer></script>
+<script src="/assets/site.js?v=56bf09d280" defer></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id),f=n=>Math.round(n).toLocaleString('en-US'),P=window.CS?CS.params():{};
+// [name, max, item multiplier, book multiplier] — Java Edition
+const E={prot:['Protection',4,1,1],fprot:['Fire Protection',4,2,1],bprot:['Blast Protection',4,4,2],pprot:['Projectile Protection',4,2,1],thorns:['Thorns',3,8,4],resp:['Respiration',3,4,2],aqua:['Aqua Affinity',1,4,2],sneak:['Swift Sneak',3,8,4],ff:['Feather Falling',4,2,1],depth:['Depth Strider',3,4,2],frost:['Frost Walker',2,4,2],soul:['Soul Speed',3,8,4],
+sharp:['Sharpness',5,1,1],smite:['Smite',5,2,1],bane:['Bane of Arthropods',5,2,1],kb:['Knockback',2,2,1],fire:['Fire Aspect',2,4,2],loot:['Looting',3,4,2],sweep:['Sweeping Edge',3,4,2],density:['Density',5,2,1],breach:['Breach',4,4,2],wind:['Wind Burst',3,4,2],
+eff:['Efficiency',5,1,1],silk:['Silk Touch',1,8,4],fortune:['Fortune',3,4,2],power:['Power',5,1,1],punch:['Punch',2,4,2],flame:['Flame',1,4,2],inf:['Infinity',1,8,4],multi:['Multishot',1,4,2],pierce:['Piercing',4,1,1],qc:['Quick Charge',3,2,1],
+loyal:['Loyalty',3,1,1],chan:['Channeling',1,8,4],rip:['Riptide',3,4,2],imp:['Impaling',5,4,2],luck:['Luck of the Sea',3,4,2],lure:['Lure',3,4,2],unb:['Unbreaking',3,2,1],mend:['Mending',1,4,2]};
+const COMMON=['unb','mend'],ARM=['prot','fprot','bprot','pprot','thorns'];
+const ITEMS={helmet:['Helmet',[...ARM,'resp','aqua',...COMMON]],chest:['Chestplate',[...ARM,...COMMON]],legs:['Leggings',[...ARM,'sneak',...COMMON]],boots:['Boots',[...ARM,'ff','depth','frost','soul',...COMMON]],
+sword:['Sword',['sharp','smite','bane','kb','fire','loot','sweep',...COMMON]],axe:['Axe',['sharp','smite','bane','eff','silk','fortune',...COMMON]],pick:['Pickaxe',['eff','silk','fortune',...COMMON]],shovel:['Shovel',['eff','silk','fortune',...COMMON]],hoe:['Hoe',['eff','silk','fortune',...COMMON]],
+mace:['Mace',['density','breach','smite','bane','wind','fire',...COMMON]],bow:['Bow',['power','punch','flame','inf',...COMMON]],crossbow:['Crossbow',['multi','pierce','qc',...COMMON]],trident:['Trident',['loyal','chan','rip','imp',...COMMON]],rod:['Fishing Rod',['luck','lure',...COMMON]],elytra:['Elytra',COMMON],shears:['Shears',['eff',...COMMON]]};
+const CONFLICT=[['prot','fprot','bprot','pprot'],['sharp','smite','bane'],['density','breach','smite','bane'],['silk','fortune'],['inf','mend'],['multi','pierce'],['depth','frost'],['rip','loyal'],['rip','chan']];
+const conflicts=(a,b)=>CONFLICT.some(g=>g.includes(a)&&g.includes(b));
+const BEST={helmet:['prot','resp','aqua','unb','mend'],chest:['prot','unb','mend'],legs:['prot','sneak','unb','mend'],boots:['prot','ff','depth','soul','unb','mend'],sword:['sharp','loot','sweep','fire','kb','unb','mend'],axe:['sharp','eff','unb','mend'],pick:['eff','fortune','unb','mend'],shovel:['eff','fortune','unb','mend'],hoe:['eff','fortune','unb','mend'],
+mace:['density','wind','fire','unb','mend'],bow:['power','punch','flame','inf','unb'],crossbow:['multi','qc','unb','mend'],trident:['loyal','chan','imp','unb','mend'],rod:['luck','lure','unb','mend'],elytra:['unb','mend'],shears:['eff','unb','mend']};
+const bestSet=it=>Object.fromEntries(BEST[it].map(k=>[k,E[k][1]]));
+const DEF={sword:bestSet('sword')};
+const roman=n=>['','I','II','III','IV','V'][n];
+let item=ITEMS[P.i]?P.i:'sword',sel={};
+if(P.e)P.e.split('.').forEach(t=>{const [k,l]=t.split('-');if(E[k])sel[k]=Math.max(1,Math.min(E[k][1],+l||E[k][1]));});else sel={...DEF.sword};
+if(P.u)$('enUses').value=Math.max(0,Math.min(5,+P.u|0));
+$('enItem').innerHTML=Object.entries(ITEMS).map(([k,v])=>`<option value="${k}">${v[0]}</option>`).join('');$('enItem').value=item;
+document.querySelector('#enTable tbody').innerHTML=Object.values(E).map(e=>`<tr><td>${e[0]}</td><td>${roman(e[1])}</td><td>×${e[2]}</td><td>×${e[3]}</td></tr>`).join('');
+function list(){const ks=ITEMS[item][1];$('enList').innerHTML=ks.map(k=>{const e=E[k],on=k in sel,by=on?null:Object.keys(sel).find(o=>conflicts(o,k)),blocked=!!by;
+ return `<div class="enrow${blocked?' off':''}"${blocked?` title="Can’t be combined with ${E[by][0]}"`:''}><label class="check"><input type="checkbox" data-k="${k}"${on?' checked':''}${blocked?' disabled':''}> ${e[0]}</label>${e[1]>1?`<select data-l="${k}" aria-label="${e[0]} level"${on?'':' disabled'}>${Array.from({length:e[1]},(_,i)=>`<option value="${i+1}"${(sel[k]||e[1])===i+1?' selected':''}>${roman(i+1)}</option>`).join('')}</select>`:'<span class="note" style="margin:0">I</span>'}</div>`;}).join('');}
+$('enList').addEventListener('change',e=>{const k=e.target.dataset.k,l=e.target.dataset.l;if(k){if(e.target.checked){sel[k]=E[k][1];}else delete sel[k];list();}if(l)sel[l]=+e.target.value;solve();});
+$('enItem').addEventListener('change',()=>{item=$('enItem').value;const ok=new Set(ITEMS[item][1]);Object.keys(sel).forEach(k=>{if(!ok.has(k))delete sel[k];});list();solve();});
+$('enBest').onclick=()=>{sel=bestSet(item);list();solve();};$('enClear').onclick=()=>{sel={};list();solve();};
+$('enUses').addEventListener('change',solve);$('enRename').addEventListener('change',solve);
+const pen=n=>(1<<n)-1;
+// exhaustive search over merge trees with dynamic programming on subsets; keeps the cheapest cost for each anvil-use count
+function solve(){$('enErr').textContent='';const books=Object.keys(sel),n=books.length,N=n+1,ALL=(1<<N)-1,iu=+$('enUses').value;
+ if(!n){$('enOut').innerHTML='<li class="empty">Tick at least one book, or press “Best set”.</li>';['enTot','enMax','enSteps','enPts'].forEach(i=>$(i).textContent='0');$('enNote').textContent='';$('enText').value='';return;}
+ const val=new Array(1<<N).fill(0);for(let m=1;m<=ALL;m++){let v=0;for(let i=0;i<n;i++)if(m&(1<<(i+1)))v+=sel[books[i]]*E[books[i]][3];val[m]=v;}
+ // best[m] = Map uses -> {cost, max, plan}
+ const best=new Array(1<<N);for(let i=0;i<N;i++)best[1<<i]=new Map([[i===0?iu:0,{cost:0,max:0,plan:null}]]);
+ const order=[];for(let m=1;m<=ALL;m++)order.push(m);order.sort((a,b)=>pc(a)-pc(b));function pc(m){let c=0;while(m){c+=m&1;m>>=1;}return c;}
+ for(const m of order){if(pc(m)<2)continue;const res=new Map();
+  for(let a=(m-1)&m;a>0;a=(a-1)&m){const bm=m^a;if(bm&1)continue;// the item (bit 0) is always on the left
+   const A=best[a],B=best[bm];if(!A||!B)continue;
+   for(const [ua,sa] of A)for(const [ub,sb] of B){const step=pen(ua)+pen(ub)+val[bm];if(step>=40)continue;const u=Math.max(ua,ub)+1,c=sa.cost+sb.cost+step,mx=Math.max(sa.max,sb.max,step),cur=res.get(u);
+    if(!cur||c<cur.cost||(c===cur.cost&&mx<cur.max))res.set(u,{cost:c,max:mx,plan:[a,ua,bm,ub,step]});}}
+  if(res.size)best[m]=res;}
+ const fin=best[ALL];if(!fin){$('enOut').innerHTML='<li class="err">Every possible order hits “Too Expensive!” (40+ levels in one step). Use a new item with fewer prior anvil uses, or leave out a book.</li>';['enTot','enMax','enSteps','enPts'].forEach(i=>$(i).textContent='–');$('enNote').textContent='';return;}
+ let bu=null,bs=null;for(const [u,s] of fin)if(!bs||s.cost<bs.cost||(s.cost===bs.cost&&u<bu)){bs=s;bu=u;}
+ const steps=[],name=m=>{if(m&1)return ITEMS[item][0];const ks=books.filter((k,i)=>m&(1<<(i+1)));return ks.length===1?`${E[ks[0]][0]} ${E[ks[0]][1]>1?roman(sel[ks[0]]):''} book`.replace('  ',' '):`book (${ks.map(k=>E[k][0]+(E[k][1]>1?' '+roman(sel[k]):'')).join(' + ')})`;};
+ (function walk(m,u){const s=best[m].get(u);if(!s.plan)return;const [a,ua,bm,ub,st]=s.plan;walk(a,ua);walk(bm,ub);steps.push({a,bm,st,depth:0});})(ALL,bu);
+ let ren=$('enRename').checked?1:0;if(ren&&steps.length){steps[steps.length-1].st+=1;}
+ const tot=steps.reduce((t,s)=>t+s.st,0),mx=Math.max(...steps.map(s=>s.st));
+ const tp=L=>L<=16?L*L+6*L:L<=31?2.5*L*L-40.5*L+360:4.5*L*L-162.5*L+2220;
+ if(ren&&mx>=40){$('enErr').textContent='Renaming pushes the last step to 40 levels, which is Too Expensive. Rename before you start instead (rename alone costs 1 level).';}
+ $('enTot').textContent=f(tot);$('enMax').textContent=f(mx);$('enSteps').textContent=steps.length;$('enPts').textContent=f(steps.reduce((t,s)=>t+tp(s.st),0));
+ $('enOut').innerHTML=steps.map((s,i)=>`<li><span class="enslots"><span class="slot l"><em>Left</em>${name(s.a)}</span><span class="plus">+</span><span class="slot r"><em>Right</em>${name(s.bm)}</span></span><span class="lv">${s.st} level${s.st===1?'':'s'}${i===steps.length-1&&ren?'<small>incl. rename</small>':''}</span></li>`).join('');
+ $('enText').value=steps.map((s,i)=>`${i+1}. ${name(s.a)} (left) + ${name(s.bm)} (right) = ${s.st} levels`).join('\n')+`\nTotal: ${tot} levels`;
+ const finalUses=bu;$('enNote').textContent=`Put the first item in the left anvil slot and the second in the right. Afterwards the ${ITEMS[item][0].toLowerCase()} has been through the anvil ${finalUses} time${finalUses===1?'':'s'}: its next anvil use costs at least ${pen(finalUses)} extra levels. Costs are for Java Edition.`;}
+$('enShare').onclick=e=>window.CS&&CS.share({i:item,u:$('enUses').value,e:Object.entries(sel).map(([k,l])=>k+'-'+l).join('.')},e.target);
+list();solve();})();
+});</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Time &amp; Tick Calculator – Daylight Cycle | ChunkScout</title>
+<meta name="description" content="Convert Minecraft game ticks to the in-game clock and real minutes. Get the right /time set value and see when beds work and mobs spawn.">
+<link rel="canonical" href="https://chunkscout.com/tools/daylight-cycle-calculator/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Minecraft Time &amp; Tick Calculator – Daylight Cycle | ChunkScout"><meta property="og:description" content="Convert Minecraft game ticks to the in-game clock and real minutes. Get the right /time set value and see when beds work and mobs spawn.">
+<meta property="og:url" content="https://chunkscout.com/tools/daylight-cycle-calculator/"><meta property="og:image" content="https://chunkscout.com/assets/og.png?v=793048b94b">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=f00751567c">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Daylight Cycle & Tick Calculator"}]}</script>
+</head>
+<body class="page" data-tool="daylight-cycle-calculator" data-page="tool">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><div class="dd"><button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-tools" aria-haspopup="true">All Tools<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="dd-menu" id="dd-tools"><a href="/tools/" data-exact class="dd-all"><span><b>All tools</b><small>Every calculator and generator</small></span></a><a href="/tools/building/"><span><b>Building</b><small>Circle, sphere and shape planners for builders.</small></span></a><a href="/tools/survival/"><span><b>Survival</b><small>Calculators for portals, storage, beacons and exploring your world.</small></span></a><a href="/tools/redstone/"><span><b>Redstone & Technical</b><small>Chunk maths, game ticks and other technical helpers.</small></span></a><a href="/tools/player/"><span><b>Player</b><small>Text formatting and player utilities.</small></span></a><a href="/tools/server/"><span><b>Server</b><small>Start scripts, memory planning and other tools for server owners.</small></span></a></div></div></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Daylight Cycle &amp; Tick Calculator</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#sun"/></svg><div><h1>Daylight Cycle &amp; Tick Calculator</h1><p>Convert between game ticks, the in-game clock and real time, with ready-to-copy <code>/time set</code> commands.</p></div><button class="favbtn" type="button" data-fav="daylight-cycle-calculator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
+<div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+<div class="card"><h2 style="font-size:17px;margin:0 0 4px">Ticks ↔ clock</h2>
+<div class="row"><div><label for="dyT">Game ticks (0–23999)</label><input id="dyT" type="number" min="0" max="23999" value="6000"></div><div><label for="dyC">In-game clock</label><input id="dyC" type="time" value="12:00"></div></div>
+<div class="out" id="dyOut" aria-live="polite"></div><input id="dyCmd" type="hidden"><div class="copyrow"><button type="button" data-copy="dyCmd">Copy /time set</button></div></div>
+<div class="card"><h2 style="font-size:17px;margin:0 0 4px">Real time → game time</h2>
+<label for="dyR">Real minutes</label><input id="dyR" type="number" min="0" value="20"><div class="out" id="dyOut2" aria-live="polite"></div></div></div>
+<div class="meta-line"><span>Java &amp; Bedrock · all current versions</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div class="art-wrap" data-aside-wrap><div class="art-main">
+<article class="prose"><h2>How the Minecraft day works</h2>
+<p>A full day–night cycle is 24,000 game ticks. At the normal 20 ticks per second that’s 20 real minutes. Tick 0 is 6:00 in the morning, 6,000 is noon, 12,000 is roughly sunset and 18,000 is midnight.</p>
+<table><thead><tr><th>Ticks</th><th>Clock</th><th>What happens</th></tr></thead><tbody>
+<tr><td>0</td><td>06:00</td><td>Sunrise ends; <code>/time set day</code> uses 1000</td></tr><tr><td>6000</td><td>12:00</td><td>Noon (<code>/time set noon</code>)</td></tr>
+<tr><td>12542</td><td>18:32</td><td>Beds can be used (clear weather)</td></tr><tr><td>13000</td><td>19:00</td><td><code>/time set night</code>; hostile mobs start spawning on the surface</td></tr>
+<tr><td>18000</td><td>00:00</td><td>Midnight (<code>/time set midnight</code>)</td></tr><tr><td>23460</td><td>05:28</td><td>Beds stop working; mobs stop spawning soon after</td></tr></tbody></table>
+<p>Exact spawn timings depend on light level and weather; this table is for clear weather in Java Edition.</p></article>
+</div><aside class="rail"><nav class="rail-box" aria-label="More tools"><b>More tools</b><ul><li><a href="/tools/chunk-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#chunk"/></svg><span>Chunk &amp; Slime Chunks</span></a></li><li><a href="/seed-map/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#map"/></svg><span>Seed Map</span></a></li><li><a href="/tools/sphere-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#sphere"/></svg><span>Sphere Generator</span></a></li><li><a href="/tools/enchantment-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#book"/></svg><span>Enchantment Order</span></a></li><li><a href="/tools/xp-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#xp"/></svg><span>XP Calculator</span></a></li></ul><a class="more-link" href="/tools/">All tools →</a></nav><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#compass"/></svg><span><b><a href="/tools/direction-finder/">Direction Finder</a></b><small>Work out which way you are heading on the X and Z axes and how to reach a destination.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="direction-finder" aria-pressed="false" aria-label="Favorite Direction Finder">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#portal"/></svg><span><b><a href="/tools/nether-portal-calculator/">Nether Portal Calculator</a></b><small>Convert Overworld and Nether coordinates with the 8:1 ratio so your portals link up.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="nether-portal-calculator" aria-pressed="false" aria-label="Favorite Nether Portal Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#term"/></svg><span><b><a href="/tools/server-start-script-generator/">Server Start Script Generator</a></b><small>Create a start.bat or start.sh with Aikar’s flags, the right RAM and optional auto-restart.</small><span class="cat">Server</span></span><button class="fav" type="button" data-fav="server-start-script-generator" aria-pressed="false" aria-label="Favorite Server Start Script Generator">☆</button></div></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js?v=ee8709fb7b" defer></script>
+<script src="/assets/data.js?v=6c2a6f2a94" defer></script>
+<script src="/assets/site.js?v=56bf09d280" defer></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id),pad=n=>String(n).padStart(2,'0');
+function fromT(){let t=((+$('dyT').value||0)%24000+24000)%24000;const m=Math.floor(((t+6000)%24000)/1000*60);$('dyC').value=pad(Math.floor(m/60)%24)+':'+pad(m%60);out(t);}
+function fromC(){const [h,m]=($('dyC').value||'06:00').split(':').map(Number),t=Math.round(((h*60+m)/60*1000-6000+24000)%24000);$('dyT').value=t;out(t);}
+function out(t){const ph=t<1000?'Sunrise':t<6000?'Morning':t<12000?'Afternoon':t<13000?'Sunset':t<18000?'Night (monsters spawn)':t<23000?'Late night (monsters spawn)':'Dawn';
+ $('dyCmd').value='/time set '+t;$('dyOut').textContent=`${ph}\n/time set ${t}\nBeds usable: ${t>=12542&&t<=23459?'yes':'no (only at night or in thunderstorms)'}\nReal time since tick 0: ${(t/20/60).toFixed(1)} min`;}
+function real(){const r=+$('dyR').value||0,k=Math.round(r*1200);$('dyOut2').textContent=`${k.toLocaleString()} ticks\n${(k/24000).toFixed(2)} Minecraft days\n(1 full day = 20 real minutes = 24,000 ticks)`;}
+$('dyT').addEventListener('input',fromT);$('dyC').addEventListener('input',fromC);$('dyR').addEventListener('input',real);fromT();real();})();
+});</script>
+</body>
+</html>

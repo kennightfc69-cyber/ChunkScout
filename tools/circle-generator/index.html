@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Circle Generator – Pixel Circles up to 500 Blocks | ChunkScout</title>
+<meta name="description" content="Generate block-by-block Minecraft circles and ovals from 3 to 500 blocks wide by diameter or radius. Thin, thick or filled, with zoom, block counts, a row guide, PNG download and shareable links.">
+<link rel="canonical" href="https://chunkscout.com/tools/circle-generator/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Minecraft Circle Generator – Pixel Circles up to 500 Blocks | ChunkScout"><meta property="og:description" content="Generate block-by-block Minecraft circles and ovals from 3 to 500 blocks wide by diameter or radius. Thin, thick or filled, with zoom, block counts, a row guide, PNG download and shareable links.">
+<meta property="og:url" content="https://chunkscout.com/tools/circle-generator/"><meta property="og:image" content="https://chunkscout.com/assets/og.png?v=793048b94b">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=f00751567c">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Circle Generator"}]}</script>
+</head>
+<body class="page" data-tool="circle-generator" data-page="tool">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><div class="dd"><button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-tools" aria-haspopup="true">All Tools<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="dd-menu" id="dd-tools"><a href="/tools/" data-exact class="dd-all"><span><b>All tools</b><small>Every calculator and generator</small></span></a><a href="/tools/building/"><span><b>Building</b><small>Circle, sphere and shape planners for builders.</small></span></a><a href="/tools/survival/"><span><b>Survival</b><small>Calculators for portals, storage, beacons and exploring your world.</small></span></a><a href="/tools/redstone/"><span><b>Redstone & Technical</b><small>Chunk maths, game ticks and other technical helpers.</small></span></a><a href="/tools/player/"><span><b>Player</b><small>Text formatting and player utilities.</small></span></a><a href="/tools/server/"><span><b>Server</b><small>Start scripts, memory planning and other tools for server owners.</small></span></a></div></div></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Circle Generator</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#circle"/></svg><div><h1>Circle Generator</h1><p>Block-by-block templates for circles and ovals from 3 to 500 blocks wide: towers, domes, arenas and ponds.</p></div><button class="favbtn" type="button" data-fav="circle-generator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
+<div class="card">
+<div class="cgrid">
+  <div>
+    <label>Size by</label>
+    <div class="seg" id="cgMode" role="group" aria-label="Size by"><button type="button" data-m="d" class="on" aria-pressed="true">Diameter</button><button type="button" data-m="r" aria-pressed="false">Radius</button></div>
+    <label for="cgW" id="cgWl">Diameter (blocks)</label>
+    <div class="stepper"><button type="button" data-step="cgW:-1" aria-label="Decrease">−</button><input id="cgW" type="number" min="1.5" max="500" step="1" value="21" inputmode="decimal"><button type="button" data-step="cgW:1" aria-label="Increase">+</button></div>
+    <label class="check"><input type="checkbox" id="cgLock" checked> Perfect circle (uncheck for an oval)</label>
+    <div id="cgHw" hidden><label for="cgH" id="cgHl">Height / diameter on Z (blocks)</label>
+    <div class="stepper"><button type="button" data-step="cgH:-1" aria-label="Decrease height">−</button><input id="cgH" type="number" min="1.5" max="500" step="1" value="21" inputmode="decimal"><button type="button" data-step="cgH:1" aria-label="Increase height">+</button></div></div>
+    <p class="err" id="cgErr" role="alert"></p>
+    <label>Style</label>
+    <div class="seg" id="cgStyle" role="group" aria-label="Style"><button type="button" data-s="thin" class="on" aria-pressed="true">Thin</button><button type="button" data-s="thick" aria-pressed="false">Thick</button><button type="button" data-s="fill" aria-pressed="false">Filled</button></div>
+    <div class="out" id="cgOut" aria-live="polite"></div>
+    <label for="cgRows">Row guide (blocks per row, top to bottom)</label>
+    <textarea id="cgRows" readonly rows="5"></textarea>
+    <div class="copyrow"><button type="button" data-copy="cgRows">Copy row guide</button><button type="button" id="cgShare">Copy link</button><button type="button" class="primary" id="cgDl">Download PNG</button></div>
+  </div>
+  <div class="cgwrap">
+    <div class="row" style="margin-bottom:8px;align-items:center;flex-wrap:wrap"><div class="zoomctl" role="group" aria-label="Zoom"><button type="button" id="zOut" aria-label="Zoom out">−</button><span id="zLbl">Fit</span><button type="button" id="zIn" aria-label="Zoom in">+</button><button type="button" id="zFit" style="width:auto;padding:8px 12px">Fit</button></div><span class="note" style="margin:0;text-align:right;flex:1 1 180px">Scroll or drag to pan · Ctrl + scroll to zoom</span></div>
+    <div class="bp" id="bp"><canvas id="cgCv" aria-hidden="true"></canvas><div class="scroller" id="cgSc" tabindex="0" aria-label="Circle blueprint. Use the row guide for a text version."><div id="cgSp"></div></div></div>
+    <div class="note" id="cgHover" style="text-align:center">Hover or tap a block to highlight it</div>
+  </div>
+</div></div>
+<div class="meta-line"><span>Java &amp; Bedrock · any version</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div class="art-wrap" data-aside-wrap><div class="art-main">
+
+<article class="prose">
+<h2 id="how-to">How to build a circle in Minecraft</h2>
+<ol><li>Pick the diameter you want and a style. Thin outlines are the usual choice for walls and towers.</li>
+<li>Mark the centre in-game. Odd diameters have one centre block. Even diameters have a 2×2 centre.</li>
+<li>Build the four straight edges first (the longest runs at the top, bottom, left and right), then fill in the diagonals using the row guide.</li>
+<li>Zoom in to read the block numbers, or download the PNG and keep it open on a second screen or your phone. <b>Copy link</b> saves the exact circle so you can reopen or share it.</li></ol>
+<h2 id="radius">Diameter or radius?</h2>
+<p>The diameter is how many blocks wide the circle is. The radius is half of that, so a radius of 10.5 gives a 21-block circle and a radius of 10 gives a 20-block circle. Circles from 3 to 500 blocks wide are supported.</p>
+<h2 id="odd-even">Odd or even diameter?</h2>
+<p>Odd diameters (like 21) are symmetrical around a single block, so they’re easier to centre on a doorway, a beacon or a pillar. Even diameters (like 20) look slightly rounder at small sizes but need a 2×2 centre.</p>
+<h2 id="styles">Thin, thick and filled</h2>
+<p><b>Thin</b> outlines connect only through corners in the diagonal parts, which uses the fewest blocks. <b>Thick</b> outlines connect along full edges everywhere (no corner-only joins), so walls look solid from inside and water can’t flow out diagonally. <b>Filled</b> gives you a floor or a pond shape.</p>
+<h2 id="algorithm">How the circles are calculated</h2>
+<p>Each block is treated as a 1×1 square. A block is <i>inside</i> the shape when its centre point lies inside the ellipse:</p>
+<div class="formula">((x + 0.5 − W/2) ÷ (W/2))² + ((y + 0.5 − H/2) ÷ (H/2))² ≤ 1</div>
+<ul><li><b>Filled</b> uses every inside block.</li><li><b>Thick</b> keeps inside blocks that touch an outside block on any side or corner, so every block joins the next along a full edge.</li><li><b>Thin</b> starts from the blocks that touch the outside on one of their four sides and removes any that are already covered by a neighbour toward the centre on both axes, leaving a single-block line that connects at the corners.</li></ul>
+<p>Because the test is applied to every block in the same way, the result is always symmetrical in all four quarters.</p>
+<h2 id="domes">Spheres, domes and towers</h2>
+<p>For a tower, repeat the same thin circle on every layer. For a dome, stack circles that shrink as you go up: each layer’s diameter follows the curve of a semicircle with the dome’s width. Draw that semicircle here (set width to your dome width and use a filled style), then read off each row’s length as the diameter for that layer.</p>
+</article>
+</div><aside class="rail"><nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#how-to">How to build a circle in Minecraft</a></li><li><a href="#radius">Diameter or radius?</a></li><li><a href="#odd-even">Odd or even diameter?</a></li><li><a href="#styles">Thin, thick and filled</a></li><li><a href="#algorithm">How the circles are calculated</a></li><li><a href="#domes">Spheres, domes and towers</a></li></ol></nav><nav class="rail-box" aria-label="More tools"><b>More tools</b><ul><li><a href="/tools/sphere-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#sphere"/></svg><span>Sphere Generator</span></a></li><li><a href="/tools/shape-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#shapes"/></svg><span>Shape Generator</span></a></li><li><a href="/tools/block-gradient-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#gradient"/></svg><span>Block Gradients</span></a></li><li><a href="/tools/map-art-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#mapart"/></svg><span>Map Art</span></a></li></ul><a class="more-link" href="/tools/">All tools →</a></nav><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#chest"/></svg><span><b><a href="/tools/stack-calculator/">Stack Calculator</a></b><small>Turn any item count into stacks, shulker boxes and double chests, for 64, 16 and 1 stack sizes.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="stack-calculator" aria-pressed="false" aria-label="Favorite Stack Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#beacon"/></svg><span><b><a href="/tools/beacon-calculator/">Beacon Calculator</a></b><small>Blocks, ingots and layer-by-layer blueprints for beacon pyramids, including shared bases for several beacons.</small><span class="cat">Survival · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="beacon-calculator" aria-pressed="false" aria-label="Favorite Beacon Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#map"/></svg><span><b><a href="/seed-map/">Seed Map</a></b><small>Biomes, structures, slime chunks and strongholds for any Java or Bedrock seed, with /locate-style search.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="seed-map" aria-pressed="false" aria-label="Favorite Seed Map">☆</button></div></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js?v=ee8709fb7b" defer></script>
+<script src="/assets/data.js?v=6c2a6f2a94" defer></script>
+<script src="/assets/site.js?v=56bf09d280" defer></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id),P=window.CS?CS.params():{};
+const cv=$('cgCv'),g=cv.getContext('2d'),sc=$('cgSc'),sp=$('cgSp');
+let style=['thin','thick','fill'].includes(P.s)?P.s:'thin',mode=P.m==='r'?'r':'d',cells=new Uint8Array(1),rowsC=[],W=21,H=21,hov=null,zoom=0,count=0,raf=0;
+const MIN=3,MAX=500;
+function seg(sel,attr,val){document.querySelectorAll(sel+' button').forEach(x=>{const on=x.dataset[attr]===val;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on);});}
+function labels(){$('cgWl').textContent=mode==='d'?($('cgLock').checked?'Diameter (blocks)':'Width / diameter on X (blocks)'):($('cgLock').checked?'Radius (blocks)':'Radius on X (blocks)');
+ $('cgHl').textContent=mode==='d'?'Height / diameter on Z (blocks)':'Radius on Z (blocks)';$('cgHw').hidden=$('cgLock').checked;
+ ['cgW','cgH'].forEach(id=>{$(id).step=mode==='d'?'1':'0.5';$(id).min=mode==='d'?MIN:MIN/2;$(id).max=mode==='d'?MAX:MAX/2;});}
+function toBlocks(v){v=parseFloat(v);if(!isFinite(v))return NaN;return Math.round(mode==='d'?v:v*2);}
+function shape(){$('cgErr').textContent='';let w=toBlocks($('cgW').value),h=$('cgLock').checked?w:toBlocks($('cgH').value);
+ if(isNaN(w)||isNaN(h)){$('cgErr').textContent='Enter a number.';return;}
+ if(w<MIN||h<MIN||w>MAX||h>MAX){$('cgErr').textContent=`Size must be between ${MIN} and ${MAX} blocks across${mode==='r'?` (radius ${MIN/2} to ${MAX/2})`:''}. Showing the nearest valid size.`;w=Math.max(MIN,Math.min(MAX,w));h=Math.max(MIN,Math.min(MAX,h));}
+ W=w;H=h;
+ const inside=(x,y)=>{if(x<0||y<0||x>=W||y>=H)return false;const dx=(x+.5-W/2)/(W/2),dy=(y+.5-H/2)/(H/2);return dx*dx+dy*dy<=1;};
+ const fat=(x,y)=>inside(x,y)&&!(inside(x+1,y)&&inside(x-1,y)&&inside(x,y+1)&&inside(x,y-1));
+ const thin=(x,y)=>{if(!fat(x,y))return false;const ox=x+.5<W/2?-1:1,oy=y+.5<H/2?-1:1;return !(fat(x+ox,y)&&fat(x,y+oy));};
+ const thick=(x,y)=>{if(!inside(x,y))return false;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)if((dx||dy)&&!inside(x+dx,y+dy))return true;return false;};
+ const f=style==='fill'?inside:style==='thick'?thick:thin;cells=new Uint8Array(W*H);let n=0;rowsC=[];
+ for(let y=0;y<H;y++){let c=0;for(let x=0;x<W;x++)if(f(x,y)){cells[y*W+x]=1;c++;}n+=c;rowsC.push(c);}count=n;
+ const st=Math.floor(n/64),rem=n%64;
+ $('cgOut').textContent=`Horizontal (X): ${W} blocks · Vertical (Z): ${H} blocks${W===H?`\nDiameter ${W} · radius ${W/2}`:''}\nCentre: ${W%2&&H%2?'1 block':W%2||H%2?'2 blocks':'2×2 blocks'}\nBlocks needed: ${n.toLocaleString()}\n= ${st} stack${st===1?'':'s'}${rem?` + ${rem}`:''}${n>1728?`  (${(n/1728).toFixed(1)} shulker boxes)`:''}`;
+ $('cgRows').value=rowsC.map((c,i)=>`Row ${i+1}: ${c}`).join('\n');layout(true);}
+function fitCs(){const vw=sc.clientWidth,vh=sc.clientHeight,pad=28;return Math.max(0.2,Math.min((vw-pad*2)/W,(vh-pad*2)/H));}
+function cs(){const fc=fitCs();return zoom===0?fc:Math.min(48,Math.max(fc,fc*Math.pow(1.6,zoom)));}
+function layout(keep){const c=cs(),pad=28;sp.style.width=Math.max(sc.clientWidth,W*c+pad*2)+'px';sp.style.height=Math.max(sc.clientHeight,H*c+pad*2)+'px';
+ $('zLbl').textContent=zoom===0?'Fit':Math.round(c/fitCs()*100)+'%';if(!keep){sc.scrollLeft=(sp.offsetWidth-sc.clientWidth)/2;sc.scrollTop=(sp.offsetHeight-sc.clientHeight)/2;}paint();}
+function geo(){const c=cs(),pad=28,vw=sc.clientWidth,vh=sc.clientHeight,cw=W*c+pad*2,ch=H*c+pad*2;return {c,ox:pad+Math.max(0,(vw-cw)/2)-sc.scrollLeft,oy:pad+Math.max(0,(vh-ch)/2)-sc.scrollTop,vw,vh};}
+function paint(){if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const G=geo(),d=window.devicePixelRatio||1;cv.width=G.vw*d;cv.height=G.vh*d;g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,G.vw,G.vh);draw(g,G.c,G.ox,G.oy,G.vw,G.vh,true,hov);});}
+function step(c){for(const s of [1,2,5,10,25,50,100])if(s*c>=26)return s;return 100;}
+function draw(ctx,c,ox,oy,vw,vh,sticky,hv){const x0=Math.max(0,Math.floor(-ox/c)),x1=Math.min(W-1,Math.floor((vw-ox)/c)),y0=Math.max(0,Math.floor(-oy/c)),y1=Math.min(H-1,Math.floor((vh-oy)/c));
+ ctx.fillStyle='#141b18';ctx.fillRect(Math.max(ox,0),Math.max(oy,0),Math.min(W*c,vw-Math.max(ox,0)),Math.min(H*c,vh-Math.max(oy,0)));
+ if(hv){ctx.fillStyle='rgba(242,193,78,.08)';ctx.fillRect(ox,oy+hv[1]*c,W*c,c);ctx.fillRect(ox+hv[0]*c,oy,c,H*c);}
+ for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)if(cells[y*W+x]){ctx.fillStyle=(x+y)%2?'#6fd060':'#7bdc6a';ctx.fillRect(ox+x*c,oy+y*c,Math.ceil(c),Math.ceil(c));}
+ if(c>=4){ctx.lineWidth=1;ctx.beginPath();ctx.strokeStyle='rgba(255,255,255,.08)';for(let x=x0;x<=x1+1;x++){const px=Math.round(ox+x*c)+.5;ctx.moveTo(px,oy+y0*c);ctx.lineTo(px,oy+(y1+1)*c);}for(let y=y0;y<=y1+1;y++){const py=Math.round(oy+y*c)+.5;ctx.moveTo(ox+x0*c,py);ctx.lineTo(ox+(x1+1)*c,py);}ctx.stroke();}
+ const st=step(c);ctx.beginPath();ctx.strokeStyle='rgba(255,255,255,.22)';for(let x=Math.ceil(x0/st)*st;x<=x1+1;x+=st){const px=Math.round(ox+x*c)+.5;ctx.moveTo(px,oy+y0*c);ctx.lineTo(px,oy+(y1+1)*c);}for(let y=Math.ceil(y0/st)*st;y<=y1+1;y+=st){const py=Math.round(oy+y*c)+.5;ctx.moveTo(ox+x0*c,py);ctx.lineTo(ox+(x1+1)*c,py);}ctx.stroke();
+ ctx.strokeStyle='rgba(242,193,78,.6)';ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(ox+c*W/2,oy);ctx.lineTo(ox+c*W/2,oy+c*H);ctx.moveTo(ox,oy+c*H/2);ctx.lineTo(ox+c*W,oy+c*H/2);ctx.stroke();ctx.setLineDash([]);
+ ctx.font='600 10.5px JetBrains Mono, monospace';ctx.textBaseline='middle';const ty=sticky?Math.max(oy-11,9):oy-11,lx=sticky?Math.max(ox-4,26):ox-4;
+ if(sticky){ctx.fillStyle='rgba(12,16,14,.9)';ctx.fillRect(0,ty-9,vw,18);ctx.fillRect(lx-26,0,28,vh);}
+ ctx.fillStyle='#8fa39a';ctx.textAlign='center';for(let x=x0;x<=x1;x++)if((x+1)%st===0||x===0)ctx.fillText(x+1,ox+x*c+c/2,ty);
+ ctx.textAlign='right';for(let y=y0;y<=y1;y++)if((y+1)%st===0||y===0)ctx.fillText(y+1,lx,oy+y*c+c/2);
+ if(hv){ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.strokeRect(ox+hv[0]*c+1,oy+hv[1]*c+1,Math.max(1,c-2),Math.max(1,c-2));}}
+function pick(e){const G=geo(),r=sc.getBoundingClientRect(),x=Math.floor((e.clientX-r.left-G.ox)/G.c),y=Math.floor((e.clientY-r.top-G.oy)/G.c);
+ if(x<0||y<0||x>=W||y>=H){hov=null;$('cgHover').textContent='Hover or tap a block to highlight it';}
+ else{hov=[x,y];$('cgHover').textContent=`Column ${x+1}, row ${y+1} · ${cells[y*W+x]?'place a block':'leave empty'} · row ${y+1} has ${rowsC[y]} block${rowsC[y]===1?'':'s'} · ${Math.abs(Math.round(x+.5-W/2-.01))} across, ${Math.abs(Math.round(y+.5-H/2-.01))} down from the centre`;}paint();}
+function zoomTo(z,px,py){const r=sc.getBoundingClientRect();px=px??r.width/2;py=py??r.height/2;const G=geo(),bx=(px-G.ox)/G.c,by=(py-G.oy)/G.c;zoom=Math.max(0,Math.min(9,z));layout(true);const N=geo();sc.scrollLeft+=(N.ox+bx*N.c)-px;sc.scrollTop+=(N.oy+by*N.c)-py;paint();}
+sc.addEventListener('scroll',paint);sc.addEventListener('pointermove',e=>{if(e.pointerType==='mouse')pick(e);});sc.addEventListener('pointerup',e=>{if(e.pointerType!=='mouse')pick(e);});
+sc.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'){hov=null;paint();}});
+sc.addEventListener('wheel',e=>{if(!e.ctrlKey&&!e.metaKey)return;e.preventDefault();const r=sc.getBoundingClientRect();zoomTo(zoom+(e.deltaY<0?1:-1),e.clientX-r.left,e.clientY-r.top);},{passive:false});
+$('zIn').onclick=()=>zoomTo(zoom+1);$('zOut').onclick=()=>zoomTo(zoom-1);$('zFit').onclick=()=>{zoom=0;layout(false);};
+$('cgW').addEventListener('input',()=>{if($('cgLock').checked)$('cgH').value=$('cgW').value;shape();});$('cgH').addEventListener('input',shape);
+$('cgLock').addEventListener('change',()=>{if($('cgLock').checked)$('cgH').value=$('cgW').value;labels();shape();});
+document.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>{const [id,dv]=b.dataset.step.split(':'),el=$(id),stp=mode==='d'?1:.5;el.value=Math.max(+el.min,Math.min(+el.max,(parseFloat(el.value)||0)+dv*stp));el.dispatchEvent(new Event('input'));});
+document.querySelectorAll('#cgStyle button').forEach(b=>b.onclick=()=>{style=b.dataset.s;seg('#cgStyle','s',style);shape();});
+document.querySelectorAll('#cgMode button').forEach(b=>b.onclick=()=>{if(b.dataset.m===mode)return;const w=W,h=H;mode=b.dataset.m;seg('#cgMode','m',mode);labels();$('cgW').value=mode==='d'?w:w/2;$('cgH').value=mode==='d'?h:h/2;shape();});
+$('cgShare').onclick=e=>window.CS&&CS.share(Object.assign({m:mode==='r'?'r':'',d:W,s:style},W!==H?{h:H}:{}),e.target);
+$('cgDl').onclick=()=>{const c=Math.max(4,Math.min(28,Math.floor(3600/Math.max(W,H)))),pad=40,top=76,w=W*c+pad*2,h=H*c+pad+top+40,cc=document.createElement('canvas');cc.width=w;cc.height=h;const x=cc.getContext('2d');
+ x.fillStyle='#0e1311';x.fillRect(0,0,w,h);x.fillStyle='#e6efe9';x.font='700 22px Space Grotesk, sans-serif';x.textAlign='left';x.textBaseline='alphabetic';
+ x.fillText(`Minecraft ${W===H?'circle':'oval'} ${W} × ${H} (${style==='fill'?'filled':style+' outline'})`,pad,32);x.fillStyle='#8fa39a';x.font='500 15px Space Grotesk, sans-serif';x.fillText(`${count.toLocaleString()} blocks · numbers every ${step(c)} blocks · centre lines dashed`,pad,56);
+ draw(x,c,pad,top,w,h,false,null);x.fillStyle='#5c6d66';x.font='500 13px Space Grotesk, sans-serif';x.textAlign='right';x.textBaseline='alphabetic';x.fillText('chunkscout.com/tools/circle-generator',w-pad,h-14);
+ cc.toBlob(bl=>{if(!bl){window.CS&&CS.toast('Could not create the image');return;}const a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download=`minecraft-circle-${W}x${H}-${style}.png`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);window.CS&&CS.track('download_blueprint',{size:W+'x'+H});},'image/png');};
+// load from link
+const d=parseInt(P.d),hh=parseInt(P.h);if(d){$('cgW').value=mode==='d'?d:d/2;if(hh&&hh!==d){$('cgLock').checked=false;$('cgH').value=mode==='d'?hh:hh/2;}else $('cgH').value=$('cgW').value;}
+seg('#cgStyle','s',style);seg('#cgMode','m',mode);labels();
+window.addEventListener('resize',()=>layout(true));shape();layout(false);})();
+});</script>
+</body>
+</html>

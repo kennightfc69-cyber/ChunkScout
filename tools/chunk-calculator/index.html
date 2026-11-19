@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Chunk &amp; Slime Chunk Calculator | ChunkScout</title>
+<meta name="description" content="Find which Minecraft chunk and region (.mca) file a block is in, see its position on a 16×16 chunk grid, copy chunk boundaries and check slime chunks for Java or Bedrock.">
+<link rel="canonical" href="https://chunkscout.com/tools/chunk-calculator/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Minecraft Chunk &amp; Slime Chunk Calculator | ChunkScout"><meta property="og:description" content="Find which Minecraft chunk and region (.mca) file a block is in, see its position on a 16×16 chunk grid, copy chunk boundaries and check slime chunks for Java or Bedrock.">
+<meta property="og:url" content="https://chunkscout.com/tools/chunk-calculator/"><meta property="og:image" content="https://chunkscout.com/assets/og.png?v=793048b94b">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=f00751567c">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Chunk & Slime Chunk Calculator"}]}</script>
+</head>
+<body class="page" data-tool="chunk-calculator" data-page="tool">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><div class="dd"><button type="button" class="dd-btn" aria-expanded="false" aria-controls="dd-tools" aria-haspopup="true">All Tools<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="dd-menu" id="dd-tools"><a href="/tools/" data-exact class="dd-all"><span><b>All tools</b><small>Every calculator and generator</small></span></a><a href="/tools/building/"><span><b>Building</b><small>Circle, sphere and shape planners for builders.</small></span></a><a href="/tools/survival/"><span><b>Survival</b><small>Calculators for portals, storage, beacons and exploring your world.</small></span></a><a href="/tools/redstone/"><span><b>Redstone & Technical</b><small>Chunk maths, game ticks and other technical helpers.</small></span></a><a href="/tools/player/"><span><b>Player</b><small>Text formatting and player utilities.</small></span></a><a href="/tools/server/"><span><b>Server</b><small>Start scripts, memory planning and other tools for server owners.</small></span></a></div></div></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Chunk &amp; Slime Chunk Calculator</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#chunk"/></svg><div><h1>Chunk &amp; Slime Chunk Calculator</h1><p>Which chunk and region file a block is in, and whether it’s a slime chunk.</p></div><button class="favbtn" type="button" data-fav="chunk-calculator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
+<div class="tool"><div class="card">
+<div class="seg" id="ckEd" role="group" aria-label="Edition"><button type="button" data-e="java" class="on" aria-pressed="true">Java</button><button type="button" data-e="bedrock" aria-pressed="false">Bedrock</button></div>
+<div id="ckSeedW"><label for="ckSeed">World seed (Java slime chunks depend on it)</label><input id="ckSeed" placeholder="e.g. 8675309" autocomplete="off"></div>
+<div class="row"><div><label for="ckX">Block X</label><input id="ckX" type="number" value="0"></div><div><label for="ckZ">Block Z</label><input id="ckZ" type="number" value="0"></div></div>
+<p class="err" id="ckErr" role="alert"></p><p class="note" id="ckNote"></p></div>
+<div class="card" aria-live="polite"><div class="out" id="ckOut" style="margin-top:0"></div>
+<div class="copyrow"><input id="ckCc" type="hidden"><input id="ckRange" type="hidden"><input id="ckTp" type="hidden"><button type="button" data-copy="ckCc">Copy chunk X Z</button><button type="button" data-copy="ckRange">Copy boundaries</button><button type="button" data-copy="ckTp">Copy /tp to chunk centre</button></div>
+<label>Position inside the chunk (16 × 16 blocks, north up)</label><div class="chunk16" id="ck16" aria-hidden="true"></div><p class="note" id="ck16n" style="text-align:center"></p>
+<label>Slime chunks around this chunk (yellow = yours, 11 × 11 chunks, north up)</label><div class="cgrid-chunks" id="ckGrid" style="grid-template-columns:repeat(11,1fr)"></div>
+<div class="copyrow"><a class="btn primary" id="ckMap" href="/seed-map/">Show this chunk on the seed map</a><button type="button" id="ckShare">Copy link</button></div></div></div>
+<div class="meta-line"><span>Java &amp; Bedrock · all current versions</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div class="art-wrap" data-aside-wrap><div class="art-main">
+<article class="prose"><h2>Chunks and region files</h2>
+<p>A chunk is a 16 × 16 column of blocks. To find the chunk, divide the block X and Z by 16 and round down. Rounding down matters for negative numbers: block X = −1 is in chunk −1, not chunk 0, and sits at position 15 inside it. Java Edition saves chunks in region files of 32 × 32 chunks (512 × 512 blocks), named <code>r.X.Z.mca</code> in the world’s <code>region</code> folder.</p>
+<div class="formula">chunk X = floor(block X ÷ 16)   region X = floor(chunk X ÷ 32)</div>
+<h2>Slime chunks</h2>
+<p>About 1 in 10 chunks is a slime chunk, where slimes can spawn below Y = 40 in any light level. In Java Edition which chunks are slime chunks depends on the world seed. In Bedrock Edition they’re the same in every world, so no seed is needed. The calculation here uses the game’s own formulas, the same ones as the <a href="/seed-map/">seed map</a>.</p></article>
+</div><aside class="rail"><nav class="rail-box" aria-label="More tools"><b>More tools</b><ul><li><a href="/tools/daylight-cycle-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#sun"/></svg><span>Daylight &amp; Ticks</span></a></li><li><a href="/tools/sphere-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#sphere"/></svg><span>Sphere Generator</span></a></li><li><a href="/tools/enchantment-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#book"/></svg><span>Enchantment Order</span></a></li><li><a href="/tools/xp-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#xp"/></svg><span>XP Calculator</span></a></li><li><a href="/tools/circle-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#circle"/></svg><span>Circle Generator</span></a></li></ul><a class="more-link" href="/tools/">All tools →</a></nav><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#map"/></svg><span><b><a href="/seed-map/">Seed Map</a></b><small>Biomes, structures, slime chunks and strongholds for any Java or Bedrock seed, with /locate-style search.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="seed-map" aria-pressed="false" aria-label="Favorite Seed Map">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#portal"/></svg><span><b><a href="/tools/nether-portal-calculator/">Nether Portal Calculator</a></b><small>Convert Overworld and Nether coordinates with the 8:1 ratio so your portals link up.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="nether-portal-calculator" aria-pressed="false" aria-label="Favorite Nether Portal Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#compass"/></svg><span><b><a href="/tools/direction-finder/">Direction Finder</a></b><small>Work out which way you are heading on the X and Z axes and how to reach a destination.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="direction-finder" aria-pressed="false" aria-label="Favorite Direction Finder">☆</button></div></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js?v=ee8709fb7b" defer></script>
+<script src="/assets/data.js?v=6c2a6f2a94" defer></script>
+<script src="/assets/site.js?v=56bf09d280" defer></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id);let ed='java';
+const MASK48=(1n<<48n)-1n,MULT=0x5DEECE66Dn;
+function javaSlime(seed,x,z){const a=BigInt(Math.imul(Math.imul(x,x),0x4c1906)),b=BigInt(Math.imul(x,0x5ac0db)),c=BigInt(Math.imul(z,z))*0x4307a7n,d=BigInt(Math.imul(z,0x5f24f));
+ const s=BigInt.asIntN(64,seed+a+b+c+d)^0x3ad8025fn;let st=(s^MULT)&MASK48;for(;;){st=(st*MULT+0xBn)&MASK48;const bits=Number(st>>17n),val=bits%10;if(bits-val+9<2147483648)return val===0;}}
+const mt=new Uint32Array(398);
+function bedrockSlime(x,z){let s=(Math.imul(x,0x1f1f1f1f)^z)>>>0;mt[0]=s;for(let i=1;i<398;i++){const p=mt[i-1];mt[i]=(Math.imul(1812433253,(p^(p>>>30)))+i)>>>0;}
+ let y=(mt[0]&0x80000000)|(mt[1]&0x7fffffff);y=(mt[397]^(y>>>1)^((y&1)?0x9908b0df:0))>>>0;y^=y>>>11;y^=(y<<7)&0x9d2c5680;y^=(y<<15)&0xefc60000;y^=y>>>18;return ((y>>>0)%10)===0;}
+function parseSeed(str){str=str.trim();if(/^-?\d+$/.test(str)){try{const v=BigInt(str);if(v>=-(1n<<63n)&&v<(1n<<63n))return v;}catch(e){}}
+ let h=0;for(let i=0;i<str.length;i++)h=(Math.imul(31,h)+str.charCodeAt(i))|0;return BigInt(h);}
+const store=window.CS?CS.store:{get:(k,d)=>d,set:()=>{}};
+function upd(){const x=Math.floor(parseFloat($('ckX').value)),z=Math.floor(parseFloat($('ckZ').value)),sv=$('ckSeed').value;
+ $('ckSeedW').style.display=ed==='java'?'':'none';
+ $('ckNote').textContent=ed==='java'?(sv.trim()?'':'No seed entered: using seed 0. Find your seed with /seed.'):'Bedrock slime chunks are the same in every world.';
+ $('ckErr').textContent='';if(isNaN(x)||isNaN(z)){$('ckErr').textContent='Enter whole-number block X and Z coordinates.';return;}
+ if(Math.abs(x)>30000000||Math.abs(z)>30000000){$('ckErr').textContent='Coordinates must be within ±30,000,000 (the world border).';return;}
+ const seed=parseSeed(sv||'0'),slime=(a,b)=>ed==='java'?javaSlime(seed,a,b):bedrockSlime(a,b),cx=Math.floor(x/16),cz=Math.floor(z/16);
+ $('ckOut').textContent=`Chunk ${cx}, ${cz}\nBlocks ${cx*16} to ${cx*16+15} (X), ${cz*16} to ${cz*16+15} (Z)\nPosition inside chunk: ${((x%16)+16)%16}, ${((z%16)+16)%16}\nRegion file: r.${Math.floor(cx/32)}.${Math.floor(cz/32)}.mca\nSlime chunk (${ed==='java'?'Java':'Bedrock'}): ${slime(cx,cz)?'YES':'no'}`;
+ let h='';for(let j=-5;j<=5;j++)for(let i=-5;i<=5;i++){const s=slime(cx+i,cz+j);h+=`<i class="${s?'s':''}${i===0&&j===0?' c':''}" title="Chunk ${cx+i}, ${cz+j}${s?' (slime)':''}"></i>`;}$('ckGrid').innerHTML=h;
+ const lx=((x%16)+16)%16,lz=((z%16)+16)%16;let g='';for(let j=0;j<16;j++)for(let i=0;i<16;i++)g+=`<i class="${i===lx&&j===lz?'on':(i===lx||j===lz?'ax':'')}"></i>`;$('ck16').innerHTML=g;
+ $('ck16n').textContent=`Block ${lx}, ${lz} inside the chunk (0–15 on each axis, counted from the north-west corner)`;
+ $('ckCc').value=`${cx} ${cz}`;$('ckRange').value=`X ${cx*16} to ${cx*16+15}, Z ${cz*16} to ${cz*16+15}`;$('ckTp').value=`/tp @s ${cx*16+8} ~ ${cz*16+8}`;
+ $('ckMap').href=`/seed-map/#goto=${x},${z}&chunk=1&ed=${ed}${ed==='java'?'&seed='+encodeURIComponent(sv.trim()):''}`;store.set('cs_ck',{ed,seed:sv});}
+const P=window.CS?CS.params():{};if(P.x&&/^-?\d+$/.test(P.x))$('ckX').value=P.x;if(P.z&&/^-?\d+$/.test(P.z))$('ckZ').value=P.z;
+$('ckShare').onclick=e=>window.CS&&CS.share({x:$('ckX').value,z:$('ckZ').value,e:ed},e.target);
+const saved=store.get('cs_ck',null);if(saved){ed=saved.ed==='bedrock'?'bedrock':'java';$('ckSeed').value=saved.seed||'';document.querySelectorAll('#ckEd button').forEach(x=>{x.classList.toggle('on',x.dataset.e===ed);x.setAttribute('aria-pressed',x.dataset.e===ed);});}
+document.querySelectorAll('#ckEd button').forEach(b=>b.onclick=()=>{ed=b.dataset.e;document.querySelectorAll('#ckEd button').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b);});upd();});
+if(P.e==='bedrock'||P.e==='java'){ed=P.e;document.querySelectorAll('#ckEd button').forEach(x=>{x.classList.toggle('on',x.dataset.e===ed);x.setAttribute('aria-pressed',x.dataset.e===ed);});}
+['ckX','ckZ','ckSeed'].forEach(id=>$(id).addEventListener('input',upd));upd();})();
+});</script>
+</body>
+</html>
