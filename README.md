@@ -10,6 +10,8 @@ Static site deployed as a Cloudflare Worker with static assets (`wrangler.jsonc`
 - `assets/site.css`, `assets/site.js`: shared styles and behavior (header, search, favorites, recent tools, footer, copy buttons, optional consent).
 - `assets/data.js`: the list of pages used by search, favorites and the footer. **Add a new tool here** and to `sitemap.xml`.
 - `assets/icons.svg`: pixel icon sprite.
+- `assets/voxel.js`: shape engine for the sphere and shape generators (Web Worker generation, 3D preview, layer blueprints, PNG/ZIP export). Loaded only on those pages.
+- `assets/blocks.js`: block colors for the gradient generator (approximate texture averages) and the map palette for the map art generator.
 - `tools/building/`, `tools/survival/`, `tools/redstone/`, `tools/player/`, `tools/server/`: category pages.
 - `.assetsignore`: files that are not published (README, wrangler config, the old backup HTML).
 

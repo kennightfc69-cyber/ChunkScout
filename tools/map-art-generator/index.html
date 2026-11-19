@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Map Art Generator – Image to Map Blocks | ChunkScout</title>
+<meta name="description" content="Convert any image into Minecraft map art in your browser. Flat or staircase palettes, dithering, brightness and contrast, a block blueprint with chunk grid and a full material list. Images never leave your device.">
+<link rel="canonical" href="https://chunkscout.com/tools/map-art-generator/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Minecraft Map Art Generator – Image to Map Blocks | ChunkScout"><meta property="og:description" content="Convert any image into Minecraft map art in your browser. Flat or staircase palettes, dithering, brightness and contrast, a block blueprint with chunk grid and a full material list. Images never leave your device.">
+<meta property="og:url" content="https://chunkscout.com/tools/map-art-generator/"><meta property="og:image" content="https://chunkscout.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Map Art Generator"}]}</script>
+</head>
+<body class="page" data-tool="map-art-generator" data-page="tool">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/" data-exact>All Tools</a><a href="/tools/building/">Building</a><a href="/tools/survival/">Survival</a><a href="/tools/redstone/">Redstone</a><a href="/tools/player/">Player</a><a href="/tools/server/">Server</a></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Map Art Generator</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#mapart"/></svg><div><h1>Map Art Generator</h1><p>Turn an image into Minecraft map art: preview it in map colors, get a block blueprint and a material list. Your image never leaves your device.</p></div><button class="favbtn" type="button" data-fav="map-art-generator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
+<div class="tool">
+<div class="card" style="align-self:start">
+  <div class="drop" id="maDrop" tabindex="0" role="button" aria-label="Choose an image"><b>Choose an image</b><br><span class="note">PNG, JPG or WebP · or drag it here</span><input type="file" id="maFile" accept="image/png,image/jpeg,image/webp" hidden></div>
+  <p class="note">Your image is processed on your device and never uploaded.</p>
+  <div class="row"><div><label for="maW">Maps across</label><select id="maW"><option>1</option><option>2</option><option>3</option><option>4</option></select></div><div><label for="maH">Maps down</label><select id="maH"><option>1</option><option>2</option><option>3</option><option>4</option></select></div></div>
+  <label for="maFit">Fit</label><select id="maFit"><option value="cover">Crop to fill</option><option value="contain">Fit whole image (white border)</option><option value="stretch">Stretch</option></select>
+  <label for="maMode">Build style</label><select id="maMode"><option value="flat">Flat (one layer, easiest)</option><option value="stair">Staircase (Java, 3 shades, more colors)</option></select>
+  <label for="maDither">Dithering</label><select id="maDither"><option value="fs">Floyd–Steinberg (smoother gradients)</option><option value="none">None (cleaner, fewer stray pixels)</option></select>
+  <div class="row"><div><label for="maBr">Brightness</label><input type="range" id="maBr" min="-60" max="60" value="0" style="padding:0"></div><div><label for="maCo">Contrast</label><input type="range" id="maCo" min="-60" max="60" value="0" style="padding:0"></div><div><label for="maSa">Saturation</label><input type="range" id="maSa" min="-100" max="100" value="0" style="padding:0"></div></div>
+  <label>Blocks to use</label>
+  <div id="maCats" style="display:grid;grid-template-columns:1fr 1fr;gap:0 10px"></div>
+  <p class="err" id="maErr" role="alert"></p>
+</div>
+<div class="card" aria-live="polite">
+  <div class="row" style="align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px"><h2 style="font-size:17px;margin:0;flex:0 0 auto">Preview</h2><div class="seg" id="maView" role="group" aria-label="View" style="flex:0 0 auto"><button type="button" data-v="map" class="on" aria-pressed="true">Map colors</button><button type="button" data-v="orig" aria-pressed="false">Original</button></div><label class="check" style="flex:0 0 auto;margin:0!important"><input type="checkbox" id="maGrid" checked> Grid</label></div>
+  <div class="mapview" id="maBox" style="margin-top:10px"><canvas id="maCv" aria-label="Map art preview"></canvas></div>
+  <p class="note" id="maHover">Choose an image to start. Hover or tap the preview to see each block.</p>
+  <div class="kv" id="maStats"></div>
+  <div style="overflow-x:auto"><table class="mini" id="maTable"></table></div>
+  <textarea id="maList" hidden readonly></textarea>
+  <div class="copyrow"><button type="button" data-copy="maList" id="maCopy" disabled>Copy material list</button><button type="button" id="maCsv" disabled>Material list (.csv)</button><button type="button" id="maPng" disabled>Preview PNG</button><button type="button" class="primary" id="maBp" disabled>Blueprint PNG</button></div>
+</div>
+</div>
+<div class="meta-line"><span>Java 1.17+ palette · Bedrock approximate</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div data-aside-wrap><div>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#how">How map art works</a></li><li><a href="#build">Building it in survival</a></li><li><a href="#flat">Flat vs staircase</a></li><li><a href="#editions">Java and Bedrock</a></li><li><a href="#faq">FAQ</a></li></ol></nav>
+<article class="prose">
+<h2 id="how">How map art works</h2>
+<p>A Minecraft map shows a 128 × 128 area of the world, one pixel per block, colored by the block on top. Every block has a fixed map color, and the game shows each color in three brightness levels depending on whether the block is higher, level with, or lower than the block to its north. ChunkScout resizes your image to 128 × 128 per map, then replaces every pixel with the closest color you can actually build.</p>
+<h2 id="build">Building it in survival</h2>
+<ol><li>Find a flat area and line it up with the map grid: map areas start at multiples of 128 offset by −64 (for example X −64 to 63 for the map centred on 0). Use F3 or a map to check.</li>
+<li>Collect the blocks in the material list. Carpets are cheap and placed on any solid block, so they make flat map art fast.</li>
+<li>Download the blueprint PNG. It has a line every 16 blocks (one chunk) and labels for each map.</li>
+<li>Build row by row from the north edge. Lay a row of any block just north of the map area so the first row gets the right shade.</li>
+<li>Stand in the middle of the area and use an empty map (or a locked map from a cartography table) to capture it.</li></ol>
+<h2 id="flat">Flat vs staircase</h2>
+<p><b>Flat</b> uses one brightness level per color: every block is at the same height. It’s much easier to build and uses about 60 colors. <b>Staircase</b> uses all three survival brightness levels by raising or lowering each block relative to the one north of it. That nearly triples the colors but needs careful building, and tall images can reach the height limit. The stats show how tall your staircase gets.</p>
+<h2 id="editions">Java and Bedrock</h2>
+<p>The colors here are Java Edition’s map palette (1.17 and newer, including deepslate, raw iron and glow lichen). Bedrock maps use very similar colors for most blocks, but ChunkScout hasn’t verified every Bedrock block, so treat Bedrock results as approximate and prefer flat mode there.</p>
+<h2 id="faq">FAQ</h2>
+<details class="faq"><summary>Why does my art look different from the image?</summary><p>Minecraft maps only have a limited set of colors. Dithering mixes nearby colors to fake the missing ones, which helps photos and gradients. Turn it off for logos and pixel art.</p></details>
+<details class="faq"><summary>Why are water and some blocks missing?</summary><p>Water’s map shade depends on its depth, which makes it hard to control, so it isn’t used. Expensive blocks (gold, diamond, emerald, lapis and iron) and blocks that need support (leaves, glow lichen) can be switched on in “Blocks to use”.</p></details>
+<details class="faq"><summary>Is my image uploaded?</summary><p>No. Everything happens in your browser. The image never leaves your device.</p></details>
+</article>
+</div><aside><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#gradient"/></svg><span><b><a href="/tools/block-gradient-generator/">Block Gradient Generator</a></b><small>Blend between two colors or blocks and get a matching palette of Minecraft blocks, step by step.</small><span class="cat">Building · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="block-gradient-generator" aria-pressed="false" aria-label="Favorite Block Gradient Generator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#chest"/></svg><span><b><a href="/tools/stack-calculator/">Stack Calculator</a></b><small>Turn any item count into stacks, shulker boxes and double chests, for 64, 16 and 1 stack sizes.</small><span class="cat">Survival</span></span><button class="fav" type="button" data-fav="stack-calculator" aria-pressed="false" aria-label="Favorite Stack Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#house"/></svg><span><b><a href="/tools/building-material-calculator/">Building Material Calculator</a></b><small>Blocks, stacks and shulker boxes for walls, floors and roofs of a build, with doors, windows and a material breakdown.</small><span class="cat">Building · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="building-material-calculator" aria-pressed="false" aria-label="Favorite Building Material Calculator">☆</button></div></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js" defer></script>
+<script src="/assets/data.js" defer></script>
+<script src="/assets/site.js" defer></script>
+<script src="/assets/blocks.js"></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id),MC=window.CS_MAPCOLORS||[],f=n=>n.toLocaleString('en-US');
+const GROUPS={carpet:['Carpets & wool (16 colors)',1],common:['Common blocks',1],terracotta:['Terracotta',1],nether:['Nether blocks',1],expensive:['Expensive (gold, iron, lapis, emerald)',0],plant:['Leaves & glow lichen (need support)',0]};
+$('maCats').innerHTML=Object.entries(GROUPS).map(([k,v])=>`<label class="check"><input type="checkbox" value="${k}"${v[1]?' checked':''}> ${v[0]}</label>`).join('');
+const SH=[180,220,255];// survival shades: 0 = lower, 1 = level, 2 = higher than the block to the north
+let img=null,W=128,H=128,src=null,idx=null,pal=[],view='map',timer=0;
+function lin(c){c/=255;return c<=0.04045?c/12.92:Math.pow((c+0.055)/1.055,2.4);}
+function oklab(r,g,b){r=lin(r);g=lin(g);b=lin(b);const l=Math.cbrt(0.4122214708*r+0.5363325363*g+0.0514459929*b),m=Math.cbrt(0.2119034982*r+0.6806995451*g+0.1073969566*b),s=Math.cbrt(0.0883024619*r+0.2817188376*g+0.6299787005*b);return [0.2104542553*l+0.7936177850*m-0.0040720468*s,1.9779984951*l-2.4285922050*m+0.4505937099*s,0.0259040371*l+0.7827717662*m-0.8086757660*s];}
+function buildPal(){const on=new Set([...$('maCats').querySelectorAll('input:checked')].map(x=>x.value)),stair=$('maMode').value==='stair';pal=[];
+ MC.forEach(c=>{if(!on.has(c[6]))return;(stair?[0,1,2]:[1]).forEach(s=>{const r=Math.floor(c[2]*SH[s]/255),g=Math.floor(c[3]*SH[s]/255),b=Math.floor(c[4]*SH[s]/255);pal.push({c,s,rgb:[r,g,b],lab:oklab(r,g,b)});});});}
+function load(file){if(!file)return;if(!/^image\/(png|jpeg|webp)$/.test(file.type)){$('maErr').textContent='Please choose a PNG, JPG or WebP image.';return;}
+ if(file.size>25e6){$('maErr').textContent='That image is over 25 MB. Please use a smaller one.';return;}
+ $('maErr').textContent='';const u=URL.createObjectURL(file),im=new Image();im.onload=()=>{img=im;URL.revokeObjectURL(u);schedule();};im.onerror=()=>{$('maErr').textContent='Could not read that image.';};im.src=u;}
+function schedule(){clearTimeout(timer);timer=setTimeout(run,60);}
+function run(){if(!img)return;W=128*+$('maW').value;H=128*+$('maH').value;buildPal();if(!pal.length){$('maErr').textContent='Tick at least one group of blocks.';return;}$('maErr').textContent='';
+ const c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,W,H);g.imageSmoothingQuality='high';
+ const fit=$('maFit').value,iw=img.naturalWidth,ih=img.naturalHeight;let dw=W,dh=H,dx=0,dy=0;
+ if(fit!=='stretch'){const s=fit==='cover'?Math.max(W/iw,H/ih):Math.min(W/iw,H/ih);dw=iw*s;dh=ih*s;dx=(W-dw)/2;dy=(H-dh)/2;}
+ g.drawImage(img,dx,dy,dw,dh);src=g.getImageData(0,0,W,H);
+ const d=new Float32Array(W*H*3),br=+$('maBr').value*2.2,co=(+$('maCo').value+100)/100,sa=(+$('maSa').value+100)/100;
+ for(let i=0,j=0;i<src.data.length;i+=4,j+=3){let r=src.data[i],gg=src.data[i+1],b=src.data[i+2];const y=0.299*r+0.587*gg+0.114*b;
+  r=y+(r-y)*sa;gg=y+(gg-y)*sa;b=y+(b-y)*sa;r=(r-128)*co+128+br;gg=(gg-128)*co+128+br;b=(b-128)*co+128+br;d[j]=r;d[j+1]=gg;d[j+2]=b;}
+ const dith=$('maDither').value==='fs',cache=new Map();idx=new Int16Array(W*H);
+ const near=(r,g,b)=>{r=Math.max(0,Math.min(255,r));g=Math.max(0,Math.min(255,g));b=Math.max(0,Math.min(255,b));const key=((r>>1)<<14)|((g>>1)<<7)|(b>>1);let k=cache.get(key);if(k!==undefined)return k;
+  const L=oklab(r,g,b);let best=0,bd=1e9;for(let p=0;p<pal.length;p++){const q=pal[p].lab,e=(q[0]-L[0])**2+(q[1]-L[1])**2+(q[2]-L[2])**2;if(e<bd){bd=e;best=p;}}cache.set(key,best);return best;};
+ for(let y=0;y<H;y++)for(let x=0;x<W;x++){const j=(y*W+x)*3,p=near(d[j],d[j+1],d[j+2]);idx[y*W+x]=p;
+  if(dith){const q=pal[p].rgb,er=d[j]-q[0],eg=d[j+1]-q[1],eb=d[j+2]-q[2];const add=(xx,yy,w)=>{if(xx<0||xx>=W||yy>=H)return;const k=(yy*W+xx)*3;d[k]+=er*w;d[k+1]+=eg*w;d[k+2]+=eb*w;};
+   add(x+1,y,7/16);add(x-1,y+1,3/16);add(x,y+1,5/16);add(x+1,y+1,1/16);}}
+ stats();paint();['maCopy','maCsv','maPng','maBp'].forEach(id=>$(id).disabled=false);}
+function stats(){const cnt=new Map();for(let i=0;i<idx.length;i++){const c=pal[idx[i]].c;cnt.set(c,(cnt.get(c)||0)+1);}
+ const rows=[...cnt.entries()].sort((a,b)=>b[1]-a[1]);
+ let heights='';if($('maMode').value==='stair'){let lo=0,hi=0;for(let x=0;x<W;x++){let h=0;for(let y=0;y<H;y++){const s=pal[idx[y*W+x]].s;h+=s===2?1:s===0?-1:0;lo=Math.min(lo,h);hi=Math.max(hi,h);}}heights=`<span>Staircase height</span><span>${hi-lo+1} blocks from lowest to highest${hi-lo+1>384?' – taller than the world (384 blocks), so it can’t be built as-is. Use flat mode, fewer maps down, or more contrast.':hi-lo+1>200?' – very tall; flat mode is much easier':''}</span>`;}
+ const blocks=W*H;$('maStats').innerHTML=`<span>Size</span><span>${W} × ${H} blocks (${W/128} × ${H/128} map${W*H>16384?'s':''})</span><span>Blocks</span><span>${f(blocks)} = ${f(Math.ceil(blocks/64))} stacks · ${f(Math.ceil(Math.ceil(blocks/64)/27))} shulker boxes</span><span>Different blocks</span><span>${rows.length}</span>${heights}`;
+ $('maTable').innerHTML='<tr><th></th><th>Block</th><th style="text-align:right">Count</th><th style="text-align:right">Stacks</th></tr>'+rows.map(([c,n])=>`<tr><td><i style="display:inline-block;width:14px;height:14px;border-radius:3px;background:rgb(${c[2]},${c[3]},${c[4]})"></i></td><td>${c[5]}</td><td class="n">${f(n)}</td><td class="n">${Math.floor(n/64)}${n%64?' + '+n%64:''}</td></tr>`).join('');
+ $('maList').value=rows.map(([c,n])=>`${c[5]}: ${f(n)} (${Math.floor(n/64)} stacks${n%64?' + '+n%64:''})`).join('\n');
+ window.__maRows=rows;}
+function cell(){const box=$('maBox').clientWidth-12;return Math.max(1,Math.min(8,Math.floor(box/W)));}
+function paint(){if(!idx)return;const cs=cell(),c=$('maCv'),g=c.getContext('2d');c.width=W*cs;c.height=H*cs;c.style.width=W*cs+'px';c.style.height=H*cs+'px';
+ const im=g.createImageData(W,H);for(let i=0;i<W*H;i++){const q=view==='map'?pal[idx[i]].rgb:[src.data[i*4],src.data[i*4+1],src.data[i*4+2]];im.data[i*4]=q[0];im.data[i*4+1]=q[1];im.data[i*4+2]=q[2];im.data[i*4+3]=255;}
+ const t=document.createElement('canvas');t.width=W;t.height=H;t.getContext('2d').putImageData(im,0,0);g.imageSmoothingEnabled=false;g.drawImage(t,0,0,W*cs,H*cs);
+ if($('maGrid').checked){grid(g,cs,W,H,0,0);}}
+function grid(g,cs,W,H,ox,oy){g.lineWidth=1;g.strokeStyle='rgba(0,0,0,.35)';g.beginPath();for(let x=16;x<W;x+=16){g.moveTo(ox+x*cs+.5,oy);g.lineTo(ox+x*cs+.5,oy+H*cs);}for(let y=16;y<H;y+=16){g.moveTo(ox,oy+y*cs+.5);g.lineTo(ox+W*cs,oy+y*cs+.5);}g.stroke();
+ g.strokeStyle='rgba(242,193,78,.9)';g.lineWidth=2;g.beginPath();for(let x=128;x<W;x+=128){g.moveTo(ox+x*cs,oy);g.lineTo(ox+x*cs,oy+H*cs);}for(let y=128;y<H;y+=128){g.moveTo(ox,oy+y*cs);g.lineTo(ox+W*cs,oy+y*cs);}g.stroke();}
+function hover(e){if(!idx)return;const r=$('maCv').getBoundingClientRect(),cs=r.width/W,x=Math.floor((e.clientX-r.left)/cs),y=Math.floor((e.clientY-r.top)/cs);if(x<0||y<0||x>=W||y>=H)return;
+ const p=pal[idx[y*W+x]],st=$('maMode').value==='stair'?[' · one block lower than the block to its north',' · same height as the block to its north',' · one block higher than the block to its north'][p.s]:'';
+ $('maHover').textContent=`Map ${Math.floor(x/128)+1},${Math.floor(y/128)+1} · column ${x%128+1}, row ${y%128+1}: ${p.c[5]}${st}`;}
+$('maCv').addEventListener('pointermove',hover);$('maCv').addEventListener('pointerdown',hover);
+const drop=$('maDrop');drop.onclick=()=>$('maFile').click();drop.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();$('maFile').click();}};
+$('maFile').onchange=()=>load($('maFile').files[0]);
+['dragenter','dragover'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add('over');}));['dragleave','drop'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove('over');}));
+drop.addEventListener('drop',e=>load(e.dataTransfer.files[0]));
+['maW','maH','maFit','maMode','maDither'].forEach(id=>$(id).addEventListener('change',schedule));['maBr','maCo','maSa'].forEach(id=>$(id).addEventListener('input',schedule));
+$('maCats').addEventListener('change',schedule);$('maGrid').addEventListener('change',paint);
+document.querySelectorAll('#maView button').forEach(b=>b.onclick=()=>{view=b.dataset.v;document.querySelectorAll('#maView button').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b);});paint();});
+const dl=(blob,n)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=n;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},800);};
+$('maCsv').onclick=()=>{const rows=window.__maRows||[];dl(new Blob(['Block,Count,Stacks,Remainder\n'+rows.map(([c,n])=>`"${c[5]}",${n},${Math.floor(n/64)},${n%64}`).join('\n')],{type:'text/csv'}),`map-art-materials-${W}x${H}.csv`);};
+$('maPng').onclick=()=>{const c=document.createElement('canvas');c.width=W;c.height=H;const im=c.getContext('2d').createImageData(W,H);for(let i=0;i<W*H;i++){const q=pal[idx[i]].rgb;im.data.set([q[0],q[1],q[2],255],i*4);}c.getContext('2d').putImageData(im,0,0);c.toBlob(b=>dl(b,`map-art-preview-${W}x${H}.png`),'image/png');};
+$('maBp').onclick=()=>{const cs=W>256?6:8,pad=36,c=document.createElement('canvas');c.width=W*cs+pad*2;c.height=H*cs+pad*2+20;const g=c.getContext('2d');g.fillStyle='#0e1311';g.fillRect(0,0,c.width,c.height);
+ for(let i=0;i<W*H;i++){const q=pal[idx[i]].rgb;g.fillStyle=`rgb(${q[0]},${q[1]},${q[2]})`;g.fillRect(pad+(i%W)*cs,pad+((i/W)|0)*cs,cs,cs);}
+ grid(g,cs,W,H,pad,pad);g.fillStyle='#e6efe9';g.font='600 13px Space Grotesk, sans-serif';g.textAlign='center';
+ for(let mx=0;mx<W/128;mx++)for(let my=0;my<H/128;my++){g.fillText(`Map ${mx+1},${my+1}`,pad+(mx*128+64)*cs,pad+my*128*cs-8+(my?16:0));}
+ g.textAlign='left';g.fillStyle='#8fa39a';g.fillText(`${W}×${H} map art · thin lines every 16 blocks (chunks) · yellow lines = map borders · north is up · chunkscout.com`,pad,c.height-14);
+ c.toBlob(b=>b?dl(b,`map-art-blueprint-${W}x${H}.png`):(window.CS&&CS.toast('Image too large for this browser')),'image/png');};
+window.addEventListener('resize',()=>paint());})();
+});</script>
+</body>
+</html>

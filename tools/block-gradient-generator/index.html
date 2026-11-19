@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Block Gradient Generator – Color Palettes from Blocks | ChunkScout</title>
+<meta name="description" content="Create smooth Minecraft block gradients between any two colors or blocks. Choose concrete, wool, terracotta, stone, wood and more, adjust the steps, copy the block list and save palettes.">
+<link rel="canonical" href="https://chunkscout.com/tools/block-gradient-generator/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Minecraft Block Gradient Generator – Color Palettes from Blocks | ChunkScout"><meta property="og:description" content="Create smooth Minecraft block gradients between any two colors or blocks. Choose concrete, wool, terracotta, stone, wood and more, adjust the steps, copy the block list and save palettes.">
+<meta property="og:url" content="https://chunkscout.com/tools/block-gradient-generator/"><meta property="og:image" content="https://chunkscout.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Block Gradient Generator"}]}</script>
+</head>
+<body class="page" data-tool="block-gradient-generator" data-page="tool">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/" data-exact>All Tools</a><a href="/tools/building/">Building</a><a href="/tools/survival/">Survival</a><a href="/tools/redstone/">Redstone</a><a href="/tools/player/">Player</a><a href="/tools/server/">Server</a></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Block Gradient Generator</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#gradient"/></svg><div><h1>Block Gradient Generator</h1><p>Blend between two colors or blocks and get a matching palette of Minecraft blocks, step by step.</p></div><button class="favbtn" type="button" data-fav="block-gradient-generator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="ad-slot" data-ad="tool-top" data-format="horizontal" hidden></div>
+<div class="tool">
+<div class="card" style="align-self:start">
+  <label for="grFrom">Start</label>
+  <div class="row"><input type="color" id="grA" value="#e06101" style="flex:0 0 52px" aria-label="Start color"><select id="grFrom" aria-label="Start block"></select></div>
+  <label for="grTo">End</label>
+  <div class="row"><input type="color" id="grB" value="#2c2e8f" style="flex:0 0 52px" aria-label="End color"><select id="grTo" aria-label="End block"></select></div>
+  <label for="grN">Steps</label>
+  <div class="row" style="align-items:center"><input type="range" id="grN" min="2" max="24" value="8" style="padding:0" aria-describedby="grNv"><span id="grNv" style="flex:0 0 32px;font:600 14px var(--mono)">8</span></div>
+  <label>Block groups to use</label>
+  <div id="grCats" class="sgrid" style="display:grid;grid-template-columns:1fr 1fr;gap:0 10px"></div>
+  <label class="check"><input type="checkbox" id="grUniq" checked> Don’t repeat blocks</label>
+  <p class="err" id="grErr" role="alert"></p>
+</div>
+<div class="card" aria-live="polite">
+  <h2 style="font-size:17px;margin:0">Your palette</h2>
+  <div class="swatches" id="grSw"></div>
+  <p class="note">Colors are approximate averages of each block’s default texture. Texture packs, lighting and shaders change how blocks look, so check in-game before a big build.</p>
+  <textarea id="grList" readonly rows="4" aria-label="Palette as text"></textarea>
+  <div class="copyrow"><button type="button" id="grRev">Reverse</button><button type="button" id="grShare">Copy link</button><button type="button" id="grSave">★ Save palette</button><button type="button" class="primary" data-copy="grList">Copy block list</button></div>
+  <h2 style="font-size:15px;margin:22px 0 0">Saved palettes</h2>
+  <ul class="hist" id="grFavs"></ul>
+</div>
+</div>
+<div class="meta-line"><span>Java &amp; Bedrock · approximate colors</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<div class="ad-slot" data-ad="tool-bottom" data-format="horizontal" hidden></div>
+<div data-aside-wrap><div>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#how">How the gradient is made</a></li><li><a href="#tips">Tips for block gradients</a></li><li><a href="#accuracy">How accurate are the colors?</a></li></ol></nav>
+<article class="prose">
+<h2 id="how">How the gradient is made</h2>
+<p>ChunkScout blends from your start color to your end color in OKLab, a color space where equal steps look equally different to the eye. For each step it picks the block whose average color is closest, using only the block groups you tick. With <b>Don’t repeat blocks</b> on, each block appears once, and a step takes the next-closest unused block.</p>
+<h2 id="tips">Tips for block gradients</h2>
+<ul><li>Concrete and wool give the strongest colors. Terracotta, stone and wood give softer, more natural blends.</li><li>Use more steps for long walls and fewer for small builds. Five to eight steps is a good start.</li><li>Gradients across textured blocks (logs, stone bricks) look smoother from a distance than up close.</li></ul>
+<h2 id="accuracy">How accurate are the colors?</h2>
+<p>Each block is represented by one approximate average color of its default texture. Real textures have patterns and multiple colors, so two blocks with similar averages can still look different side by side. Treat the palette as a starting point.</p>
+</article>
+</div><aside><div class="ad-slot" data-ad="tool-sidebar" data-format="sidebar" hidden></div></aside></div>
+<div class="ad-slot" data-ad="tool-end" data-format="horizontal" hidden></div>
+<section class="related"><h2>Related tools</h2><div class="cards"><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#mapart"/></svg><span><b><a href="/tools/map-art-generator/">Map Art Generator</a></b><small>Turn an image into Minecraft map art: map-color preview, block blueprint and material list, processed on your device.</small><span class="cat">Building · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="map-art-generator" aria-pressed="false" aria-label="Favorite Map Art Generator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#house"/></svg><span><b><a href="/tools/building-material-calculator/">Building Material Calculator</a></b><small>Blocks, stacks and shulker boxes for walls, floors and roofs of a build, with doors, windows and a material breakdown.</small><span class="cat">Building · <span class=new>New</span></span></span><button class="fav" type="button" data-fav="building-material-calculator" aria-pressed="false" aria-label="Favorite Building Material Calculator">☆</button></div><div class="tcard"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#color"/></svg><span><b><a href="/tools/color-text-generator/">Color Code &amp; Gradient Generator</a></b><small>Preview &amp; and § formatting codes, build hex gradients and copy them for chat, MOTDs and signs.</small><span class="cat">Player</span></span><button class="fav" type="button" data-fav="color-text-generator" aria-pressed="false" aria-label="Favorite Color Code &amp; Gradient Generator">☆</button></div></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/ads-config.js" defer></script>
+<script src="/assets/data.js" defer></script>
+<script src="/assets/site.js" defer></script>
+<script src="/assets/blocks.js"></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id),P=window.CS?CS.params():{},store=window.CS?CS.store:{get:(k,d)=>d,set:()=>{}};
+const B=window.CS_BLOCKS||[],GROUPS={concrete:'Concrete',wool:'Wool',terracotta:'Terracotta',stone:'Stone & bricks',natural:'Natural',wood:'Wood',nether:'Nether',end:'End',ocean:'Ocean',mineral:'Mineral blocks'};
+const hex2=h=>[1,3,5].map(i=>parseInt(h.substr(i,2),16));
+function lin(c){c/=255;return c<=0.04045?c/12.92:Math.pow((c+0.055)/1.055,2.4);}function delin(c){c=c<=0.0031308?12.92*c:1.055*Math.pow(c,1/2.4)-0.055;return Math.max(0,Math.min(255,Math.round(c*255)));}
+function oklab([r,g,b]){r=lin(r);g=lin(g);b=lin(b);const l=Math.cbrt(0.4122214708*r+0.5363325363*g+0.0514459929*b),m=Math.cbrt(0.2119034982*r+0.6806995451*g+0.1073969566*b),s=Math.cbrt(0.0883024619*r+0.2817188376*g+0.6299787005*b);
+ return [0.2104542553*l+0.7936177850*m-0.0040720468*s,1.9779984951*l-2.4285922050*m+0.4505937099*s,0.0259040371*l+0.7827717662*m-0.8086757660*s];}
+function rgb([L,a,bb]){const l=(L+0.3963377774*a+0.2158037573*bb)**3,m=(L-0.1055613458*a-0.0638541728*bb)**3,s=(L-0.0894841775*a-1.2914855480*bb)**3;
+ return [delin(4.0767416621*l-3.3077115913*m+0.2309699292*s),delin(-1.2684380046*l+2.6097574011*m-0.3413193965*s),delin(-0.0041960863*l-0.7034186147*m+1.7076147010*s)];}
+const toHex=c=>'#'+c.map(v=>v.toString(16).padStart(2,'0')).join('');
+const LAB=B.map(x=>oklab(hex2(x[1])));
+const opt=B.map((x,i)=>`<option value="${i}">${x[0]}</option>`).join('');$('grFrom').innerHTML='<option value="">Pick a block…</option>'+opt;$('grTo').innerHTML='<option value="">Pick a block…</option>'+opt;
+let cats=new Set(P.c?P.c.split('.').filter(c=>GROUPS[c]):['concrete','wool','terracotta']);if(!cats.size)cats=new Set(['concrete']);
+$('grCats').innerHTML=Object.entries(GROUPS).map(([k,v])=>`<label class="check"><input type="checkbox" value="${k}"${cats.has(k)?' checked':''}> ${v}</label>`).join('');
+if(/^[0-9a-f]{6}$/i.test(P.a||''))$('grA').value='#'+P.a;if(/^[0-9a-f]{6}$/i.test(P.b||''))$('grB').value='#'+P.b;if(+P.n>=2&&+P.n<=24)$('grN').value=P.n;if(P.u==='0')$('grUniq').checked=false;
+let cur=[];
+function calc(){const n=+$('grN').value;$('grNv').textContent=n;$('grErr').textContent='';
+ const pool=B.map((x,i)=>i).filter(i=>cats.has(B[i][2]));if(!pool.length){$('grErr').textContent='Tick at least one block group.';return;}
+ const A=oklab(hex2($('grA').value)),Z=oklab(hex2($('grB').value)),used=new Set();cur=[];
+ for(let k=0;k<n;k++){const t=n===1?0:k/(n-1),T=[0,1,2].map(j=>A[j]+(Z[j]-A[j])*t);
+  const ranked=pool.map(i=>[i,(LAB[i][0]-T[0])**2+(LAB[i][1]-T[1])**2+(LAB[i][2]-T[2])**2]).sort((p,q)=>p[1]-q[1]);
+  let pick=ranked[0];if($('grUniq').checked){const free=ranked.find(r=>!used.has(r[0]));if(free)pick=free;}used.add(pick[0]);
+  cur.push({i:pick[0],target:toHex(rgb(T)),d:Math.sqrt(pick[1])});}
+ $('grSw').innerHTML=cur.map((c,k)=>`<div class="sw"><i style="background:${B[c.i][1]}" title="Target ${c.target}"></i><b>${k+1}. ${B[c.i][0]}</b><span>${B[c.i][1]}${c.d>0.12?' · rough match':''}</span></div>`).join('');
+ $('grList').value=cur.map((c,k)=>`${k+1}. ${B[c.i][0]}`).join('\n');
+ if(pool.length<n&&$('grUniq').checked)$('grErr').textContent=`Only ${pool.length} blocks are in the groups you picked, so some repeat. Tick more groups for more variety.`;}
+function favs(){const f=store.get('cs_grad_favs',[]),ul=$('grFavs');if(!f.length){ul.innerHTML='<li class="empty" style="cursor:default">No saved palettes yet.</li>';return;}
+ ul.innerHTML=f.map((p,i)=>`<li data-i="${i}" tabindex="0" role="button" aria-label="Load saved palette"><span style="display:flex;gap:3px">${p.sw.map(h=>`<i style="display:inline-block;width:14px;height:14px;border-radius:3px;background:${h}"></i>`).join('')}</span><button type="button" data-del="${i}" aria-label="Delete palette" style="padding:2px 8px">✕</button></li>`).join('');
+ ul.querySelectorAll('li[data-i]').forEach(li=>{const go=e=>{if(e.target.closest('[data-del]'))return;const p=f[+li.dataset.i];$('grA').value=p.a;$('grB').value=p.b;$('grN').value=p.n;cats=new Set(p.c);$('grCats').querySelectorAll('input').forEach(x=>x.checked=cats.has(x.value));$('grUniq').checked=p.u;calc();};li.onclick=go;li.onkeydown=e=>{if(e.key==='Enter')go(e);};});
+ ul.querySelectorAll('[data-del]').forEach(x=>x.onclick=()=>{f.splice(+x.dataset.del,1);store.set('cs_grad_favs',f);favs();});}
+$('grFrom').onchange=()=>{if($('grFrom').value!=='')$('grA').value=B[+$('grFrom').value][1].toLowerCase();calc();};
+$('grTo').onchange=()=>{if($('grTo').value!=='')$('grB').value=B[+$('grTo').value][1].toLowerCase();calc();};
+['grA','grB'].forEach(id=>$(id).addEventListener('input',()=>{$(id==='grA'?'grFrom':'grTo').value='';calc();}));
+$('grN').addEventListener('input',calc);$('grUniq').addEventListener('change',calc);
+$('grCats').addEventListener('change',e=>{if(e.target.checked)cats.add(e.target.value);else cats.delete(e.target.value);calc();});
+$('grRev').onclick=()=>{const a=$('grA').value;$('grA').value=$('grB').value;$('grB').value=a;const f=$('grFrom').value;$('grFrom').value=$('grTo').value;$('grTo').value=f;calc();};
+$('grShare').onclick=e=>window.CS&&CS.share({a:$('grA').value.slice(1),b:$('grB').value.slice(1),n:$('grN').value,c:[...cats].join('.'),u:$('grUniq').checked?'':'0'},e.target);
+$('grSave').onclick=()=>{const f=store.get('cs_grad_favs',[]);f.unshift({a:$('grA').value,b:$('grB').value,n:+$('grN').value,c:[...cats],u:$('grUniq').checked,sw:cur.map(c=>B[c.i][1])});store.set('cs_grad_favs',f.slice(0,20));favs();window.CS&&CS.toast('Palette saved on this device');};
+calc();favs();})();
+});</script>
+</body>
+</html>

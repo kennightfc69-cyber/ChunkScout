@@ -1,0 +1,68 @@
+/* Block color data for the gradient and map art tools.
+   CS_BLOCKS: approximate average colors of full blocks with the default textures (labelled approximate on the site).
+   CS_MAPCOLORS: base map colors from the game's map palette. Each base color appears on a map multiplied by
+   180, 220, 255 (and 135, command-only) / 255. `block` is a common survival-friendly block with that map color. */
+window.CS_BLOCKS = [
+ // [name, hex, group]
+ ['White Concrete','#CFD5D6','concrete'],['Orange Concrete','#E06101','concrete'],['Magenta Concrete','#A9309F','concrete'],['Light Blue Concrete','#2489C7','concrete'],
+ ['Yellow Concrete','#F1AF15','concrete'],['Lime Concrete','#5EA918','concrete'],['Pink Concrete','#D5658E','concrete'],['Gray Concrete','#36393D','concrete'],
+ ['Light Gray Concrete','#7D7D73','concrete'],['Cyan Concrete','#157788','concrete'],['Purple Concrete','#64209C','concrete'],['Blue Concrete','#2C2E8F','concrete'],
+ ['Brown Concrete','#603B1F','concrete'],['Green Concrete','#495B24','concrete'],['Red Concrete','#8E2020','concrete'],['Black Concrete','#080A0F','concrete'],
+ ['White Wool','#E9ECEC','wool'],['Orange Wool','#F07613','wool'],['Magenta Wool','#BD44B3','wool'],['Light Blue Wool','#3AAFD9','wool'],
+ ['Yellow Wool','#F8C627','wool'],['Lime Wool','#70B919','wool'],['Pink Wool','#ED8DAC','wool'],['Gray Wool','#3E4447','wool'],
+ ['Light Gray Wool','#8E8E86','wool'],['Cyan Wool','#158991','wool'],['Purple Wool','#792AAC','wool'],['Blue Wool','#35399D','wool'],
+ ['Brown Wool','#724728','wool'],['Green Wool','#546D1B','wool'],['Red Wool','#A12722','wool'],['Black Wool','#141519','wool'],
+ ['Terracotta','#985E43','terracotta'],['White Terracotta','#D1B2A1','terracotta'],['Orange Terracotta','#A15325','terracotta'],['Magenta Terracotta','#95586C','terracotta'],
+ ['Light Blue Terracotta','#716C89','terracotta'],['Yellow Terracotta','#BA8523','terracotta'],['Lime Terracotta','#677534','terracotta'],['Pink Terracotta','#A04D4E','terracotta'],
+ ['Gray Terracotta','#392A23','terracotta'],['Light Gray Terracotta','#876A61','terracotta'],['Cyan Terracotta','#575B5B','terracotta'],['Purple Terracotta','#764656','terracotta'],
+ ['Blue Terracotta','#4A3B5B','terracotta'],['Brown Terracotta','#4D3323','terracotta'],['Green Terracotta','#4C532A','terracotta'],['Red Terracotta','#8F3D2E','terracotta'],['Black Terracotta','#251610','terracotta'],
+ ['Stone','#7D7D7D','stone'],['Cobblestone','#7F7F7F','stone'],['Stone Bricks','#7A7979','stone'],['Smooth Stone','#9E9E9E','stone'],['Andesite','#888889','stone'],
+ ['Polished Andesite','#848786','stone'],['Diorite','#BCBCBC','stone'],['Polished Diorite','#C0C1C2','stone'],['Granite','#956755','stone'],['Polished Granite','#9A6A59','stone'],
+ ['Deepslate','#505053','stone'],['Cobbled Deepslate','#4D4D51','stone'],['Deepslate Bricks','#464648','stone'],['Deepslate Tiles','#363637','stone'],['Tuff','#6C6D67','stone'],
+ ['Calcite','#DFE0DC','stone'],['Dripstone Block','#866B5C','stone'],['Blackstone','#2A2328','stone'],['Polished Blackstone','#353038','stone'],['Basalt','#515156','stone'],
+ ['Smooth Basalt','#48484E','stone'],['Obsidian','#0F0B19','stone'],['Bricks','#976253','stone'],['Mud Bricks','#89684F','stone'],['Packed Mud','#8E6B50','stone'],
+ ['Sand','#DBCFA3','natural'],['Sandstone','#D8CB9B','natural'],['Smooth Sandstone','#E0D6AA','natural'],['Red Sand','#BE6621','natural'],['Red Sandstone','#BA631D','natural'],
+ ['Gravel','#837F7E','natural'],['Clay','#A0A6B3','natural'],['Mud','#3C393D','natural'],['Dirt','#866043','natural'],['Coarse Dirt','#77553B','natural'],
+ ['Moss Block','#596E2D','natural'],['Snow Block','#F9FEFE','natural'],['Packed Ice','#8DB4FA','natural'],['Blue Ice','#74A8FD','natural'],['Bone Block','#E5E1CF','natural'],
+ ['Hay Bale','#A68B0C','natural'],['Dried Kelp Block','#313625','natural'],['Slime Block','#6FC05B','natural'],['Honeycomb Block','#E5941E','natural'],
+ ['Oak Planks','#A2834F','wood'],['Spruce Planks','#735531','wood'],['Birch Planks','#C0AF79','wood'],['Jungle Planks','#A07351','wood'],['Acacia Planks','#A85A32','wood'],
+ ['Dark Oak Planks','#422B15','wood'],['Mangrove Planks','#763631','wood'],['Cherry Planks','#E2B3AC','wood'],['Bamboo Planks','#C1AD50','wood'],
+ ['Oak Log','#6D5533','wood'],['Spruce Log','#3A2611','wood'],['Birch Log','#D8D7D2','wood'],['Jungle Log','#554419','wood'],['Acacia Log','#676157','wood'],
+ ['Dark Oak Log','#3C2E1A','wood'],['Mangrove Log','#544429','wood'],['Cherry Log','#362018','wood'],
+ ['Netherrack','#622626','nether'],['Nether Bricks','#2C1519','nether'],['Red Nether Bricks','#460709','nether'],['Soul Sand','#513E32','nether'],['Soul Soil','#4C3A2F','nether'],
+ ['Glowstone','#AB8654','nether'],['Shroomlight','#F19347','nether'],['Nether Wart Block','#720B0B','nether'],['Warped Wart Block','#167779','nether'],
+ ['Crimson Planks','#653147','nether'],['Warped Planks','#2B6963','nether'],['Block of Quartz','#ECE6DF','nether'],
+ ['End Stone','#DBDE9E','end'],['End Stone Bricks','#DAE0A2','end'],['Purpur Block','#A97DA9','end'],
+ ['Prismarine','#639C97','ocean'],['Prismarine Bricks','#63AB9E','ocean'],['Dark Prismarine','#335B4B','ocean'],['Sea Lantern','#ACC8BE','ocean'],
+ ['Block of Iron','#DCDCDC','mineral'],['Block of Gold','#F6D03D','mineral'],['Block of Diamond','#62EDE4','mineral'],['Block of Emerald','#2ACB57','mineral'],
+ ['Block of Lapis Lazuli','#1F438C','mineral'],['Block of Redstone','#AF1805','mineral'],['Block of Coal','#101010','mineral'],['Block of Copper','#C06C50','mineral'],
+ ['Exposed Copper','#A17E68','mineral'],['Weathered Copper','#6C9F6B','mineral'],['Oxidized Copper','#52A385','mineral'],['Block of Amethyst','#8562BF','mineral'],
+ ['Block of Raw Iron','#A6876B','mineral'],['Block of Raw Gold','#DDA92E','mineral'],['Block of Raw Copper','#9A6A4F','mineral'],['Block of Netherite','#423D3F','mineral']
+];
+window.CS_MAPCOLORS = [
+ // [id, name, r, g, b, block, group, since]
+ [1,'GRASS',127,178,56,'Grass Block','common','1.0'],[2,'SAND',247,233,163,'Birch Planks','common','1.0'],[3,'WOOL',199,199,199,'Mushroom Stem','common','1.0'],
+ [4,'FIRE',255,0,0,'Block of Redstone','common','1.0'],[5,'ICE',160,160,255,'Packed Ice','common','1.0'],[6,'METAL',167,167,167,'Block of Iron','expensive','1.0'],
+ [7,'PLANT',0,124,0,'Oak Leaves','plant','1.0'],[8,'SNOW',255,255,255,'White Carpet','carpet','1.0'],[9,'CLAY',164,168,184,'Clay','common','1.0'],
+ [10,'DIRT',151,109,77,'Dirt','common','1.0'],[11,'STONE',112,112,112,'Cobblestone','common','1.0'],[13,'WOOD',143,119,72,'Oak Planks','common','1.0'],
+ [14,'QUARTZ',255,252,245,'Diorite','common','1.0'],[15,'COLOR_ORANGE',216,127,51,'Orange Carpet','carpet','1.0'],[16,'COLOR_MAGENTA',178,76,216,'Magenta Carpet','carpet','1.0'],
+ [17,'COLOR_LIGHT_BLUE',102,153,216,'Light Blue Carpet','carpet','1.0'],[18,'COLOR_YELLOW',229,229,51,'Yellow Carpet','carpet','1.0'],[19,'COLOR_LIGHT_GREEN',127,204,25,'Lime Carpet','carpet','1.0'],
+ [20,'COLOR_PINK',242,127,165,'Pink Carpet','carpet','1.0'],[21,'COLOR_GRAY',76,76,76,'Gray Carpet','carpet','1.0'],[22,'COLOR_LIGHT_GRAY',153,153,153,'Light Gray Carpet','carpet','1.0'],
+ [23,'COLOR_CYAN',76,127,153,'Cyan Carpet','carpet','1.0'],[24,'COLOR_PURPLE',127,63,178,'Purple Carpet','carpet','1.0'],[25,'COLOR_BLUE',51,76,178,'Blue Carpet','carpet','1.0'],
+ [26,'COLOR_BROWN',102,76,51,'Brown Carpet','carpet','1.0'],[27,'COLOR_GREEN',102,127,51,'Green Carpet','carpet','1.0'],[28,'COLOR_RED',153,51,51,'Red Carpet','carpet','1.0'],
+ [29,'COLOR_BLACK',25,25,25,'Black Carpet','carpet','1.0'],[30,'GOLD',250,238,77,'Block of Gold','expensive','1.0'],[31,'DIAMOND',92,219,213,'Prismarine Bricks','common','1.0'],
+ [32,'LAPIS',74,128,255,'Block of Lapis Lazuli','expensive','1.0'],[33,'EMERALD',0,217,58,'Block of Emerald','expensive','1.0'],[34,'PODZOL',129,86,49,'Spruce Planks','common','1.0'],
+ [35,'NETHER',112,2,0,'Netherrack','common','1.0'],
+ [36,'TERRACOTTA_WHITE',209,177,161,'White Terracotta','terracotta','1.12'],[37,'TERRACOTTA_ORANGE',159,82,36,'Orange Terracotta','terracotta','1.12'],
+ [38,'TERRACOTTA_MAGENTA',149,87,108,'Magenta Terracotta','terracotta','1.12'],[39,'TERRACOTTA_LIGHT_BLUE',112,108,138,'Light Blue Terracotta','terracotta','1.12'],
+ [40,'TERRACOTTA_YELLOW',186,133,36,'Yellow Terracotta','terracotta','1.12'],[41,'TERRACOTTA_LIGHT_GREEN',103,117,53,'Lime Terracotta','terracotta','1.12'],
+ [42,'TERRACOTTA_PINK',160,77,78,'Pink Terracotta','terracotta','1.12'],[43,'TERRACOTTA_GRAY',57,41,35,'Gray Terracotta','terracotta','1.12'],
+ [44,'TERRACOTTA_LIGHT_GRAY',135,107,98,'Light Gray Terracotta','terracotta','1.12'],[45,'TERRACOTTA_CYAN',87,92,92,'Cyan Terracotta','terracotta','1.12'],
+ [46,'TERRACOTTA_PURPLE',122,73,88,'Purple Terracotta','terracotta','1.12'],[47,'TERRACOTTA_BLUE',76,62,92,'Blue Terracotta','terracotta','1.12'],
+ [48,'TERRACOTTA_BROWN',76,50,35,'Brown Terracotta','terracotta','1.12'],[49,'TERRACOTTA_GREEN',76,82,42,'Green Terracotta','terracotta','1.12'],
+ [50,'TERRACOTTA_RED',142,60,46,'Red Terracotta','terracotta','1.12'],[51,'TERRACOTTA_BLACK',37,22,16,'Black Terracotta','terracotta','1.12'],
+ [52,'CRIMSON_NYLIUM',189,48,49,'Crimson Nylium','nether','1.16'],[53,'CRIMSON_STEM',148,63,97,'Crimson Planks','nether','1.16'],[54,'CRIMSON_HYPHAE',92,25,29,'Crimson Hyphae','nether','1.16'],
+ [55,'WARPED_NYLIUM',22,126,134,'Warped Nylium','nether','1.16'],[56,'WARPED_STEM',58,142,140,'Warped Planks','nether','1.16'],[57,'WARPED_HYPHAE',86,44,62,'Warped Hyphae','nether','1.16'],
+ [58,'WARPED_WART_BLOCK',20,180,133,'Warped Wart Block','nether','1.16'],[59,'DEEPSLATE',100,100,100,'Cobbled Deepslate','common','1.17'],
+ [60,'RAW_IRON',216,175,147,'Block of Raw Iron','common','1.17'],[61,'GLOW_LICHEN',127,167,150,'Glow Lichen','plant','1.17']
+];

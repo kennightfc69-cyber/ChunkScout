@@ -254,3 +254,23 @@ table.mini tr.hl td{color:var(--accent)}
 .chunk16{display:grid;grid-template-columns:repeat(16,1fr);gap:1px;background:#0b0f0d;padding:1px;border-radius:6px;max-width:340px;margin:10px auto 0}
 .chunk16 i{aspect-ratio:1;background:#1a231f}.chunk16 i.on{background:var(--warn)}.chunk16 i.ax{background:#22302a}
 .layer-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted);margin-top:8px}.layer-legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+
+/* ---------- 3D voxel tools ---------- */
+.v3wrap{position:relative;margin-top:10px}
+.v3d{display:block;width:100%;height:min(58vh,460px);background:radial-gradient(circle at 50% 40%,#18221d,#0b0f0d 75%);border:1px solid var(--line);border-radius:8px;cursor:grab}
+.v3d:active{cursor:grabbing}.v3d:focus-visible{outline:2px solid var(--accent)}
+.busy{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(14,19,17,.92);border:1px solid var(--line2);border-radius:9px;padding:9px 14px;font:600 13px var(--font);color:var(--accent)}
+.busy::before{content:"";display:inline-block;width:10px;height:10px;margin-right:8px;background:var(--accent);animation:blk 0.9s steps(2) infinite}
+@keyframes blk{50%{opacity:.2}}
+.lywrap{overflow:auto;max-height:70vh;display:flex;justify-content:center;align-items:flex-start;background:#0c100e;border:1px solid var(--line);border-radius:8px;padding:4px;margin-top:8px}
+.lywrap canvas{display:block}
+.page input[type=range]{accent-color:var(--accent2);border:0;background:transparent}
+.swatches{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.sw{display:flex;flex-direction:column;align-items:center;gap:4px;width:86px;font-size:11.5px;color:var(--muted);text-align:center;line-height:1.25}
+.sw i{width:56px;height:56px;border-radius:6px;border:1px solid rgba(255,255,255,.12);box-shadow:inset -4px -4px 0 rgba(0,0,0,.18),inset 4px 4px 0 rgba(255,255,255,.08)}
+.sw b{color:var(--text);font-weight:600}
+.drop{border:2px dashed var(--line2);border-radius:10px;padding:22px;text-align:center;color:var(--muted);cursor:pointer}
+.drop.over,.drop:hover{border-color:var(--accent2);color:var(--text)}
+.mapview{overflow:auto;max-height:75vh;background:#0c100e;border:1px solid var(--line);border-radius:8px;display:flex;justify-content:center;align-items:flex-start;padding:6px}
+.mapview canvas{image-rendering:pixelated;display:block}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px}.kv span:nth-child(odd){color:var(--muted)}
