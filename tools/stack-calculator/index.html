@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Stack Calculator – Stacks, Shulker Boxes &amp; Chests | ChunkScout</title>
+<meta name="description" content="Convert any Minecraft item count into stacks, leftover items, shulker boxes and double chests. Supports 64, 16 and unstackable items, plus a reverse calculator.">
+<link rel="canonical" href="https://chunkscout.com/tools/stack-calculator/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Minecraft Stack Calculator – Stacks, Shulker Boxes &amp; Chests | ChunkScout"><meta property="og:description" content="Convert any Minecraft item count into stacks, leftover items, shulker boxes and double chests. Supports 64, 16 and unstackable items, plus a reverse calculator.">
+<meta property="og:url" content="https://chunkscout.com/tools/stack-calculator/"><meta property="og:image" content="https://chunkscout.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Stack Calculator"}]}</script>
+</head>
+<body class="page" data-tool="stack-calculator">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/">Tools</a><a href="/about/">About</a></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Stack Calculator</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#chest"/></svg><div><h1>Stack Calculator</h1><p>Work out how many stacks, shulker boxes and double chests you need for any number of items.</p></div><button class="favbtn" type="button" data-fav="stack-calculator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="tool">
+<div class="card">
+  <h2 style="font-size:17px;margin:0 0 4px">Item count</h2>
+  <label for="stN">How many items?</label><input id="stN" type="text" inputmode="numeric" value="10000" autocomplete="off" aria-describedby="stHelp">
+  <p class="note" id="stHelp">Commas are fine, and you can type sums like <code>3*1728 + 50</code>.</p>
+  <label>Stack size</label>
+  <div class="seg" id="stS" role="group" aria-label="Stack size"><button type="button" data-s="64" class="on" aria-pressed="true">64</button><button type="button" data-s="16" aria-pressed="false">16</button><button type="button" data-s="1" aria-pressed="false">1 (unstackable)</button></div>
+  <p class="note" id="stEx"></p>
+  <h2 style="font-size:17px;margin:22px 0 4px">Reverse: stacks → items</h2>
+  <div class="row"><div><label for="rvB">Shulker boxes</label><input id="rvB" type="number" min="0" value="0"></div><div><label for="rvS">Stacks</label><input id="rvS" type="number" min="0" value="3"></div><div><label for="rvI">Items</label><input id="rvI" type="number" min="0" value="12"></div></div>
+  <div class="out" id="rvOut"></div>
+</div>
+<div class="card" aria-live="polite">
+  <div class="stats">
+    <div class="stat hl"><b id="oStacks">0</b><span>full stacks</span></div><div class="stat hl"><b id="oRem">0</b><span>items left over</span></div>
+    <div class="stat"><b id="oSlots">0</b><span>inventory slots</span></div><div class="stat"><b id="oShulk">0</b><span>shulker boxes</span></div>
+    <div class="stat"><b id="oDC">0</b><span>double chests</span></div><div class="stat"><b id="oDCS">0</b><span>double chests of full shulker boxes</span></div>
+  </div>
+  <div class="out" id="stOut"></div>
+  <label>Last shulker box</label>
+  <div class="slots" id="stSlots" aria-hidden="true"></div>
+  <div class="copyrow"><button type="button" data-copy="stOut">Copy breakdown</button></div>
+</div>
+</div>
+<div class="meta-line"><span>Java &amp; Bedrock · all current versions</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol><li><a href="#sizes">Stack sizes in Minecraft</a></li><li><a href="#storage">How much each container holds</a></li><li><a href="#math">How the calculator works</a></li><li><a href="#faq">FAQ</a></li></ol></nav>
+<article class="prose">
+<h2 id="sizes">Stack sizes in Minecraft</h2>
+<p>Most blocks and items stack to 64. A smaller group stacks to 16, and anything with durability, contents or special data doesn’t stack at all.</p>
+<table><thead><tr><th>Stack size</th><th>Examples</th></tr></thead><tbody>
+<tr><td>64</td><td>Most blocks, ingots, food, arrows, redstone dust, seeds</td></tr>
+<tr><td>16</td><td>Ender pearls, snowballs, eggs, signs, empty buckets, banners, honey bottles, armor stands</td></tr>
+<tr><td>1</td><td>Tools, weapons, armor, potions, beds, boats, minecarts, totems, filled buckets, enchanted books, shulker boxes</td></tr></tbody></table>
+<h2 id="storage">How much each container holds</h2>
+<table><thead><tr><th>Container</th><th>Slots</th><th>Items at 64</th><th>Items at 16</th></tr></thead><tbody>
+<tr><td>Player inventory (not counting armor/offhand)</td><td>36</td><td>2,304</td><td>576</td></tr>
+<tr><td>Chest, barrel or shulker box</td><td>27</td><td>1,728</td><td>432</td></tr>
+<tr><td>Double chest</td><td>54</td><td>3,456</td><td>864</td></tr>
+<tr><td>Double chest full of full shulker boxes</td><td>54 × 27</td><td>93,312</td><td>23,328</td></tr></tbody></table>
+<h2 id="math">How the calculator works</h2>
+<div class="formula">full stacks = floor(items ÷ stack size)<br>left over   = items mod stack size<br>slots       = ceil(items ÷ stack size)<br>shulkers    = ceil(slots ÷ 27)<br>double chests = ceil(slots ÷ 54)</div>
+<p>A partly-filled stack still takes up a whole slot, which is why slots are rounded up.</p>
+<h2 id="faq">FAQ</h2>
+<details class="faq"><summary>How many items are in a shulker box?</summary><p>27 stacks. That’s 1,728 items for 64-stackables or 432 for 16-stackables.</p></details>
+<details class="faq"><summary>Can I put a shulker box inside a shulker box?</summary><p>No. Shulker boxes can’t hold other shulker boxes, but chests, barrels and your ender chest can.</p></details>
+<details class="faq"><summary>Is this the same on Bedrock?</summary><p>Yes. Stack sizes and container sizes match between Java and Bedrock for the items listed here.</p></details>
+</article>
+<section class="related"><h2>Related tools</h2><div class="cards"><a class="tcard" href="/tools/circle-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#circle"/></svg><span><b>Circle Generator</b><small>Block-by-block circle and oval templates with a row guide and a downloadable blueprint image.</small><span class="cat">Building</span></span><button class="fav" type="button" data-fav="circle-generator" aria-pressed="false" aria-label="Favorite Circle Generator">☆</button></a><a class="tcard" href="/tools/server-ram-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#ram"/></svg><span><b>Server RAM Calculator</b><small>A rough starting point for how much memory a Minecraft server needs.</small><span class="cat">Server</span></span><button class="fav" type="button" data-fav="server-ram-calculator" aria-pressed="false" aria-label="Favorite Server RAM Calculator">☆</button></a><a class="tcard" href="/seed-map/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#map"/></svg><span><b>Seed Map</b><small>Biomes, structures, slime chunks and strongholds for any Java or Bedrock seed, with /locate-style search.</small><span class="cat">World</span></span><button class="fav" type="button" data-fav="seed-map" aria-pressed="false" aria-label="Favorite Seed Map">☆</button></a></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/data.js" defer></script>
+<script src="/assets/site.js" defer></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id),f=n=>n.toLocaleString('en-US');let size=64;
+const EX={64:'Most blocks, ingots and food.',16:'Ender pearls, snowballs, eggs, signs, buckets, banners.',1:'Tools, armor, potions, beds, boats.'};
+function parse(s){s=String(s).replace(/,/g,'').replace(/\s+/g,'');if(!s)return 0;if(!/^[\d+\-*/().]+$/.test(s))return NaN;
+  let i=0;const num=()=>{if(s[i]==='('){i++;const v=add();i++;return v;}const m=/^\d+(\.\d+)?/.exec(s.slice(i));if(!m)throw 0;i+=m[0].length;return +m[0];};
+  const mul=()=>{let v=num();while(s[i]==='*'||s[i]==='/'){const o=s[i++],r=num();v=o==='*'?v*r:v/r;}return v;};
+  const add=()=>{let v=mul();while(s[i]==='+'||s[i]==='-'){const o=s[i++],r=mul();v=o==='+'?v+r:v-r;}return v;};
+  try{const v=add();return i===s.length?v:NaN;}catch(e){return NaN;}}
+function calc(){const raw=parse($('stN').value),n=Math.floor(raw);$('stEx').textContent='Stack size '+size+': '+EX[size];
+  if(!isFinite(raw)||n<0){$('stOut').textContent='Enter a whole number of items (0 or more).';return;}
+  if(n>1e12){$('stOut').textContent='That number is too large to be useful.';return;}
+  const st=Math.floor(n/size),rem=n%size,slots=Math.ceil(n/size),sh=Math.ceil(slots/27),dc=Math.ceil(slots/54),dcs=Math.ceil(sh/54);
+  $('oStacks').textContent=f(st);$('oRem').textContent=f(rem);$('oSlots').textContent=f(slots);$('oShulk').textContent=f(sh);$('oDC').textContent=f(dc);$('oDCS').textContent=f(dcs);
+  const fullSh=Math.floor(slots/27),lastSlots=slots-fullSh*27;
+  $('stOut').textContent=`${f(n)} items (stack size ${size})\n= ${f(st)} stack${st===1?'':'s'}${rem?` + ${f(rem)}`:''}\n= ${f(fullSh)} full shulker box${fullSh===1?'':'es'}${lastSlots?` + ${lastSlots} slot${lastSlots===1?'':'s'}`:''}\nNeeds ${f(sh)} shulker box${sh===1?'':'es'} or ${f(dc)} double chest${dc===1?'':'s'}`;
+  const show=slots===0?0:(lastSlots||27);let h='';for(let k=0;k<27;k++){h+=k>=show?'<i></i>':(k===show-1&&rem)?`<i class="p" style="--h:${Math.max(8,rem/size*100)}%"></i>`:'<i class="f"></i>';}$('stSlots').innerHTML=h;}
+function rev(){const B=+$('rvB').value||0,S=+$('rvS').value||0,I=+$('rvI').value||0,t=B*27*size+S*size+I;$('rvOut').textContent=`${f(B)} box${B===1?'':'es'} + ${f(S)} stack${S===1?'':'s'} + ${f(I)} = ${f(t)} items (stack size ${size})`;}
+document.querySelectorAll('#stS button').forEach(b=>b.onclick=()=>{size=+b.dataset.s;document.querySelectorAll('#stS button').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b);});calc();rev();});
+$('stN').addEventListener('input',calc);['rvB','rvS','rvI'].forEach(i=>$(i).addEventListener('input',rev));calc();rev();})();
+});</script>
+</body>
+</html>

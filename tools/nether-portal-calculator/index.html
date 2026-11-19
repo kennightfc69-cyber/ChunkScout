@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nether Portal Calculator – Overworld ↔ Nether Coordinates | ChunkScout</title>
+<meta name="description" content="Convert Minecraft Overworld coordinates to Nether coordinates (and back) with the 8:1 ratio. Handles negative numbers, gives a copyable /tp command and explains portal linking.">
+<link rel="canonical" href="https://chunkscout.com/tools/nether-portal-calculator/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Nether Portal Calculator – Overworld ↔ Nether Coordinates | ChunkScout"><meta property="og:description" content="Convert Minecraft Overworld coordinates to Nether coordinates (and back) with the 8:1 ratio. Handles negative numbers, gives a copyable /tp command and explains portal linking.">
+<meta property="og:url" content="https://chunkscout.com/tools/nether-portal-calculator/"><meta property="og:image" content="https://chunkscout.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Nether Portal Calculator"}]}</script>
+</head>
+<body class="page" data-tool="nether-portal-calculator">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/">Tools</a><a href="/about/">About</a></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Nether Portal Calculator</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#portal"/></svg><div><h1>Nether Portal Calculator</h1><p>Convert coordinates between the Overworld and the Nether so your portals link to each other.</p></div><button class="favbtn" type="button" data-fav="nether-portal-calculator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="tool">
+<div class="card">
+  <h2 style="font-size:17px;margin:0 0 10px">Your portal coordinates</h2>
+  <div class="seg" id="npDir" role="group" aria-label="Direction"><button type="button" data-d="o2n" class="on" aria-pressed="true">Overworld → Nether</button><button type="button" data-d="n2o" aria-pressed="false">Nether → Overworld</button></div>
+  <div class="row"><div><label for="npX">X</label><input id="npX" type="number" inputmode="numeric" value="800"></div><div><label for="npY">Y</label><input id="npY" type="number" inputmode="numeric" value="64"></div><div><label for="npZ">Z</label><input id="npZ" type="number" inputmode="numeric" value="-1200"></div></div>
+  <p class="note">Negative numbers work. Press F3 (Java) or turn on “Show Coordinates” (Bedrock) to read your position.</p>
+</div>
+<div class="card" aria-live="polite">
+  <h2 style="font-size:17px;margin:0" id="npHead">Build your Nether portal at</h2>
+  <div class="stats" style="margin-top:12px"><div class="stat hl"><b id="npRX">0</b><span>X</span></div><div class="stat hl"><b id="npRY">0</b><span>Y</span></div><div class="stat hl"><b id="npRZ">0</b><span>Z</span></div></div>
+  <div class="out" id="npOut"></div>
+  <label for="npCoords">Coordinates</label><input id="npCoords" readonly>
+  <label for="npCmd">Teleport command (creative / cheats on)</label><input id="npCmd" readonly>
+  <div class="copyrow"><a class="btn" id="npMap" href="/seed-map/">Show on seed map</a><button type="button" data-copy="npCmd">Copy command</button><button type="button" class="primary" data-copy="npCoords">Copy coordinates</button></div>
+</div>
+</div>
+<div class="meta-line"><span>Java &amp; Bedrock · all current versions</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<nav class="toc" aria-label="On this page"><b>On this page</b><ol>
+<li><a href="#how-it-works">How Nether portal coordinates work</a></li><li><a href="#link">How to link two portals</a></li><li><a href="#negative">Negative coordinates</a></li><li><a href="#problems">Why a portal links to the wrong place</a></li><li><a href="#faq">FAQ</a></li></ol></nav>
+<article class="prose">
+<h2 id="how-it-works">How Nether portal coordinates work</h2>
+<p>Every block you walk in the Nether counts as 8 blocks in the Overworld, but only on the horizontal X and Z axes. That’s why the Nether is so useful for fast travel: a 1,000-block trip in the Overworld is only 125 blocks in the Nether.</p>
+<div class="formula">Overworld → Nether:  X ÷ 8,  Z ÷ 8,  Y unchanged<br>Nether → Overworld:  X × 8,  Z × 8,  Y unchanged</div>
+<p>Height (Y) is not scaled. The calculator keeps Y between 8 and 122 for Nether portals so the portal fits under the Nether’s bedrock ceiling.</p>
+<h2 id="link">How to link two portals reliably</h2>
+<ol><li>Stand where your Overworld portal is (or will be) and note its X, Y and Z.</li>
+<li>Enter those numbers above with <b>Overworld → Nether</b> selected.</li>
+<li>Travel through the portal, then build a new portal frame at exactly the calculated Nether coordinates, even if the game already generated one nearby.</li>
+<li>Walk through both portals once in each direction to check they link to each other.</li></ol>
+<p>Building at the exact converted spot matters because when you go through a portal, the game looks for the nearest existing portal around the converted position and only creates a new one if it can’t find any.</p>
+<h2 id="negative">Negative coordinates</h2>
+<p>Minecraft rounds block positions down, toward negative infinity, not toward zero. So Overworld X = −100 becomes −100 ÷ 8 = −12.5, which is block <b>−13</b> in the Nether, not −12. The calculator does this for you.</p>
+<table><thead><tr><th>Overworld</th><th>÷ 8</th><th>Nether block</th></tr></thead><tbody>
+<tr><td>800</td><td>100</td><td>100</td></tr><tr><td>−100</td><td>−12.5</td><td>−13</td></tr><tr><td>1,234</td><td>154.25</td><td>154</td></tr><tr><td>−8</td><td>−1</td><td>−1</td></tr></tbody></table>
+<h2 id="problems">Why a portal links to the wrong place</h2>
+<ul><li><b>Two portals are close together in one dimension.</b> In Java Edition the game searches roughly 128 blocks around the target in the Overworld and about 16 blocks in the Nether, so two Overworld portals less than ~128 blocks apart can end up sharing one Nether portal.</li>
+<li><b>The Nether portal wasn’t built at the exact coordinates.</b> Rebuild it at the calculated spot and break the auto-generated one if it’s in the way.</li>
+<li><b>Bedrock Edition</b> uses a similar but not identical search, so stay within a few blocks of the exact numbers on Bedrock.</li></ul>
+<h2 id="faq">FAQ</h2>
+<details class="faq"><summary>Does the Y level need to match?</summary><p>No. Y isn’t scaled, and the portal search covers the full height of the world, so you can put the Nether portal at any safe height. Keeping a similar Y just makes it easier to find.</p></details>
+<details class="faq"><summary>Does this work for Bedrock and Java?</summary><p>Yes. The 8:1 ratio is the same in both editions.</p></details>
+<details class="faq"><summary>How do I get to the End or back from the End?</summary><p>End portals don’t use coordinate conversion. Leaving the End sends you to your spawn point.</p></details>
+</article>
+<section class="related"><h2>Related tools</h2><div class="cards"><a class="tcard" href="/seed-map/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#map"/></svg><span><b>Seed Map</b><small>Biomes, structures, slime chunks and strongholds for any Java or Bedrock seed, with /locate-style search.</small><span class="cat">World</span></span><button class="fav" type="button" data-fav="seed-map" aria-pressed="false" aria-label="Favorite Seed Map">☆</button></a><a class="tcard" href="/tools/direction-finder/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#compass"/></svg><span><b>Direction Finder</b><small>Work out which way you are heading on the X and Z axes and how to reach a destination.</small><span class="cat">Navigation</span></span><button class="fav" type="button" data-fav="direction-finder" aria-pressed="false" aria-label="Favorite Direction Finder">☆</button></a><a class="tcard" href="/tools/chunk-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#chunk"/></svg><span><b>Chunk &amp; Slime Chunk Calculator</b><small>Find which chunk and region file a block is in, and check slime chunks for a seed.</small><span class="cat">World</span></span><button class="fav" type="button" data-fav="chunk-calculator" aria-pressed="false" aria-label="Favorite Chunk &amp; Slime Chunk Calculator">☆</button></a></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/data.js" defer></script>
+<script src="/assets/site.js" defer></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id);let dir='o2n';
+function np(){const x=parseFloat($('npX').value),y=parseFloat($('npY').value),z=parseFloat($('npZ').value),o=dir==='o2n';
+  if(isNaN(x)||isNaN(z)){$('npOut').textContent='Enter X and Z to see the result.';['npRX','npRY','npRZ'].forEach(i=>$(i).textContent='–');$('npCmd').value=$('npCoords').value='';return;}
+  const nx=Math.floor(o?x/8:x*8),nz=Math.floor(o?z/8:z*8),ny=isNaN(y)?64:Math.min(o?122:319,Math.max(o?8:-60,Math.round(y)));
+  $('npRX').textContent=nx;$('npRY').textContent=ny;$('npRZ').textContent=nz;$('npHead').textContent=`Build your ${o?'Nether':'Overworld'} portal at`;
+  $('npOut').textContent=o?`${x} ÷ 8 = ${(x/8).toFixed(3).replace(/\.?0+$/,'')} → ${nx}\n${z} ÷ 8 = ${(z/8).toFixed(3).replace(/\.?0+$/,'')} → ${nz}\nThis Nether block covers Overworld X ${nx*8} to ${nx*8+7}, Z ${nz*8} to ${nz*8+7}.`
+    :`${x} × 8 = ${nx}\n${z} × 8 = ${nz}`;
+  $('npCoords').value=`${nx} ${ny} ${nz}`;$('npCmd').value=`/execute in minecraft:${o?'the_nether':'overworld'} run tp @s ${nx} ${ny} ${nz}`;
+  const ox=o?Math.floor(x):nx,oz=o?Math.floor(z):nz;$('npMap').href=`/seed-map/#goto=${ox},${oz}`;}
+document.querySelectorAll('#npDir button').forEach(b=>b.onclick=()=>{dir=b.dataset.d;document.querySelectorAll('#npDir button').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b);});np();});
+['npX','npY','npZ'].forEach(id=>$(id).addEventListener('input',np));np();})();
+});</script>
+</body>
+</html>

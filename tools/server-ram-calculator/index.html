@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Server RAM Calculator – How Much Memory? | ChunkScout</title>
+<meta name="description" content="Estimate how much RAM a Minecraft server needs based on players, plugins or mods, server type and view distance. A clearly labeled starting point.">
+<link rel="canonical" href="https://chunkscout.com/tools/server-ram-calculator/">
+<meta name="theme-color" content="#0e1311">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
+<meta property="og:title" content="Minecraft Server RAM Calculator – How Much Memory? | ChunkScout"><meta property="og:description" content="Estimate how much RAM a Minecraft server needs based on players, plugins or mods, server type and view distance. A clearly labeled starting point.">
+<meta property="og:url" content="https://chunkscout.com/tools/server-ram-calculator/"><meta property="og:image" content="https://chunkscout.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Server RAM Calculator"}]}</script>
+</head>
+<body class="page" data-tool="server-ram-calculator">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="sh-in">
+  <a class="brand" href="/" aria-label="ChunkScout home"><span class="logo" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i></span>ChunkScout</a>
+  <nav class="site-nav" id="site-nav" aria-label="Main"><a href="/seed-map/">Seed Map</a><a href="/tools/">Tools</a><a href="/about/">About</a></nav>
+  <button class="sh-search" type="button" data-search-open aria-label="Search ChunkScout (press /)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Search tools…</span><kbd>/</kbd></button>
+  <button class="sh-menu" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/tools/">Tools</a></li><li aria-current="page">Server RAM Calculator</li></ol></nav>
+<div class="thead"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#ram"/></svg><div><h1>Server RAM Calculator</h1><p>A rough starting point for how much memory your server needs. Watch real usage and adjust.</p></div><button class="favbtn" type="button" data-fav="server-ram-calculator" aria-pressed="false">☆ Add to favorites</button></div>
+<div class="card" style="max-width:760px">
+<div class="row"><div><label for="rmP">Players online at once</label><input id="rmP" type="number" min="1" value="10"></div><div><label for="rmM">Plugins / mods</label><input id="rmM" type="number" min="0" value="15"></div></div>
+<div class="row"><div><label for="rmT">Server type</label><select id="rmT"><option value="paper">Paper / Spigot / Vanilla</option><option value="mod">Modded (Fabric / Forge)</option><option value="pack">Large modpack</option></select></div><div><label for="rmV">View distance (chunks)</label><input id="rmV" type="number" min="2" max="32" value="10"></div></div>
+<div class="stats" style="margin-top:14px"><div class="stat hl"><b id="rmRec">–</b><span>recommended</span></div><div class="stat"><b id="rmCom">–</b><span>with room to grow</span></div></div>
+<div class="out" id="rmOut" aria-live="polite"></div></div>
+<div class="meta-line"><span>Java Edition servers</span><span>Last updated <time datetime="2026-11-19">2026-11-19</time></span><span>Runs in your browser</span></div>
+<article class="prose"><h2>How this estimate works</h2>
+<p>This is a rule-of-thumb starting point, not a measurement. It starts from a base amount for the server type, then adds memory per player (scaled by view distance, since each player keeps chunks loaded) and per plugin or mod.</p>
+<div class="formula">base (Paper 1.5 GB · modded 3 GB · large pack 5 GB)<br>+ players × (0.06–0.1 GB) × view distance ÷ 10<br>+ plugins/mods × (0.02–0.04 GB)</div>
+<p>Real usage depends heavily on farms, entities, world size and specific mods. Start with the recommendation, watch memory with a tool like <code>spark</code>, and adjust. More RAM isn’t always better: very large heaps can cause longer garbage-collection pauses.</p></article>
+<section class="related"><h2>Related tools</h2><div class="cards"><a class="tcard" href="/tools/server-start-script-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#term"/></svg><span><b>Server Start Script Generator</b><small>Create a start.bat or start.sh with Aikar’s flags, the right RAM and optional auto-restart.</small><span class="cat">Server</span></span><button class="fav" type="button" data-fav="server-start-script-generator" aria-pressed="false" aria-label="Favorite Server Start Script Generator">☆</button></a><a class="tcard" href="/tools/color-text-generator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#color"/></svg><span><b>Color Code &amp; Gradient Generator</b><small>Preview &amp; and § formatting codes, build hex gradients and copy them for chat, MOTDs and signs.</small><span class="cat">Text</span></span><button class="fav" type="button" data-fav="color-text-generator" aria-pressed="false" aria-label="Favorite Color Code &amp; Gradient Generator">☆</button></a><a class="tcard" href="/tools/chunk-calculator/"><svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg#chunk"/></svg><span><b>Chunk &amp; Slime Chunk Calculator</b><small>Find which chunk and region file a block is in, and check slime chunks for a seed.</small><span class="cat">World</span></span><button class="fav" type="button" data-fav="chunk-calculator" aria-pressed="false" aria-label="Favorite Chunk &amp; Slime Chunk Calculator">☆</button></a></div></section>
+</div>
+</main>
+<footer class="site-footer" data-footer></footer>
+<script src="/assets/data.js" defer></script>
+<script src="/assets/site.js" defer></script>
+<script>addEventListener('DOMContentLoaded',()=>{
+(()=>{const $=id=>document.getElementById(id);
+function ram(){const p=Math.max(1,+$('rmP').value||1),m=Math.max(0,+$('rmM').value||0),t=$('rmT').value,v=Math.max(2,+$('rmV').value||10);
+ const gb=(t==='paper'?1.5:t==='mod'?3:5)+p*(t==='paper'?0.06:0.1)*(v/10)+m*(t==='paper'?0.03:t==='mod'?0.04:0.02),rec=Math.max(2,Math.ceil(gb));
+ $('rmRec').textContent=rec+' GB';$('rmCom').textContent=(rec+2)+' GB';
+ $('rmOut').textContent=`Estimated need: ${gb.toFixed(1)} GB\nSet -Xms and -Xmx to ${rec}G, and leave 1–2 GB free for the operating system.\nThis is an estimate. Check real usage after a busy session.`;}
+['rmP','rmM','rmT','rmV'].forEach(id=>$(id).addEventListener('input',ram));ram();})();
+});</script>
+</body>
+</html>

@@ -1,8 +1,10 @@
-
 {
   "name": "chunkscout",
   "compatibility_date": "2026-11-10",
   "assets": {
-    "directory": "./"
+    "directory": "./",
+    // /tools/ serves tools/index.html, and unknown URLs show 404.html with a real 404 status
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
   }
 }
