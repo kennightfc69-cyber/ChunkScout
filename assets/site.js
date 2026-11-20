@@ -59,7 +59,7 @@ window.CS_CONFIG = {
   var tool = document.body.getAttribute('data-tool');
   if (tool && byId[tool]) { recent = [tool].concat(recent.filter(function (x) { return x !== tool && byId[x]; })).slice(0, 6); store.set('cs_recent', recent); }
 
-  function iconSVG(p) { return p.icon ? '<img class="ic tex" src="/assets/tex/icon/' + p.icon + '.png" alt="" width="16" height="16" loading="lazy" onerror="this.outerHTML=\'<svg class=&quot;ic&quot; viewBox=&quot;0 0 8 8&quot; aria-hidden=&quot;true&quot;><use href=&quot;/assets/icons.svg?v=26f9607a47#' + p.icon + '&quot;/></svg>\'">' : ''; }
+  function iconSVG(p) { return p.icon ? '<svg class="ic" viewBox="0 0 8 8" aria-hidden="true"><use href="/assets/icons.svg?v=26f9607a47#' + p.icon + '"/></svg>' : ''; }
   function card(p) {
     return '<div class="tcard">' + iconSVG(p) + '<span><b><a href="' + p.url + '">' + esc(p.title) + '</a></b><small>' + esc(p.desc) + '</small>' +
       '<span class="cat">' + esc(p.cat) + (p.isNew ? ' · <span class="new">New</span>' : '') + '</span></span>' +
@@ -173,8 +173,8 @@ window.CS_CONFIG = {
         return '<div><h2>Building</h2><ul>' + by(['Building']).map(li).join('') + '</ul></div>' +
           '<div><h2>Survival</h2><ul>' + by(['Survival']).map(li).join('') + '</ul></div>' +
           '<div><h2>Technical, player &amp; server</h2><ul>' + by(['Redstone & Technical', 'Player', 'Server']).map(li).join('') + '<li><a href="/tools/">All tools →</a></li></ul></div>'; })() +
-      '<div><h2>ChunkScout</h2><ul><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li><li><a href="/privacy/">Privacy Policy</a></li><li><a href="/terms/">Terms of Use</a></li><li><a href="/credits/">Credits &amp; licences</a></li><li><a href="/sitemap.xml">Sitemap</a></li></ul></div></div>' +
-      '<div class="sf-legal"><span>© ' + new Date().getFullYear() + ' ChunkScout. NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT. Textures: <a href="/credits/">Pixel Perfection CE</a> (CC BY-SA 4.0).</span>' +
+      '<div><h2>ChunkScout</h2><ul><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li><li><a href="/privacy/">Privacy Policy</a></li><li><a href="/terms/">Terms of Use</a></li><li><a href="/sitemap.xml">Sitemap</a></li></ul></div></div>' +
+      '<div class="sf-legal"><span>© ' + new Date().getFullYear() + ' ChunkScout. Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</span>' +
       (((window.CS_CONFIG || {}).ga4 || ((window.CS_ADS || {}).enabled && !(window.CS_ADS || {}).useGoogleConsent)) ? '<button type="button" data-consent-open>Cookie settings</button>' : '') + '</div>';
   }
 

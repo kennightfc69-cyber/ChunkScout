@@ -7,14 +7,14 @@
 <meta name="description" content="Free Minecraft seed map for Java and Bedrock: see biomes, villages, monuments, trial chambers, strongholds and slime chunks for any seed, and find the nearest structure.">
 <link rel="canonical" href="https://chunkscout.com/seed-map/">
 <meta name="theme-color" content="#0e1311">
-<link rel="icon" href="/assets/favicon-32.png?v=6d1d7027d9" sizes="32x32" type="image/png"><link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=dac030d547">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
 <meta property="og:title" content="Minecraft Seed Map – Biome &amp; Structure Finder for Java and Bedrock | ChunkScout"><meta property="og:description" content="Free Minecraft seed map for Java and Bedrock: see biomes, villages, monuments, trial chambers, strongholds and slime chunks for any seed, and find the nearest structure.">
 <meta property="og:url" content="https://chunkscout.com/seed-map/"><meta property="og:image" content="https://chunkscout.com/assets/og.png?v=793048b94b">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=cc0069b95e">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=75df8f258a">
 
 <style>
 :root{--bg:#0e1311;--panel:#151c19;--panel2:#1c2521;--line:#2a3631;--text:#e6efe9;--muted:#8fa39a;--accent:#7bdc6a;--accent2:#3fae5a;--warn:#f2c14e;--pin:#ff6b6b;--slime:#5fd35a}
@@ -205,7 +205,7 @@ canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}canvas
     <p class="note" id="covNote"></p>
     <p class="note"><b>Accuracy.</b> Positions are checked against Chunkbase on two seeds. A marker with a dashed yellow border and “?” means the game may not generate it there; this now only applies to a few Bedrock structures.</p>
   </section>
-  <section><p class="side-links"><a href="/tools/">All tools</a> · <a href="/tools/nether-portal-calculator/">Nether portal calculator</a> · <a href="/tools/chunk-calculator/">Chunk calculator</a><br><a href="/about/">About</a> · <a href="/contact/">Report a problem</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a><br>Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft. Textures: <a href="/credits/">Pixel Perfection CE</a> (CC BY-SA 4.0).</p></section>
+  <section><p class="side-links"><a href="/tools/">All tools</a> · <a href="/tools/nether-portal-calculator/">Nether portal calculator</a> · <a href="/tools/chunk-calculator/">Chunk calculator</a><br><a href="/about/">About</a> · <a href="/contact/">Report a problem</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a><br>Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p></section>
 </aside>
 <button class="more" id="more" aria-label="Scroll down for more options" title="More below"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l7 7 7-7"/></svg></button>
 </div>
@@ -463,7 +463,11 @@ function World(seed,VR){VR=VR||{};
   const legacy=sd=>{const r=JRand(sd),mk=()=>{new Improved(r);for(let k=0;k<5;k++)r.skip(262);const hi=new Improved(r),lo=new Improved(r);
       return (x,z)=>lo.noise(wrap(x/128),0,wrap(z/128))*(2/3)+hi.noise(wrap(x/64),0,wrap(z/64))*(1/3);};
     const a=mk(),b=mk();return (x,z)=>(a(x,z)+b(x*IF,z*IF))*(0.16666666666666666/0.15);};
-  function nether(bx,bz){if(!NT){const s64=BigInt.asIntN(64,seed);NT=legacy(s64);NV=legacy(s64+1n);}
+  // Bedrock Nether noise: Mersenne Twister seeded with the low 32 bits of the seed, no skipped octaves, amplitude 1.25
+  // (method from the MIT-licensed cubiomes "bedrock" branch by Reed Cartwright; verified 100% against Chunkbase)
+  const legacyBE=sd=>{const r=MTR(sd,0),oct=()=>{const a=new Improved(r),b=new Improved(r);return (x,z)=>a.noise(wrap(x/64),0,wrap(z/64))/3+b.noise(wrap(x/128),0,wrap(z/128))*2/3;};
+    const A=oct(),B=oct();return (x,z)=>(A(x,z)+B(x*IF,z*IF))*1.25;};
+  function nether(bx,bz){if(!NT){if(VR.bedrock){const lo=Number(BigInt.asUintN(32,BigInt(seed)));NT=legacyBE(lo);NV=legacyBE((lo+1)>>>0);}else{const s64=BigInt.asIntN(64,seed);NT=legacy(s64);NV=legacy(s64+1n);}}
     const x=bx*.25,z=bz*.25,t=qf(NT(x,z)),h=qf(NV(x,z));
     let best=Infinity,bb=0;for(const n of NETH){const d=(t-n[1])*(t-n[1])+(h-n[2])*(h-n[2])+n[3]*n[3];if(d<best){best=d;bb=n[0];}}return bb;}
   return {climate,biome,biomeY,surfY,nether,terrainTop};
@@ -593,6 +597,8 @@ function javaNether(c,key,rx,rz){const st=JN[key],[cx,cz]=regionChunk(c.seed,st,
 function javaEnd(c,key,rx,rz){const [cx,cz]=regionChunk(c.seed,JE.endcity,rx,rz),b=NAMES[c.end.biome(cx*16+8,cz*16+8)];
   if(b!=='end_highlands'&&b!=='end_midlands')return null;return c.end.cityOk(c.seed,cx,cz)>=60?[cx*16+8,cz*16+8,0]:null;}
 // ---------- Bedrock structures (MT19937 region placement) ----------
+// Bedrock-style Random: MT19937, nextInt(n)=next()%n, nextFloat=next()/2^32 as float
+function MTR(seed,skip){const r=MT(seed);for(let i=0;i<skip;i++)r();return {nextInt:n=>r()%n,nextDouble:()=>Math.fround(r()/4294967296),skip:k=>{for(let i=0;i<k;i++)r();}};}
 function MT(seed){const mt=new Uint32Array(624);mt[0]=seed>>>0;for(let i=1;i<624;i++){const p=mt[i-1]^(mt[i-1]>>>30);mt[i]=(Math.imul(1812433253,p)+i)>>>0;}let idx=624;
   return ()=>{if(idx>=624){for(let k=0;k<624;k++){const y=(mt[k]&0x80000000)|(mt[(k+1)%624]&0x7fffffff);mt[k]=(mt[(k+397)%624]^(y>>>1)^((y&1)?0x9908b0df:0))>>>0;}idx=0;}
     let y=mt[idx++];y^=y>>>11;y^=(y<<7)&0x9d2c5680;y^=(y<<15)&0xefc60000;y^=y>>>18;return y>>>0;};}
@@ -607,11 +613,11 @@ function bedrockAt(c,key,rx,rz){
   if(key==='trial'){const [cx,cz]=regionChunk(c.seed,ST.trial,rx,rz);return [cx*16+8,cz*16+8,0];}
   if(key==='trail')return structureAt(c.seed,c.world,'trail',rx,rz);
   if(c.dim==='end'){const st=BE.endcity,s32=Number(BigInt.asUintN(32,c.seed)),r=MT((st.salt+s32+Math.imul(-245998635,rz)+Math.imul(-1724254968,rx))>>>0),n=st.n2;
-    const cx=rx*st.sp+((r()%n+r()%n)>>1),cz=rz*st.sp+((r()%n+r()%n)>>1);if(cx*cx+cz*cz<=4096)return null;return [cx*16+8,cz*16+8,1];}
+    const cx=rx*st.sp+((r()%n+r()%n)>>1),cz=rz*st.sp+((r()%n+r()%n)>>1);if(cx*cx+cz*cz<=4096)return null;const bx=cx*16+8,bz=cz*16+8,b=c.end?NAMES[c.end.biome(bx,bz)]:'end_highlands';return b==='end_highlands'||b==='end_midlands'?[bx,bz,1]:null;}
   const st=(c.dim==='nether'?BN:BO)[key],s32=Number(BigInt.asUintN(32,c.seed)),r=MT((st.salt+s32+Math.imul(-245998635,rz)+Math.imul(-1724254968,rx))>>>0),n=st.n2;
   let ox,oz;if(st.tri){ox=(r()%n+r()%n)>>1;oz=(r()%n+r()%n)>>1;}else{ox=r()%n;oz=r()%n;}
   const bx=(rx*st.sp+ox)*16+8,bz=(rz*st.sp+oz)*16+8;
-  if(c.dim==='nether'){const fort=r()%6<2;return key==='fortress'?(fort?[bx,bz,0]:null):(fort?null:[bx,bz,1]);}
+  if(c.dim==='nether'){const fort=r()%6<2;if(key==='fortress')return fort?[bx,bz,0]:null;if(fort)return null;return NAMES[c.world.nether(bx&~3,bz&~3)]==='basalt_deltas'?null:[bx,bz,0];}
   const w=c.world,b=NAMES[w.biome(bx&~3,bz&~3)];
   switch(key){
     case 'village':{if(!BV.has(b))return null;const top=w.terrainTop(bx,bz); // rule fitted against Chunkbase
@@ -633,7 +639,7 @@ function tableFor(ed,dim){return ed==='java'?(dim==='nether'?JN:dim==='end'?JE:S
 function structAt(c,key,rx,rz){
   if(c.ed==='java')return c.dim==='nether'?javaNether(c,key,rx,rz):c.dim==='end'?javaEnd(c,key,rx,rz):structureAt(c.seed,c.world,key,rx,rz);
   return bedrockAt(c,key,rx,rz);}
-return {World,EndWorld,NAMES,ST,tableFor,structAt,structureAt,strongholds,snapStronghold,md5,JRand};
+return {MTR,World,EndWorld,NAMES,ST,tableFor,structAt,structureAt,strongholds,snapStronghold,md5,JRand};
 })();
 
 
@@ -709,14 +715,14 @@ function buildVer(){const keep=verN();$('ver').innerHTML=VERS[S.edition].map(v=>
 const stKeys=()=>[...Object.keys(TB()).filter(k=>verN()>=(VMIN[k]||0)),...(hasSH()?['stronghold']:[])];
 const STON={village:1,outpost:1,pyramid:1,jungle:1,hut:1,monument:1,mansion:1,city:1,trial:1,stronghold:1,fortress:1,bastion:1,endcity:1,igloo:0,portal:0,ship:0,trail:0};
 const stInfo=k=>k==='stronghold'?{n:'Stronghold',col:'#9fe07a'}:{n:(TB()[k]||WG.ST[k]||{n:k}).n,col:(WG.ST[k]||{}).col||'#e6efe9'};
-const hasBiomes=()=>S.edition==='java'||S.dim==='overworld';
+const hasBiomes=()=>true;
 const biomeAt=(x,z)=>S.dim==='nether'?world.nether(x&~3,z&~3):S.dim==='end'?endw.biome(x,z):world.biome(x&~3,z&~3);
 const key=(x,z)=>(x+2000000)*4000001+(z+2000000);
 function isSlime(x,z){const k=key(x,z);let v=cache.get(k);
   if(v===undefined){v=S.edition==='java'?javaSlime(S.seed,x,z):bedrockSlime(x,z);if(cache.size>600000)cache.clear();cache.set(k,v);}return v;}
 const java=()=>S.edition==='java';const ow=()=>S.dim==='overworld';
 function resetWorld(){S.focus=null;S.locO=null;cache=new Map();tiles=new Map();scache=new Map();S.farms=[];S.found=null;S.selS=null;$('sel').style.display='none';
-  world=WG.World(S.seed,verFlags());endw=java()&&S.dim==='end'?WG.EndWorld(S.seed):null;
+  world=WG.World(S.seed,Object.assign(verFlags(),{bedrock:!java()}));endw=S.dim!=='end'?null:java()?WG.EndWorld(S.seed):WG.EndWorld(S.seed,WG.MTR(Number(BigInt.asUintN(32,S.seed)),10360),true);
   ctxS={ed:S.edition,dim:S.dim,seed:S.seed,world,end:endw};sh=hasSH()?WG.strongholds(S.seed):[];shDone=[];renderFarms();$('locRes').innerHTML='';draw();shJob();}
 // strongholds: snap each ring position to the game's chosen biome spot, a few at a time
 function shJob(){const w=world;if(!w||!sh.length)return;const step=()=>{if(world!==w||shDone.length>=sh.length)return;
@@ -896,7 +902,7 @@ function setDim(d){S.dim=d;document.querySelectorAll('#dimSeg button').forEach(b
 function refreshMode(){
   const j=java(),d=S.dim;$('lyBiome').disabled=!hasBiomes();$('lySlime').disabled=!ow();
   $('covNote').innerHTML='<b>Showing:</b> '+(j?(d==='overworld'?'biomes, slime chunks and all structures. Temples and mansions are only shown where the terrain lets them generate.':d==='nether'?'Nether biomes, fortresses, bastions and ruined portals. Coordinates are Nether coordinates.':'End biomes and End Cities (only the ones the terrain lets generate).')
-    :(d==='overworld'?'biomes, slime chunks and structures. Strongholds and shipwrecks are left out on Bedrock because they could not be matched to Chunkbase. A “?” marks villages on very low ground and jungle temples, which need an in-game check.':d==='nether'?'fortresses and bastions at their exact Bedrock positions. Bedrock Nether biomes are generated differently from Java and are not reproduced yet, so every bastion is marked “?”: about a quarter fall in basalt deltas and do not generate.':'End City spots, at their exact Bedrock positions. Bedrock shapes the End islands differently from Java and that terrain is not reproduced yet, so every spot is marked “?”: a city only generates where the spot lands on a large outer island (End highlands or midlands). Fly over with an Elytra or check in game.'))
+    :(d==='overworld'?'biomes, slime chunks and structures. Strongholds and shipwrecks are left out on Bedrock because they could not be matched to Chunkbase. A “?” marks villages on very low ground and jungle temples, which need an in-game check.':d==='nether'?'Nether biomes, fortresses and bastions, using Bedrock’s own Nether generation. Bastions that would fall in basalt deltas are left out, because they do not generate there.':'End biomes and End City spots, using Bedrock’s own End generation. Every spot shown is on End highlands or midlands at its exact Bedrock position; it is marked “?” because Bedrock also checks the 3D island shape, which is not reproduced, so roughly 1 in 3 of these spots has a city (larger, higher islands are likelier). Check with an Elytra before a long trip.'))
     +(verN()<5?' Structures that did not exist yet in the chosen version are hidden.':'')+' Versions before 1.18 used a different world generator and are not supported.';
   if(S.scale<0.03)S.scale=0.03;buildStructUI();buildLocate();renderPins();resetWorld();}
 document.querySelectorAll('#dimSeg button').forEach(b=>b.onclick=()=>setDim(b.dataset.d));
@@ -1019,7 +1025,7 @@ window.addEventListener('resize',resize);window.addEventListener('resize',()=>dr
 setEdition(savedEd==='bedrock'?'bedrock':'java');renderPins();resize();route();
 })();
 </script>
-<script src="/assets/data.js?v=b118e95d38" defer></script>
-<script src="/assets/site.js?v=1c77d4832d" defer></script>
+<script src="/assets/data.js?v=6c2a6f2a94" defer></script>
+<script src="/assets/site.js?v=56bf09d280" defer></script>
 </body>
 </html>
