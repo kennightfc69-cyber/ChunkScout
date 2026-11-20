@@ -37,6 +37,3 @@ Placements live in the page HTML as `<div class="ad-slot" data-ad="…" data-for
 ## Analytics (optional)
 Cloudflare Web Analytics is already on (cookieless). To add Google Analytics 4, set `ga4` in `CS_CONFIG` at the top of `assets/site.js`; a consent banner then appears and GA loads only after the visitor accepts. Update `privacy/index.html` first.
 
-## Textures and licences
-Block and item pictures come from **Pixel Perfection Community Edition** (CC BY-SA 4.0), adapted into `assets/tex/` by `textures.py` in the generator. See `assets/tex/LICENSE.txt` and `/credits/`. These are not Mojang's textures.
-ChunkScout is not an official Minecraft product and is not approved by or associated with Mojang or Microsoft.
