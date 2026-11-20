@@ -601,10 +601,13 @@ const TEMPLE={sp:32,n:24,salt:14357617};
 const BO={village:{n:'Village',sp:34,n2:26,salt:10387312,tri:1},outpost:{n:'Pillager Outpost',sp:80,n2:56,salt:165745296,tri:1},
  pyramid:{n:'Desert Pyramid',sp:32,n2:24,salt:14357617},jungle:{n:'Jungle Temple',sp:32,n2:24,salt:14357617},hut:{n:'Witch Hut',sp:32,n2:24,salt:14357617},igloo:{n:'Igloo',sp:32,n2:24,salt:14357617},
  monument:{n:'Ocean Monument',sp:32,n2:27,salt:10387313,tri:1},mansion:{n:'Woodland Mansion',sp:80,n2:60,salt:10387319,tri:1},city:{n:'Ancient City',sp:24,n2:16,salt:20083232,tri:1},trial:{n:'Trial Chambers',sp:34},trail:{n:'Trail Ruins',sp:34},portal:{n:'Ruined Portal',sp:40,n2:25,salt:40552231}};
+const BE={endcity:{n:'End City',sp:20,n2:9,salt:10387313,tri:1}}; // verified against Chunkbase (Bedrock 1.21.50): exact positions
 const BN={fortress:{n:'Nether Fortress',sp:30,n2:26,salt:30084232},bastion:{n:'Bastion Remnant',sp:30,n2:26,salt:30084232}};
 function bedrockAt(c,key,rx,rz){
   if(key==='trial'){const [cx,cz]=regionChunk(c.seed,ST.trial,rx,rz);return [cx*16+8,cz*16+8,0];}
   if(key==='trail')return structureAt(c.seed,c.world,'trail',rx,rz);
+  if(c.dim==='end'){const st=BE.endcity,s32=Number(BigInt.asUintN(32,c.seed)),r=MT((st.salt+s32+Math.imul(-245998635,rz)+Math.imul(-1724254968,rx))>>>0),n=st.n2;
+    const cx=rx*st.sp+((r()%n+r()%n)>>1),cz=rz*st.sp+((r()%n+r()%n)>>1);if(cx*cx+cz*cz<=4096)return null;return [cx*16+8,cz*16+8,1];}
   const st=(c.dim==='nether'?BN:BO)[key],s32=Number(BigInt.asUintN(32,c.seed)),r=MT((st.salt+s32+Math.imul(-245998635,rz)+Math.imul(-1724254968,rx))>>>0),n=st.n2;
   let ox,oz;if(st.tri){ox=(r()%n+r()%n)>>1;oz=(r()%n+r()%n)>>1;}else{ox=r()%n;oz=r()%n;}
   const bx=(rx*st.sp+ox)*16+8,bz=(rz*st.sp+oz)*16+8;
@@ -626,7 +629,7 @@ function bedrockAt(c,key,rx,rz){
   }
   return null;
 }
-function tableFor(ed,dim){return ed==='java'?(dim==='nether'?JN:dim==='end'?JE:ST):(dim==='nether'?BN:dim==='end'?{}:BO);}
+function tableFor(ed,dim){return ed==='java'?(dim==='nether'?JN:dim==='end'?JE:ST):(dim==='nether'?BN:dim==='end'?BE:BO);}
 function structAt(c,key,rx,rz){
   if(c.ed==='java')return c.dim==='nether'?javaNether(c,key,rx,rz):c.dim==='end'?javaEnd(c,key,rx,rz):structureAt(c.seed,c.world,key,rx,rz);
   return bedrockAt(c,key,rx,rz);}
@@ -893,7 +896,7 @@ function setDim(d){S.dim=d;document.querySelectorAll('#dimSeg button').forEach(b
 function refreshMode(){
   const j=java(),d=S.dim;$('lyBiome').disabled=!hasBiomes();$('lySlime').disabled=!ow();
   $('covNote').innerHTML='<b>Showing:</b> '+(j?(d==='overworld'?'biomes, slime chunks and all structures. Temples and mansions are only shown where the terrain lets them generate.':d==='nether'?'Nether biomes, fortresses, bastions and ruined portals. Coordinates are Nether coordinates.':'End biomes and End Cities (only the ones the terrain lets generate).')
-    :(d==='overworld'?'biomes, slime chunks and structures. Strongholds and shipwrecks are left out on Bedrock because they could not be matched to Chunkbase. A “?” marks villages on very low ground and jungle temples, which need an in-game check.':d==='nether'?'fortresses and bastions. Bedrock Nether biomes are not available, so every bastion is marked “?”: about a quarter fall in basalt deltas and do not generate.':'nothing yet. Bedrock generates the End differently from Java and it could not be reproduced reliably.'))
+    :(d==='overworld'?'biomes, slime chunks and structures. Strongholds and shipwrecks are left out on Bedrock because they could not be matched to Chunkbase. A “?” marks villages on very low ground and jungle temples, which need an in-game check.':d==='nether'?'fortresses and bastions at their exact Bedrock positions. Bedrock Nether biomes are generated differently from Java and are not reproduced yet, so every bastion is marked “?”: about a quarter fall in basalt deltas and do not generate.':'End City spots, at their exact Bedrock positions. Bedrock shapes the End islands differently from Java and that terrain is not reproduced yet, so every spot is marked “?”: a city only generates where the spot lands on a large outer island (End highlands or midlands). Fly over with an Elytra or check in game.'))
     +(verN()<5?' Structures that did not exist yet in the chosen version are hidden.':'')+' Versions before 1.18 used a different world generator and are not supported.';
   if(S.scale<0.03)S.scale=0.03;buildStructUI();buildLocate();renderPins();resetWorld();}
 document.querySelectorAll('#dimSeg button').forEach(b=>b.onclick=()=>setDim(b.dataset.d));
