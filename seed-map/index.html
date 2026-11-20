@@ -22,6 +22,7 @@
 html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:'Space Grotesk',system-ui,sans-serif}
 body{display:flex;flex-direction:column}
 .view{display:none;flex:1;min-height:0}.view.on{display:grid}
+.view.on>*{min-width:0}
 #v-map{grid-template-columns:350px 1fr}
 aside{background:var(--panel);overflow-y:auto;flex:1;min-width:0;scrollbar-width:none;-ms-overflow-style:none}
 aside::-webkit-scrollbar{display:none;width:0;height:0}
@@ -730,11 +731,16 @@ const S={edition:'java',dim:'overworld',seed:0n,cx:8,cz:8,scale:1,pins:[],farms:
 let world=null,endw=null,ctxS=null,cache=new Map(),tiles=new Map(),scache=new Map(),sh=[],shDone=[],vis=[],need=[];
 const TB=()=>WG.tableFor(S.edition,S.dim);
 const hasSH=()=>S.edition==='java'&&S.dim==='overworld';
-const VERS={java:[[5,'Java 1.21.4 – 26.x (latest)'],[4,'Java 1.21 – 1.21.3'],[3,'Java 1.20'],[2,'Java 1.19'],[1,'Java 1.18']],
-  bedrock:[[5,'Bedrock 1.21.50 – 26.x (latest)'],[4,'Bedrock 1.21 – 1.21.4x'],[3,'Bedrock 1.20'],[2,'Bedrock 1.19'],[1,'Bedrock 1.18']]};
-const verN=()=>+$('ver').value||5,VMIN={city:2,trail:3,trial:4};
+const VERS={java:[['j26.3','Java 26.3 (partial)',5,1],['j26.2','Java 26.2',5,0],['j26.1','Java 26.1',5,0],['j1.21.11','Java 1.21.11',5,0],['j1.21.10','Java 1.21.10',5,0],['j1.21.9','Java 1.21.9',5,0],['j1.21.8','Java 1.21.8',5,0],['j1.21.7','Java 1.21.7',5,0],['j1.21.6','Java 1.21.6',5,0],['j1.21.5','Java 1.21.5',5,0],['j1.21.4','Java 1.21.4',5,0],['j1.21.3','Java 1.21.3',4,0],['j1.21.2','Java 1.21.2',4,0],['j1.21.1','Java 1.21.1',4,0],['j1.21','Java 1.21',4,0],['j1.20.6','Java 1.20.6',3,0],['j1.20.5','Java 1.20.5',3,0],['j1.20.4','Java 1.20.4',3,0],['j1.20.3','Java 1.20.3',3,0],['j1.20.2','Java 1.20.2',3,0],['j1.20.1','Java 1.20.1',3,0],['j1.20','Java 1.20',3,0],['j1.19.4','Java 1.19.4',2,0],['j1.19.3','Java 1.19.3',2,0],['j1.19.2','Java 1.19.2',2,0],['j1.19.1','Java 1.19.1',2,0],['j1.19','Java 1.19',2,0],['j1.18.2','Java 1.18.2',1,0],['j1.18.1','Java 1.18.1',1,0],['j1.18','Java 1.18',1,0]],
+  bedrock:[['b26.4','Bedrock 26.40 and later (partial)',5,1],['b26.0','Bedrock 26.0 – 26.3x',5,0],['b1.21.50','Bedrock 1.21.50 – 1.21.1xx',5,0],['b1.21.0','Bedrock 1.21.0 – 1.21.4x',4,0],['b1.20','Bedrock 1.20.0 – 1.20.8x',3,0],['b1.19','Bedrock 1.19.0 – 1.19.8x',2,0],['b1.18','Bedrock 1.18.0 – 1.18.3x',1,0]]};
+const TIERN=['','1.18','1.19','1.20','1.21 – 1.21.3','1.21.4 and later'];
+const verRow=()=>{const v=$('ver').value;return [...VERS.java,...VERS.bedrock].find(r=>r[0]===v)||null;};
+const verN=()=>{const r=verRow();return r?r[2]:5;},VMIN={city:2,trail:3,trial:4};
 const verFlags=()=>{const n=verN();return {noPale:n<5,noCherry:n<3,noMangrove:n<2,noDD:n<2};};
-function buildVer(){const keep=verN();$('ver').innerHTML=VERS[S.edition].map(v=>`<option value="${v[0]}">${v[1]}</option>`).join('');$('ver').value=keep;}
+function pickVer(want){const L=VERS[S.edition];if(L.some(r=>r[0]===want))return want;const o=[...VERS.java,...VERS.bedrock].find(r=>r[0]===want);const t=o?o[2]:+want;const r=(t>=1&&t<=5)?L.find(r=>r[2]===t):null;return (r||L[0])[0];}
+function buildVer(){const keep=verRow(),L=VERS[S.edition];let h='';for(let t=5;t>=1;t--){const g=L.filter(r=>r[2]===t);if(!g.length)continue;h+=`<optgroup label="${TIERN[t]}">`+g.map(r=>`<option value="${r[0]}">${r[1]}</option>`).join('')+'</optgroup>';}
+  $('ver').innerHTML=h;const mine=ls.get('cs_vern_'+S.edition),mr=L.find(r=>r[0]===mine);
+  $('ver').value=keep?(L.some(r=>r[0]===keep[0])?keep[0]:(mr&&mr[2]===keep[2])?mine:pickVer(String(keep[2]))):L[0][0];}
 const stKeys=()=>[...Object.keys(TB()).filter(k=>verN()>=(VMIN[k]||0)),...(hasSH()?['stronghold']:[])];
 const STON={village:1,outpost:1,pyramid:1,jungle:1,hut:1,monument:1,mansion:1,city:1,trial:1,stronghold:1,fortress:1,bastion:1,endcity:1,gateway:1,igloo:0,portal:0,ship:0,trail:0};
 const stInfo=k=>k==='stronghold'?{n:'Stronghold',col:'#9fe07a'}:{n:(TB()[k]||WG.ST[k]||{n:k}).n,col:(WG.ST[k]||{}).col||(TB()[k]||{}).col||'#e6efe9'};
@@ -927,11 +933,11 @@ function refreshMode(){
   const j=java(),d=S.dim;$('lyBiome').disabled=!hasBiomes();$('lySlime').disabled=!ow();
   $('covNote').innerHTML='<b>Showing:</b> '+(j?(d==='overworld'?'biomes, slime chunks and all structures. Temples and mansions are only shown where the terrain lets them generate.':d==='nether'?'Nether biomes, fortresses, bastions and ruined portals. Coordinates are Nether coordinates.':'End biomes, End Cities (only the ones the terrain lets generate) and End Gateways: the random ones in the End Highlands, plus the ring of 20 around the main island, where one opens after each dragon fight.')
     :(d==='overworld'?'biomes, slime chunks and structures. Strongholds are left out on Bedrock because they could not be matched to Chunkbase. A “?” marks villages on very low ground, jungle temples and shipwrecks, which need an in-game check (shipwreck positions are exact, but about 1 in 4 marked spots has no wreck).':d==='nether'?'Nether biomes, fortresses and bastions, using Bedrock’s own Nether generation. Bastions that would fall in basalt deltas are left out, because they do not generate there.':'End biomes and End City spots, using Bedrock’s own End generation. Every spot shown is on End highlands or midlands at its exact Bedrock position; it is marked “?” because Bedrock also checks the 3D island shape, which is not reproduced, so roughly 1 in 3 of these spots has a city (larger, higher islands are likelier). Check with an Elytra before a long trip. End Gateways: only the ring of 20 around the main island is shown; the random ones on the outer islands are left out because their Bedrock placement could not be matched to Chunkbase.'))
-    +(verN()<5?' Structures that did not exist yet in the chosen version are hidden.':'')+' Versions before 1.18 used a different world generator and are not supported.';
+    +(verN()<5?' Structures that did not exist yet in the chosen version are hidden.':'')+((verRow()||[])[3]?' The fall 2026 drop adds the Dappled Forest biome and Abandoned Camps, which this map does not draw yet; where they generate, the map shows what was there before the drop.':'')+' Versions before 1.18 used a different world generator and are not supported.';
   if(S.scale<0.03)S.scale=0.03;buildStructUI();buildLocate();renderPins();resetWorld();}
 document.querySelectorAll('#dimSeg button').forEach(b=>b.onclick=()=>setDim(b.dataset.d));
 document.querySelectorAll('#edition button').forEach(b=>b.onclick=()=>setEdition(b.dataset.e));
-buildVer();$('ver').value=+ls.get('cs_vern')||5;$('ver').onchange=()=>{ls.set('cs_vern',$('ver').value);refreshMode();};
+buildVer();$('ver').value=pickVer(ls.get('cs_vern')||VERS[S.edition][0][0]);$('ver').onchange=()=>{ls.set('cs_vern',$('ver').value);ls.set('cs_vern_'+S.edition,$('ver').value);refreshMode();};
 
 // ---------- Layers ----------
 const slEl=$('structList');
