@@ -421,3 +421,54 @@ table.mini tr.hl td{color:var(--accent)}
 @media (max-width:700px){.bp{height:auto;aspect-ratio:1/1;max-height:76vh}}
 @media (min-width:601px){.row:has(select){flex-wrap:wrap}.row:has(select)>*{flex:1 1 170px}}
 .page .seg button{white-space:nowrap}
+
+/* =====================================================================
+   Minecraft theme — textures from Pixel Perfection CE (CC BY-SA 4.0),
+   see /credits/. ChunkScout is not affiliated with Mojang or Microsoft.
+   ===================================================================== */
+:root{--r:4px;--px:'Pixelify Sans','Space Grotesk',system-ui,sans-serif}
+img.tex,.tex{image-rendering:pixelated}
+body{background:linear-gradient(rgba(11,14,13,.9),rgba(11,14,13,.93)),url(/assets/tex/ui/stone.png) 0 0/64px 64px;background-attachment:fixed;image-rendering:pixelated}
+body img:not(.tex){image-rendering:auto}
+/* headings in a pixel font */
+h1,h2.section-h,.thead h1,.flag h2,.hero h1,.site-footer h2,.rail-box>b,.toc b{font-family:var(--px);letter-spacing:0}
+.hero h1{letter-spacing:-.5px}
+/* header: dirt-and-grass edge under it, textured logo */
+.site-header{background:linear-gradient(rgba(18,24,21,.94),rgba(18,24,21,.94)),url(/assets/tex/ui/stone_bricks.png) 0 0/48px 48px;border-bottom:0;position:sticky}
+.site-header::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:6px;background:url(/assets/tex/ui/grass_edge.png) 0 0/32px 10px repeat-x;image-rendering:pixelated;pointer-events:none}
+.brand .logo i{background:url(/assets/tex/ui/dirt.png) center/100% 100%;border-radius:0;image-rendering:pixelated}
+.brand .logo i.on{background:url(/assets/tex/ui/grass_block_top.png) center/100% 100%}
+.brand:hover .logo i.on{background:url(/assets/tex/ui/grass_block_top.png) center/100% 100%;filter:brightness(1.2)}
+/* footer: dirt with a grass top edge */
+.site-footer{position:relative;border-top:0;background:linear-gradient(rgba(16,12,9,.86),rgba(12,10,8,.93)),url(/assets/tex/ui/dirt.png) 0 0/64px 64px}
+.site-footer::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px;background:url(/assets/tex/ui/grass_edge.png) 0 0/32px 10px repeat-x;image-rendering:pixelated}
+/* item-slot icon frames, like an inventory slot */
+.ic.tex{background:#8b8b8b;border:2px solid;border-color:#373737 #ffffff #ffffff #373737;border-radius:0;padding:4px;box-shadow:none}
+.dd-menu .ic.tex,.rail-box .ic.tex{padding:2px}
+/* panels: blocky bevel instead of soft rounding */
+.card,.tcard,.flag,.rail-box,.toc,.catcard,.stat,.out,.kv,.texbox{border-radius:4px;box-shadow:inset 2px 2px 0 rgba(255,255,255,.04),inset -2px -2px 0 rgba(0,0,0,.28)}
+.tcard:hover,.catcard:hover{box-shadow:inset 2px 2px 0 rgba(255,255,255,.06),inset -2px -2px 0 rgba(0,0,0,.28),0 0 0 1px var(--accent2)}
+/* buttons: Minecraft-style stone buttons */
+:where(.page) button:where(:not(.fav,.dd-btn,.stc,.more)),.btn{border-radius:2px;border:2px solid #0a0a0a;background:linear-gradient(#5f6461,#474b49);color:#f2f2f2;
+  box-shadow:inset 2px 2px 0 rgba(255,255,255,.22),inset -2px -3px 0 rgba(0,0,0,.35);text-shadow:1px 1px 0 rgba(0,0,0,.55)}
+:where(.page) button:where(:not(.fav,.dd-btn,.stc,.more)):hover,.btn:hover{border-color:#0a0a0a;background:linear-gradient(#6c7a95,#56627c);color:#fff}
+:where(.page) button.primary,.btn.primary{background:linear-gradient(#4fb34a,#378a33);border-color:#0a0a0a;color:#fff;box-shadow:inset 2px 2px 0 rgba(255,255,255,.28),inset -2px -3px 0 rgba(0,0,0,.35)}
+:where(.page) button.primary:hover,.btn.primary:hover{background:linear-gradient(#5fc95a,#3f9a3a)}
+:where(.page) button:disabled{filter:grayscale(1) brightness(.7);cursor:not-allowed}
+/* segmented controls keep their flat look inside a slot-like well */
+.seg{border-radius:3px;background:#0b0f0d;box-shadow:inset 2px 2px 0 rgba(0,0,0,.4)}
+.page .seg button{border:0!important;background:transparent!important;box-shadow:none!important;text-shadow:none!important;color:var(--muted)!important;border-radius:2px!important}
+.page .seg button.on{background:linear-gradient(#5f6461,#474b49)!important;color:#fff!important;box-shadow:inset 1px 1px 0 rgba(255,255,255,.2),inset -1px -2px 0 rgba(0,0,0,.35)!important}
+/* fields look like the chat/command box */
+:where(.page) :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),select,textarea){border-radius:2px;background-color:#070908;border:2px solid #3a403d;box-shadow:inset 2px 2px 0 rgba(0,0,0,.45)}
+:where(.page) :is(input,select,textarea):focus{border-color:#a0a0a0;box-shadow:inset 2px 2px 0 rgba(0,0,0,.45)}
+/* chips */
+.quick a,.label-pill,.pill{border-radius:2px}
+/* hero map art keeps crisp pixels */
+.art{border-radius:2px}.art .g i{image-rendering:pixelated}
+/* scrollbars in the same spirit */
+*{scrollbar-color:#4a504d #0b0f0d}
+
+.hero-search input,.page .hero-search input{border:0!important;box-shadow:none!important;background:transparent!important}
+.hero-search form{border-radius:2px}
+.sf-static{max-width:1180px;margin:0 auto;padding:26px 20px;font-size:12.5px;color:var(--muted)}

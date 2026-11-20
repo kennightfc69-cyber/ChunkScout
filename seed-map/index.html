@@ -7,14 +7,14 @@
 <meta name="description" content="Free Minecraft seed map for Java and Bedrock: see biomes, villages, monuments, trial chambers, strongholds and slime chunks for any seed, and find the nearest structure.">
 <link rel="canonical" href="https://chunkscout.com/seed-map/">
 <meta name="theme-color" content="#0e1311">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png?v=6d1d7027d9" sizes="32x32" type="image/png"><link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=dac030d547">
 <meta property="og:type" content="website"><meta property="og:site_name" content="ChunkScout">
 <meta property="og:title" content="Minecraft Seed Map – Biome &amp; Structure Finder for Java and Bedrock | ChunkScout"><meta property="og:description" content="Free Minecraft seed map for Java and Bedrock: see biomes, villages, monuments, trial chambers, strongholds and slime chunks for any seed, and find the nearest structure.">
 <meta property="og:url" content="https://chunkscout.com/seed-map/"><meta property="og:image" content="https://chunkscout.com/assets/og.png?v=793048b94b">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=c4d053df52">
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=cc0069b95e">
 
 <style>
 :root{--bg:#0e1311;--panel:#151c19;--panel2:#1c2521;--line:#2a3631;--text:#e6efe9;--muted:#8fa39a;--accent:#7bdc6a;--accent2:#3fae5a;--warn:#f2c14e;--pin:#ff6b6b;--slime:#5fd35a}
@@ -159,10 +159,15 @@ canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}canvas
     </div>
 
     <div class="pane on" id="t-locate">
-      <p class="note" style="margin-top:0">Like <code>/locate</code>, without cheats: finds the nearest biome or structure to the map center.</p>
+      <p class="note" style="margin-top:0">Like <code>/locate</code>, without cheats: finds the nearest biome or structure.</p>
       <label for="locWhat">Find nearest</label>
       <select id="locWhat"></select>
-      <button class="primary" id="locGo" style="width:100%;margin-top:10px">Search from center</button>
+      <label>Search from</label>
+      <div class="seg" id="locFrom" role="group" aria-label="Search from"><button type="button" data-f="center" class="on" aria-pressed="true">Map center</button><button type="button" data-f="xyz" aria-pressed="false">Coordinates</button></div>
+      <div id="locXYZ" hidden><div class="row" style="margin-top:8px"><div><label for="locX" style="margin-top:0">X</label><input id="locX" type="number" inputmode="numeric" value="0"></div><div><label for="locZ" style="margin-top:0">Z</label><input id="locZ" type="number" inputmode="numeric" value="0"></div></div>
+        <button type="button" id="locUseC" style="width:100%;margin-top:8px">Use the map center</button>
+        <p class="note" style="margin:6px 0 0">Type your in-game X and Z (press F3 in Java, or turn on “Show coordinates” in Bedrock).</p></div>
+      <button class="primary" id="locGo" style="width:100%;margin-top:10px">Search from map center</button>
       <div class="progress" id="locProg"><div></div></div>
       <ul class="results" id="locRes"></ul>
     </div>
@@ -200,7 +205,7 @@ canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}canvas
     <p class="note" id="covNote"></p>
     <p class="note"><b>Accuracy.</b> Positions are checked against Chunkbase on two seeds. A marker with a dashed yellow border and “?” means the game may not generate it there; this now only applies to a few Bedrock structures.</p>
   </section>
-  <section><p class="side-links"><a href="/tools/">All tools</a> · <a href="/tools/nether-portal-calculator/">Nether portal calculator</a> · <a href="/tools/chunk-calculator/">Chunk calculator</a><br><a href="/about/">About</a> · <a href="/contact/">Report a problem</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a><br>Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p></section>
+  <section><p class="side-links"><a href="/tools/">All tools</a> · <a href="/tools/nether-portal-calculator/">Nether portal calculator</a> · <a href="/tools/chunk-calculator/">Chunk calculator</a><br><a href="/about/">About</a> · <a href="/contact/">Report a problem</a> · <a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a><br>Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft. Textures: <a href="/credits/">Pixel Perfection CE</a> (CC BY-SA 4.0).</p></section>
 </aside>
 <button class="more" id="more" aria-label="Scroll down for more options" title="More below"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l7 7 7-7"/></svg></button>
 </div>
@@ -596,10 +601,13 @@ const TEMPLE={sp:32,n:24,salt:14357617};
 const BO={village:{n:'Village',sp:34,n2:26,salt:10387312,tri:1},outpost:{n:'Pillager Outpost',sp:80,n2:56,salt:165745296,tri:1},
  pyramid:{n:'Desert Pyramid',sp:32,n2:24,salt:14357617},jungle:{n:'Jungle Temple',sp:32,n2:24,salt:14357617},hut:{n:'Witch Hut',sp:32,n2:24,salt:14357617},igloo:{n:'Igloo',sp:32,n2:24,salt:14357617},
  monument:{n:'Ocean Monument',sp:32,n2:27,salt:10387313,tri:1},mansion:{n:'Woodland Mansion',sp:80,n2:60,salt:10387319,tri:1},city:{n:'Ancient City',sp:24,n2:16,salt:20083232,tri:1},trial:{n:'Trial Chambers',sp:34},trail:{n:'Trail Ruins',sp:34},portal:{n:'Ruined Portal',sp:40,n2:25,salt:40552231}};
+const BE={endcity:{n:'End City',sp:20,n2:9,salt:10387313,tri:1}}; // verified against Chunkbase (Bedrock 1.21.50): exact positions
 const BN={fortress:{n:'Nether Fortress',sp:30,n2:26,salt:30084232},bastion:{n:'Bastion Remnant',sp:30,n2:26,salt:30084232}};
 function bedrockAt(c,key,rx,rz){
   if(key==='trial'){const [cx,cz]=regionChunk(c.seed,ST.trial,rx,rz);return [cx*16+8,cz*16+8,0];}
   if(key==='trail')return structureAt(c.seed,c.world,'trail',rx,rz);
+  if(c.dim==='end'){const st=BE.endcity,s32=Number(BigInt.asUintN(32,c.seed)),r=MT((st.salt+s32+Math.imul(-245998635,rz)+Math.imul(-1724254968,rx))>>>0),n=st.n2;
+    const cx=rx*st.sp+((r()%n+r()%n)>>1),cz=rz*st.sp+((r()%n+r()%n)>>1);if(cx*cx+cz*cz<=4096)return null;return [cx*16+8,cz*16+8,1];}
   const st=(c.dim==='nether'?BN:BO)[key],s32=Number(BigInt.asUintN(32,c.seed)),r=MT((st.salt+s32+Math.imul(-245998635,rz)+Math.imul(-1724254968,rx))>>>0),n=st.n2;
   let ox,oz;if(st.tri){ox=(r()%n+r()%n)>>1;oz=(r()%n+r()%n)>>1;}else{ox=r()%n;oz=r()%n;}
   const bx=(rx*st.sp+ox)*16+8,bz=(rz*st.sp+oz)*16+8;
@@ -621,7 +629,7 @@ function bedrockAt(c,key,rx,rz){
   }
   return null;
 }
-function tableFor(ed,dim){return ed==='java'?(dim==='nether'?JN:dim==='end'?JE:ST):(dim==='nether'?BN:dim==='end'?{}:BO);}
+function tableFor(ed,dim){return ed==='java'?(dim==='nether'?JN:dim==='end'?JE:ST):(dim==='nether'?BN:dim==='end'?BE:BO);}
 function structAt(c,key,rx,rz){
   if(c.ed==='java')return c.dim==='nether'?javaNether(c,key,rx,rz):c.dim==='end'?javaEnd(c,key,rx,rz):structureAt(c.seed,c.world,key,rx,rz);
   return bedrockAt(c,key,rx,rz);}
@@ -707,7 +715,7 @@ const key=(x,z)=>(x+2000000)*4000001+(z+2000000);
 function isSlime(x,z){const k=key(x,z);let v=cache.get(k);
   if(v===undefined){v=S.edition==='java'?javaSlime(S.seed,x,z):bedrockSlime(x,z);if(cache.size>600000)cache.clear();cache.set(k,v);}return v;}
 const java=()=>S.edition==='java';const ow=()=>S.dim==='overworld';
-function resetWorld(){S.focus=null;cache=new Map();tiles=new Map();scache=new Map();S.farms=[];S.found=null;S.selS=null;$('sel').style.display='none';
+function resetWorld(){S.focus=null;S.locO=null;cache=new Map();tiles=new Map();scache=new Map();S.farms=[];S.found=null;S.selS=null;$('sel').style.display='none';
   world=WG.World(S.seed,verFlags());endw=java()&&S.dim==='end'?WG.EndWorld(S.seed):null;
   ctxS={ed:S.edition,dim:S.dim,seed:S.seed,world,end:endw};sh=hasSH()?WG.strongholds(S.seed):[];shDone=[];renderFarms();$('locRes').innerHTML='';draw();shJob();}
 // strongholds: snap each ring position to the game's chosen biome spot, a few at a time
@@ -791,6 +799,8 @@ function render(){
     ctx.imageSmoothingEnabled=false;ctx.drawImage(ICON[s.k],x+2,y+2);
     if(s.est){ctx.fillStyle='#f2c14e';ctx.beginPath();ctx.arc(x+22,y+2,6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#0b0f0d';ctx.fillText('?',x+22,y+2.5);}
     vis.push({sx,sy,s});}
+  if(S.locO){const [ux,uy]=toScreen(S.locO.x+.5,S.locO.z+.5);ctx.strokeStyle='#0b0f0d';ctx.lineWidth=5;ctx.beginPath();ctx.arc(ux,uy,9,0,7);ctx.stroke();ctx.strokeStyle='#5ad1ff';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(ux,uy,9,0,7);ctx.moveTo(ux-14,uy);ctx.lineTo(ux-4,uy);ctx.moveTo(ux+4,uy);ctx.lineTo(ux+14,uy);ctx.moveTo(ux,uy-14);ctx.lineTo(ux,uy-4);ctx.moveTo(ux,uy+4);ctx.lineTo(ux,uy+14);ctx.stroke();
+    if(S.found){const [fx,fy]=toScreen(S.found.x,S.found.z);ctx.setLineDash([6,5]);ctx.strokeStyle='rgba(90,209,255,.8)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(ux,uy);ctx.lineTo(fx,fy);ctx.stroke();ctx.setLineDash([]);}}
   if(S.focus){const f=S.focus,[qx,qy]=toScreen(f.cx*16,f.cz*16),q=16*S.scale;ctx.fillStyle='rgba(242,193,78,.22)';ctx.fillRect(qx,qy,q,q);ctx.strokeStyle='#0b0f0d';ctx.lineWidth=5;ctx.strokeRect(qx,qy,q,q);ctx.strokeStyle='#f2c14e';ctx.lineWidth=2.5;ctx.strokeRect(qx,qy,q,q);
     const [bx,by]=toScreen(f.x+.5,f.z+.5);if(S.scale>=2){ctx.fillStyle='#fff';ctx.fillRect(bx-S.scale/2,by-S.scale/2,S.scale,S.scale);ctx.strokeStyle='#ff4d6d';ctx.lineWidth=2;ctx.strokeRect(bx-S.scale/2,by-S.scale/2,S.scale,S.scale);}
     const lbl=`Chunk ${f.cx}, ${f.cz}`;ctx.font='700 12px Space Grotesk';const tw=ctx.measureText(lbl).width+14,lx=qx+q/2-tw/2,ly=qy-26;ctx.fillStyle='#f2c14e';ctx.beginPath();ctx.roundRect(lx,ly,tw,20,6);ctx.fill();ctx.fillStyle='#0b0f0d';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(lbl,qx+q/2,ly+10.5);}
@@ -886,7 +896,7 @@ function setDim(d){S.dim=d;document.querySelectorAll('#dimSeg button').forEach(b
 function refreshMode(){
   const j=java(),d=S.dim;$('lyBiome').disabled=!hasBiomes();$('lySlime').disabled=!ow();
   $('covNote').innerHTML='<b>Showing:</b> '+(j?(d==='overworld'?'biomes, slime chunks and all structures. Temples and mansions are only shown where the terrain lets them generate.':d==='nether'?'Nether biomes, fortresses, bastions and ruined portals. Coordinates are Nether coordinates.':'End biomes and End Cities (only the ones the terrain lets generate).')
-    :(d==='overworld'?'biomes, slime chunks and structures. Strongholds and shipwrecks are left out on Bedrock because they could not be matched to Chunkbase. A “?” marks villages on very low ground and jungle temples, which need an in-game check.':d==='nether'?'fortresses and bastions. Bedrock Nether biomes are not available, so every bastion is marked “?”: about a quarter fall in basalt deltas and do not generate.':'nothing yet. Bedrock generates the End differently from Java and it could not be reproduced reliably.'))
+    :(d==='overworld'?'biomes, slime chunks and structures. Strongholds and shipwrecks are left out on Bedrock because they could not be matched to Chunkbase. A “?” marks villages on very low ground and jungle temples, which need an in-game check.':d==='nether'?'fortresses and bastions at their exact Bedrock positions. Bedrock Nether biomes are generated differently from Java and are not reproduced yet, so every bastion is marked “?”: about a quarter fall in basalt deltas and do not generate.':'End City spots, at their exact Bedrock positions. Bedrock shapes the End islands differently from Java and that terrain is not reproduced yet, so every spot is marked “?”: a city only generates where the spot lands on a large outer island (End highlands or midlands). Fly over with an Elytra or check in game.'))
     +(verN()<5?' Structures that did not exist yet in the chosen version are hidden.':'')+' Versions before 1.18 used a different world generator and are not supported.';
   if(S.scale<0.03)S.scale=0.03;buildStructUI();buildLocate();renderPins();resetWorld();}
 document.querySelectorAll('#dimSeg button').forEach(b=>b.onclick=()=>setDim(b.dataset.d));
@@ -904,7 +914,11 @@ $('stAll').onclick=()=>setAllSt(1);$('stNone').onclick=()=>setAllSt(0);
 ['lyBiome','lySlime','lyStruct','optGrid','optRegion','optRange'].forEach(id=>$(id).onchange=()=>{stCount();draw();});
 
 // ---------- Locate ----------
-const lw=$('locWhat');
+const lw=$('locWhat');let locFrom='center';
+document.querySelectorAll('#locFrom button').forEach(b=>b.onclick=()=>{locFrom=b.dataset.f;document.querySelectorAll('#locFrom button').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b);});
+  $('locXYZ').hidden=locFrom!=='xyz';$('locGo').textContent=locFrom==='xyz'?'Search from these coordinates':'Search from map center';if(locFrom==='center'){S.locO=null;draw();}});
+$('locUseC').onclick=()=>{$('locX').value=Math.floor(S.cx);$('locZ').value=Math.floor(S.cz);};
+['locX','locZ'].forEach(i=>$(i).addEventListener('keydown',e=>{if(e.key==='Enter')$('locGo').click();}));
 function buildLocate(){let h='<optgroup label="Structures">';stKeys().forEach(k=>h+=`<option value="s:${k}">${stInfo(k).n}</option>`);h+='</optgroup>';
   if(hasBiomes()){const re=S.dim==='nether'?/nether_wastes|soul_sand|crimson|warped|basalt/:S.dim==='end'?/^end_|small_end|the_end/:null;
     const names=WG.NAMES.filter(n=>re?re.test(n):!/nether_wastes|soul_sand|crimson|warped|basalt|^end_|small_end|the_end|caves|deep_dark/.test(n)).sort();
@@ -913,7 +927,8 @@ function buildLocate(){let h='<optgroup label="Structures">';stKeys().forEach(k=
 const tick=()=>new Promise(r=>setTimeout(r));
 $('locGo').onclick=async()=>{const ul=$('locRes'),pb=$('locProg'),bar=pb.firstElementChild;
   if(!world||!lw.value){ul.innerHTML='<li style="cursor:default;color:var(--muted)">Nothing to search in this mode</li>';return;}
-  const [type,name]=lw.value.split(':'),ox=Math.floor(S.cx),oz=Math.floor(S.cz);let res=[];pb.style.display='block';bar.style.width='0';
+  const fromXYZ=locFrom==='xyz';if(fromXYZ&&!(isFinite(+$('locX').value)&&isFinite(+$('locZ').value)&&$('locX').value!==''&&$('locZ').value!=='')){ul.innerHTML='<li style="cursor:default;color:var(--warn)">Enter both X and Z first</li>';return;}
+  const [type,name]=lw.value.split(':'),ox=fromXYZ?Math.floor(+$('locX').value):Math.floor(S.cx),oz=fromXYZ?Math.floor(+$('locZ').value):Math.floor(S.cz);S.locO=fromXYZ?{x:ox,z:oz}:null;let res=[];pb.style.display='block';bar.style.width='0';
   const myWorld=world;
   if(type==='s'){
     if(name==='stronghold'){await shAll(bar);if(world!==myWorld)return;res=shDone.map(s=>({x:s.x,z:s.z,k:name}));}
@@ -930,7 +945,7 @@ $('locGo').onclick=async()=>{const ul=$('locRes'),pb=$('locProg'),bar=pb.firstEl
   res.forEach(q=>q.d=Math.round(Math.hypot(q.x-ox,q.z-oz)));res.sort((a,b)=>a.d-b.d);res=res.slice(0,5);
   pb.style.display='none';ul.innerHTML='';
   if(!res.length){ul.innerHTML=`<li style="cursor:default;color:var(--muted)">None within ${type==='s'?'range':'12,800 blocks'}</li>`;return;}
-  res.forEach(q=>{const li=document.createElement('li');li.innerHTML=`<span>${q.x}, ${q.z}${q.est?' (possible)':''}</span><span class="badge">${q.d.toLocaleString()} blocks</span>`;
+  res.forEach(q=>{const li=document.createElement('li');li.innerHTML=`<span>${q.x}, ${q.z}${q.est?' (possible)':''}</span><span class="badge">${q.d.toLocaleString()} blocks${fromXYZ?' away':''}</span>`;
     li.onclick=()=>{S.found=q;jump(q.x,q.z,0.5);if(q.k)selectStruct(q);};ul.appendChild(li);});
   S.found=res[0];draw();
 };
@@ -1004,7 +1019,7 @@ window.addEventListener('resize',resize);window.addEventListener('resize',()=>dr
 setEdition(savedEd==='bedrock'?'bedrock':'java');renderPins();resize();route();
 })();
 </script>
-<script src="/assets/data.js?v=6c2a6f2a94" defer></script>
-<script src="/assets/site.js?v=56bf09d280" defer></script>
+<script src="/assets/data.js?v=b118e95d38" defer></script>
+<script src="/assets/site.js?v=1c77d4832d" defer></script>
 </body>
 </html>
