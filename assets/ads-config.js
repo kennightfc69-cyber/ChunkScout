@@ -12,7 +12,7 @@
       Keep useGoogleConsent: true so ChunkScout relies on it instead of its own banner. */
 window.CS_ADS = {
   enabled: false,              // master switch for AdSense
-  publisherId: '',             // 'ca-pub-XXXXXXXXXXXXXXXX'
+  publisherId: 'ca-pub-5331501515385537', // AdSense publisher ID
   useGoogleConsent: true,      // true: AdSense's own consent message handles consent (recommended)
   sidebar: true,               // allow desktop sidebar placements
   pages: { home: true, tool: true, directory: true, guide: true, page: false }, // page types that may show ads
