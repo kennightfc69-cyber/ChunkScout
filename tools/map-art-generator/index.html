@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=f00751567c">
+<link rel="stylesheet" href="/assets/site.css?v=c4d053df52">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Map Art Generator"}]}</script>
 </head>
 <body class="page" data-tool="map-art-generator" data-page="tool">
@@ -35,15 +35,15 @@
   <div class="drop" id="maDrop" tabindex="0" role="button" aria-label="Choose an image"><b>Choose an image</b><br><span class="note">PNG, JPG or WebP · or drag it here</span><input type="file" id="maFile" accept="image/png,image/jpeg,image/webp,image/gif" hidden></div>
   <p class="note">Your image is processed on your device and never uploaded.</p>
   <label for="maSize">Size</label>
-  <select id="maSize"><option value="auto">Match the image’s shape (recommended)</option><option value="maps">Choose maps across and down</option><option value="exact">Exact size in blocks</option></select>
+  <select id="maSize"><option value="auto">Match the image’s shape</option><option value="maps">Choose maps across and down</option><option value="exact">Exact size in blocks</option></select>
   <div id="maAutoW"><label for="maMax">Maximum maps</label><select id="maMax"><option>1</option><option>2</option><option selected>4</option><option>6</option><option>9</option><option>12</option><option>16</option></select>
   <label class="check"><input type="checkbox" id="maTrim" checked> Trim to the image (no border; edge maps may be partly filled)</label></div>
   <div class="row" id="maMapsW" hidden><div><label for="maW">Maps across</label><select id="maW"><option>1</option><option>2</option><option>3</option><option>4</option></select></div><div><label for="maH">Maps down</label><select id="maH"><option>1</option><option>2</option><option>3</option><option>4</option></select></div></div>
   <div class="row" id="maExW" hidden><div><label for="maEw">Width (blocks)</label><input id="maEw" type="number" min="8" max="512" value="128" inputmode="numeric"></div><div><label for="maEh">Height (blocks)</label><input id="maEh" type="number" min="8" max="512" value="128" inputmode="numeric"></div></div>
-  <label for="maFit">If the shapes differ</label><select id="maFit"><option value="contain">Keep the whole image (add a border)</option><option value="cover">Crop to fill</option><option value="stretch">Stretch</option></select>
+  <label for="maFit">If the shapes differ</label><select id="maFit"><option value="contain">Keep whole image (border)</option><option value="cover">Crop to fill</option><option value="stretch">Stretch</option></select>
   <div id="maBgW"><label for="maBg">Border color</label><input type="color" id="maBg" value="#ffffff"></div>
   <label for="maMode">Build style</label><select id="maMode"><option value="flat">Flat (one layer, easiest)</option><option value="stair">Staircase (Java, 3 shades, closest to the image)</option></select>
-  <label for="maDither">Dithering</label><select id="maDither"><option value="fs">Floyd–Steinberg (smooth photos)</option><option value="atk">Atkinson (crisper, less noise)</option><option value="bayer">Ordered pattern (regular, easy to build)</option><option value="none">None (logos and pixel art)</option></select>
+  <label for="maDither">Dithering</label><select id="maDither"><option value="fs">Floyd–Steinberg (smooth)</option><option value="atk">Atkinson (crisper)</option><option value="bayer">Ordered pattern</option><option value="none">None (logos, pixel art)</option></select>
   <div class="row"><div><label for="maBr">Brightness</label><input type="range" id="maBr" min="-60" max="60" value="0" style="padding:0"></div><div><label for="maCo">Contrast</label><input type="range" id="maCo" min="-60" max="60" value="0" style="padding:0"></div><div><label for="maSa">Saturation</label><input type="range" id="maSa" min="-100" max="100" value="0" style="padding:0"></div></div>
   <label>Blocks to use</label>
   <div id="maCats" style="display:grid;grid-template-columns:1fr 1fr;gap:0 10px"></div>

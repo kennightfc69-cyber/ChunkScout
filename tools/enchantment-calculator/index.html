@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=f00751567c">
+<link rel="stylesheet" href="/assets/site.css?v=c4d053df52">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Enchantment Order Calculator"}]}</script>
 </head>
 <body class="page" data-tool="enchantment-calculator" data-page="tool">
@@ -33,7 +33,7 @@
 <div class="tool">
 <div class="card" style="align-self:start">
   <label for="enItem">Item</label><select id="enItem"></select>
-  <label for="enUses">Times this item has already been used in an anvil</label><select id="enUses"><option value="0">Never (new or freshly enchanted)</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+  <label for="enUses">Times this item has already been used in an anvil</label><select id="enUses"><option value="0">Never (new item)</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
   <div class="row" style="align-items:flex-end;justify-content:space-between;margin-top:14px"><label style="margin:0!important;flex:1 1 auto">Enchanted books you have</label><span style="flex:0 0 auto;display:flex;gap:6px"><button type="button" id="enBest" style="padding:6px 10px">Best set</button><button type="button" id="enClear" style="padding:6px 10px">Clear</button></span></div>
   <p class="note" style="margin-top:4px">Tick each book and choose its level. Enchantments that can’t go together are greyed out; hover one to see why.</p>
   <div id="enList" class="enlist"></div>

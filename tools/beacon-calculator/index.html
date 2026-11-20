@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=f00751567c">
+<link rel="stylesheet" href="/assets/site.css?v=c4d053df52">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chunkscout.com/"}, {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://chunkscout.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Beacon Calculator"}]}</script>
 </head>
 <body class="page" data-tool="beacon-calculator" data-page="tool">
@@ -106,7 +106,7 @@ function calc(){$('bcErr').textContent='';let r=Math.round(+$('bcR').value),c=Ma
  let cmp='<tr><th>Level</th><th style="text-align:right">Shared base</th><th style="text-align:right">'+(n>1?n+' separate pyramids':'Ingots / gems')+'</th><th style="text-align:right">Range</th></tr>';
  for(let l=1;l<=4;l++){const s=blocks(l,r,c),sep=blocks(l,1,1)*n;cmp+=`<tr${l===L?' class="hl"':''}><td>${l}</td><td class="n">${f(s)}</td><td class="n">${n>1?f(sep)+' (saves '+f(sep-s)+')':f(s*9)}</td><td class="n">${10*l+10}</td></tr>`;}
  $('bcCmp').innerHTML=cmp;
- const sel=$('bcLay'),cur=sel.value;sel.innerHTML='<option value="0">All layers (top-down)</option>'+Array.from({length:L},(_,i)=>`<option value="${i+1}">Layer ${i+1}${i===0?' (bottom)':''}</option>`).join('');sel.value=(cur&&+cur<=L)?cur:'0';
+ const sel=$('bcLay'),cur=sel.value;sel.innerHTML='<option value="0">All layers</option>'+Array.from({length:L},(_,i)=>`<option value="${i+1}">Layer ${i+1}${i===0?' (bottom)':''}</option>`).join('');sel.value=(cur&&+cur<=L)?cur:'0';
  $('bcLeg').innerHTML=Array.from({length:L},(_,i)=>`<span><i style="background:${LCOL[4-L+i]}"></i>Layer ${i+1}</span>`).join('');draw(r,c);}
 function draw(r,c){const cv=$('bcCv'),g=cv.getContext('2d'),W=c+2*L,H=r+2*L,cs=Math.max(8,Math.min(26,Math.floor(440/Math.max(W,H)))),d=window.devicePixelRatio||1,lay=+$('bcLay').value;
  cv.width=W*cs*d;cv.height=H*cs*d;cv.style.width=W*cs+'px';cv.style.height=H*cs+'px';g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,W*cs,H*cs);
