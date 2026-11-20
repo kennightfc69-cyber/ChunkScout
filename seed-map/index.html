@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=f00751567c">
+<link rel="stylesheet" href="/assets/site.css?v=c4d053df52">
 
 <style>
 :root{--bg:#0e1311;--panel:#151c19;--panel2:#1c2521;--line:#2a3631;--text:#e6efe9;--muted:#8fa39a;--accent:#7bdc6a;--accent2:#3fae5a;--warn:#f2c14e;--pin:#ff6b6b;--slime:#5fd35a}
@@ -60,7 +60,9 @@ button.primary{background:var(--accent2);border-color:var(--accent2);color:#0612
 .chip{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;font:700 10px 'Space Grotesk';color:#0b0f0d;flex:0 0 17px}
 main{position:relative;overflow:hidden;min-height:0}
 canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}canvas.drag{cursor:grabbing}
-.hud{position:absolute;left:14px;bottom:14px;background:rgba(14,19,17,.9);border:1px solid var(--line);border-radius:9px;padding:10px 12px;font:12px 'JetBrains Mono',monospace;line-height:1.6;pointer-events:none;min-width:230px}
+.hud{position:absolute;left:14px;bottom:14px;background:rgba(14,19,17,.92);border:1px solid var(--line);border-radius:9px;padding:8px 12px;font:12px 'JetBrains Mono',monospace;line-height:1.5;pointer-events:none;min-width:230px;max-width:min(360px,calc(100% - 150px))}
+.hud .hr{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 10px;align-items:baseline}.hud .hr>span{color:var(--muted);font-size:11px}.hud .hr>b{overflow-wrap:anywhere;min-width:0}
+.hud .hr.st>span{color:var(--text)}.hud .hr.st>span i{font-style:normal;font-weight:700}.hud .slm{font-style:normal;color:var(--slime)}
 .hud b{color:var(--accent)}
 .sel{position:absolute;left:14px;top:14px;background:rgba(14,19,17,.94);border:1px solid var(--accent2);border-radius:9px;padding:10px 12px;font:12.5px 'JetBrains Mono',monospace;line-height:1.6;display:none;max-width:300px}
 .sel button{margin-top:6px;padding:5px 10px;font-size:12px}
@@ -69,7 +71,12 @@ canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}canvas
 .progress{height:4px;background:var(--line);border-radius:4px;margin-top:10px;overflow:hidden;display:none}.progress div{height:100%;width:0;background:var(--accent)}
 .rose{position:absolute;right:14px;top:150px;width:132px;height:132px;border-radius:9px;background:rgba(14,19,17,.9);border:1px solid var(--line);pointer-events:none;cursor:default}
 @media (max-width:820px){.rose{width:104px;height:104px;top:auto;bottom:14px}}
-@media (max-width:820px){#v-map.on{grid-template-columns:1fr;grid-template-rows:56% 44%}main{order:1;height:auto}.side{order:2;border-right:0;border-top:1px solid var(--line)}.stat{display:none}.hud{min-width:0;font-size:11px}}
+@media (max-width:820px){#v-map.on{grid-template-columns:1fr;grid-template-rows:56% 44%}main{order:1;height:auto}.side{order:2;border-right:0;border-top:1px solid var(--line)}.stat{display:none}.hud{min-width:0;left:8px;bottom:8px;padding:6px 9px;font-size:11px;max-width:calc(100% - 130px)}.hud .hr.opt{display:none}}
+@media (max-width:820px){:is(input,select){font-size:16px!important}}
+@media (pointer:coarse){.side button,.side select,.side input:not([type=checkbox]){min-height:44px}.side .sthead button{min-height:36px;padding:6px 14px}
+  .more{pointer-events:none}}
+.side{overscroll-behavior:contain}#side{overscroll-behavior:contain}html,body{overscroll-behavior:none}
+.more{touch-action:manipulation;-webkit-user-drag:none;user-select:none}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .side-links{font-size:12px;color:var(--muted);line-height:1.6}.side-links a{color:var(--accent);text-decoration:none}
 .lyr{display:flex;flex-direction:column;gap:6px}
@@ -87,6 +94,7 @@ canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}canvas
 .stc{display:flex;align-items:center;gap:7px;padding:5px 7px;font:500 12px 'Space Grotesk',sans-serif;text-align:left;color:var(--muted);background:var(--bg);border-color:var(--line)}
 .stc span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.stc .ico{opacity:.45}
 .stc.on{color:var(--text);border-color:var(--accent2);background:#17241c}.stc.on .ico{opacity:1}
+.show-touch{display:none}@media (pointer:coarse){.show-touch{display:inline}.hide-touch{display:none}}
 </style>
 </head>
 <body>
@@ -109,7 +117,7 @@ canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}canvas
     <div class="seg" id="dimSeg"><button data-d="overworld" class="on">Overworld</button><button data-d="nether">Nether</button><button data-d="end">The End</button></div>
     <div id="seedWrap">
       <label for="seed">Seed (number or text)</label>
-      <div class="row"><input id="seed" placeholder="e.g. 8675309 or Glacier" autocomplete="off"><button id="rand" title="Random seed" style="flex:0 0 44px">🎲</button></div>
+      <div class="row"><input id="seed" placeholder="Enter world seed" autocomplete="off"><button id="rand" title="Random seed" style="flex:0 0 44px">🎲</button></div>
     </div>
     <div id="verWrap"><label for="ver">Game version</label>
       <select id="ver"></select></div>
@@ -202,7 +210,7 @@ canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}canvas
   <div class="sel" id="sel"></div>
   <div class="zoom"><button id="zin">+</button><button id="zout">−</button><button id="zhome" title="Back to 0,0">⌂</button></div>
   <canvas class="rose" id="rose" aria-label="Shows which X and Z quarter the mouse is in and which way it is moving"></canvas>
-  <div class="hud" id="hud">Move over the map</div>
+  <div class="hud" id="hud"><span class="hide-touch">Move over the map</span><span class="show-touch">Tap the map for details</span></div>
   <div class="stat" id="stat"></div>
 </main>
 </div>
@@ -803,11 +811,14 @@ function render(){
 function chunkInfo(bx,bz){const x=Math.floor(bx),z=Math.floor(bz),cx=Math.floor(x/16),cz=Math.floor(z/16);return {x,z,cx,cz,rx:Math.floor(cx/32),rz:Math.floor(cz/32)};}
 const hud=$('hud');
 function nearStruct(px,py){let best=null,bd=200;for(const v of vis){const d=(v.sx-px)**2+(v.sy-py)**2;if(d<bd){bd=d;best=v.s;}}return best;}
-function updHud(i,px,py){const sl=ow()&&isSlime(i.cx,i.cz);let h=`Block <b>${i.x}, ${i.z}</b><br>Chunk <b>${i.cx}, ${i.cz}</b> ${sl?'<b style="color:var(--slime)">● SLIME</b>':''}`;
-  if(world&&hasBiomes())h+=`<br>Biome <b>${nice(WG.NAMES[biomeAt(i.x,i.z)])}</b>`;
-  const ns=px!==undefined&&nearStruct(px,py);if(ns)h+=`<br><b style="color:${stInfo(ns.k).col}">${stInfo(ns.k).n}${ns.est?' (possible)':''}</b> at ${ns.x}, ${ns.z}`;
-  if(px!==undefined)h+=`<br>Mouse is in <b>${sgn(i.x)}X ${sgn(i.z)}Z</b> · moving toward <b style="color:#f2c14e">${moveTxt()}</b>`;
-  h+=`<br>Region r.${i.rx}.${i.rz}.mca`+(ow()?` · Nether ${Math.floor(i.x/8)}, ${Math.floor(i.z/8)}`:S.dim==='nether'?` · Overworld ${i.x*8}, ${i.z*8}`:'');hud.innerHTML=h;
+const coarse=matchMedia('(pointer:coarse)').matches;
+function updHud(i,px,py){const sl=ow()&&isSlime(i.cx,i.cz),R=(k,v,cls)=>`<div class="hr${cls?' '+cls:''}"><span>${k}</span><b>${v}</b></div>`;
+  let h=R('Block',`${i.x}, ${i.z}`)+R('Chunk',`${i.cx}, ${i.cz}${sl?' <i class="slm">● slime</i>':''}`);
+  if(world&&hasBiomes())h+=R('Biome',nice(WG.NAMES[biomeAt(i.x,i.z)]));
+  const ns=px!==undefined&&nearStruct(px,py);if(ns)h+=R(`<i style="color:${stInfo(ns.k).col}">${stInfo(ns.k).n}${ns.est?' (possible)':''}</i>`,`${ns.x}, ${ns.z}`,'st');
+  if(ow())h+=R('Nether',`${Math.floor(i.x/8)}, ${Math.floor(i.z/8)}`);else if(S.dim==='nether')h+=R('Overworld',`${i.x*8}, ${i.z*8}`);
+  h+=R('Region',`r.${i.rx}.${i.rz}.mca`,'opt');
+  if(px!==undefined&&!coarse)h+=R('Heading',`<span style="color:#f2c14e">${moveTxt()}</span> · ${sgn(i.x)}X ${sgn(i.z)}Z`,'opt');hud.innerHTML=h;
   $('bout').textContent=`Chunk ${i.cx}, ${i.cz}\nInside chunk: ${((i.x%16)+16)%16}, ${((i.z%16)+16)%16}\nRegion file r.${i.rx}.${i.rz}.mca\nSlime chunk: ${sl?'yes':'no'}`;}
 function selectStruct(s){S.selS=s;const el=$('sel'),inf=stInfo(s.k),cmd=ow()?`/tp @s ${s.x} ~ ${s.z}`:`/execute in minecraft:the_${S.dim} run tp @s ${s.x} ~ ${s.z}`;
   el.innerHTML=`<b style="color:${inf.col}">${inf.n}</b>${s.est?' — possible: it is at the very edge of the terrain it needs, so check in-game':''}<br>X ${s.x} · Z ${s.z}<br>${ow()?`Nether ${Math.floor(s.x/8)}, ${Math.floor(s.z/8)}`:S.dim==='nether'?`Overworld ${s.x*8}, ${s.z*8}`:'The End'}<br><code>${cmd}</code><br><button id="selCopy">Copy /tp</button> <button id="selClose">Close</button>`;
@@ -834,7 +845,7 @@ function trackMouse(bx,bz){if(lastB){const dx=(bx-lastB[0])*S.scale,dz=(bz-lastB
 const moveTxt=()=>Math.hypot(mvx,mvz)>0.5?`${sgn(mvx)}X ${sgn(mvz)}Z`:'—';
 // ---------- Interaction ----------
 let pointers=new Map(),dragStart=null,moved=false,pinchD=0;
-cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.offsetX,y:e.offsetY});dragStart={x:e.offsetX,y:e.offsetY,cx:S.cx,cz:S.cz};moved=false;cv.classList.add('drag');
+cv.addEventListener('pointerdown',e=>{{const [bx,bz]=toBlock(e.offsetX,e.offsetY);updHud(chunkInfo(bx,bz),e.offsetX,e.offsetY);}cv.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.offsetX,y:e.offsetY});dragStart={x:e.offsetX,y:e.offsetY,cx:S.cx,cz:S.cz};moved=false;cv.classList.add('drag');
   if(pointers.size===2){const [a,b]=[...pointers.values()];pinchD=Math.hypot(a.x-b.x,a.y-b.y);}});
 cv.addEventListener('pointermove',e=>{
   const [bx,bz]=toBlock(e.offsetX,e.offsetY),inf=chunkInfo(bx,bz);if(!pointers.size)trackMouse(bx,bz);else{lastB=null;curB=[bx,bz];drawRose();}

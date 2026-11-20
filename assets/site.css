@@ -358,3 +358,66 @@ table.mini tr.hl td{color:var(--accent)}
 @media (min-width:1000px){.cards{grid-template-columns:repeat(3,1fr)}.cards>:last-child:nth-child(3n+1){grid-column:span 3}.cards>:last-child:nth-child(3n+2){grid-column:span 2}}
 .ensteps .enslots{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
 @media (max-width:600px){.ensteps li{flex-direction:column;align-items:stretch;padding-left:44px}.ensteps .enslots{flex-direction:column;align-items:stretch;gap:4px}.ensteps .plus{text-align:center;line-height:1}.ensteps .lv{text-align:right}}
+
+/* ===== Mobile & form consistency (shared components) ===== */
+/* Same box for every text-like field, whatever its type (iOS draws time/number/date fields its own way otherwise) */
+:where(.page) :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]),select){
+  -webkit-appearance:none;appearance:none;box-sizing:border-box;min-height:42px;line-height:1.3;text-overflow:ellipsis;display:block}
+:where(.page) input::placeholder{color:#6f8279;opacity:1;text-overflow:ellipsis}
+:where(.page) input[type=time],:where(.page) input[type=date]{text-align:left}
+:where(.page) input::-webkit-date-and-time-value{text-align:left;margin:0}
+:where(.page) input[type=number]{-moz-appearance:textfield}
+/* Custom select arrow so long values get an ellipsis instead of running under the native arrow */
+:where(.page) select{padding-right:34px;white-space:nowrap;overflow:hidden;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%238fa39a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 11px center;background-size:12px}
+:where(.page) select option{background:#121816;color:var(--text)}
+.row>*{min-width:0}
+/* Zoom controls: fixed-size buttons that never shrink */
+.zoomctl{flex:0 0 auto}.page .zoomctl button{flex:0 0 auto;width:42px;min-width:42px;padding:0;height:40px}
+.page .zoomctl button[id$="Fit"],.page .zoomctl button[id$="Reset"],.page .zoomctl #zFit,.page .zoomctl #maZf{width:auto;padding:0 14px}
+
+@media (max-width:600px){
+  /* iOS zooms the page when a field's text is under 16px */
+  :where(.page) :is(input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea){font-size:16px}
+  /* Rows holding dropdowns stack, so a long selected value is never squeezed into half the width */
+  .row:has(select){flex-wrap:wrap}.row:has(select)>*{flex:1 1 100%}
+  /* the shared "label + control" headings stay tidy */
+  .card h2{line-height:1.3}
+  .section-h{font-size:20px;line-height:1.25}
+  .sec-top{flex-wrap:wrap;gap:6px 14px;align-items:flex-end}
+}
+/* Comfortable touch targets on phones and tablets */
+@media (pointer:coarse){
+  :where(.page) button,.btn,.page .seg button{min-height:44px}
+  .page .zoomctl button{width:44px;min-width:44px;height:44px}
+  .sh-search,.sh-menu{min-width:44px;min-height:44px;justify-content:center}
+  .fav{width:44px!important;height:44px!important;top:4px!important;right:4px!important}
+  .tcard{padding-right:48px}
+  .copyrow button,.toolbar button{min-height:44px}
+}
+/* Category chips: one tidy scrollable row on small screens instead of ragged wrapping */
+@media (max-width:700px){
+  .chips-scroll{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;gap:8px;padding:2px 2px 6px;margin:0 -2px;mask-image:linear-gradient(90deg,#000 88%,transparent)}
+  .chips-scroll::-webkit-scrollbar{display:none}
+  .chips-scroll>*{flex:0 0 auto!important;scroll-snap-align:start;white-space:nowrap}
+}
+.show-touch{display:none}
+@media (pointer:coarse){.show-touch{display:inline}.hide-touch{display:none}}
+@media (max-width:600px){.znote{flex:1 1 100%!important;text-align:left!important}}
+.hero .wrap>*,.flag>*,.tool>*,.art-wrap>*{min-width:0}
+:where(.page) select{font-family:var(--font);font-weight:500}
+@media (max-width:360px){.wrap{padding-left:14px;padding-right:14px}.card{padding:14px}}
+.chips-scroll.seg button{padding:8px 14px}
+/* Stack calculator list: each row becomes a small card on phones */
+@media (max-width:600px){
+  #mt thead{display:none}#mt,#mt tbody{display:block}
+  #mt tr{display:grid;grid-template-columns:minmax(0,1fr) 92px 64px;grid-template-areas:"n n x" "q s c";gap:6px 8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+  #mt td{display:block;padding:0!important;border:0!important}
+  #mt td:nth-child(1){grid-area:n}#mt td:nth-child(2){grid-area:q}#mt td:nth-child(3){grid-area:s}#mt td:nth-child(4){grid-area:c;text-align:right}#mt td:nth-child(4)::before{content:"Slots ";color:var(--muted);font-size:12px}
+  #mt td:nth-child(5){grid-area:x;justify-self:end}#mt td:nth-child(5) button{width:44px}
+  #mt input,#mt select{min-width:0!important;width:100%}
+}
+@media (max-width:700px){.bp{height:auto;aspect-ratio:1/1;max-height:76vh}}
+@media (min-width:601px){.row:has(select){flex-wrap:wrap}.row:has(select)>*{flex:1 1 170px}}
+.page .seg button{white-space:nowrap}
